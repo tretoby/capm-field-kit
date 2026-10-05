@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Filled-in examples of every major CAPM artifact for one datacenter project, plus simulators for critical path, earned value, risk, burndown, Kanban and exam scenarios.">
+<style>
+:root{color-scheme:light}
+body{margin:0;-webkit-text-size-adjust:100%}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>CAPM Field Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a contents index grouped by project stage; picking an item opens one artifact at a time, styled as a filled-in project document or a hands-on simulator. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --paper:#fdfdfb; --ink:#15212b; --muted:#5b6b78; --line:#d7dee4;
+  --accent:#1f5f8b; --accent-soft:#e2edf5; --mark:#f2c94c; --mark-soft:#fbf1cc;
+  --good:#1e7a4f; --good-soft:#e1f2e8; --bad:#b4372f; --bad-soft:#f8e3e1; --warn:#a86a00; --warn-soft:#f8ecd3;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Source Sans 3",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f161c; --surface:#17212a; --paper:#141d25; --ink:#e6edf2; --muted:#93a4b1; --line:#2a3743;
+  --accent:#6fb0de; --accent-soft:#1b3346; --mark:#e0b43a; --mark-soft:#3a3016;
+  --good:#5cc391; --good-soft:#163428; --bad:#ee7d73; --bad-soft:#3a1d1b; --warn:#e2a93c; --warn-soft:#3a2c12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161c; --surface:#17212a; --paper:#141d25; --ink:#e6edf2; --muted:#93a4b1; --line:#2a3743;
+  --accent:#6fb0de; --accent-soft:#1b3346; --mark:#e0b43a; --mark-soft:#3a3016;
+  --good:#5cc391; --good-soft:#163428; --bad:#ee7d73; --bad-soft:#3a1d1b; --warn:#e2a93c; --warn-soft:#3a2c12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 56px}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:1.9rem;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.4rem;font-weight:700}
+h3{font-size:1.05rem;font-weight:700}
+h4{font-size:.95rem;font-weight:700}
+p{margin:0}
+.eyebrow{font:500 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.note{font-size:.9rem;color:var(--muted)}
+.mono{font-family:var(--mono);font-size:.85em}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{font:600 .92rem var(--body);border-radius:8px;padding:9px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.stack{display:grid;gap:14px}
+
+header.top{display:grid;gap:8px;margin-bottom:18px}
+.project{display:grid;gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.project b{font-family:var(--display)}
+
+/* contents */
+#contents{display:grid;gap:18px}
+.group{display:grid;gap:8px}
+.group-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:4px}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.item{display:grid;gap:2px;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer;font:inherit}
+.item:hover{border-color:var(--accent)}
+.item .t{font-weight:600}
+.item .s{font-size:.82rem;color:var(--muted)}
+.sim-badge{font:500 .66rem var(--mono);letter-spacing:.06em;color:var(--warn);background:var(--warn-soft);padding:1px 6px;border-radius:3px;justify-self:start;text-transform:uppercase}
+
+/* article */
+.bar-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;justify-content:space-between;gap:8px;padding-block:8px;border-bottom:1px solid var(--line);margin-bottom:16px}
+article{display:grid;gap:16px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.meta div{display:grid;gap:2px;min-width:0}
+.meta span:last-child{font-size:.92rem}
+.tip{border-left:3px solid var(--mark);background:var(--mark-soft);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.95rem}
+.tip b{font-family:var(--display)}
+
+/* document look */
+.doc{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:20px;display:grid;gap:16px;min-width:0}
+.doc-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.doc-head .ids{font:500 .75rem var(--mono);color:var(--muted);text-align:right;display:grid;gap:2px}
+.doc h4{color:var(--accent);margin-bottom:4px}
+.doc ul,.doc ol{margin:0;padding-left:1.2em;display:grid;gap:3px}
+.kv{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:6px 14px;font-size:.95rem}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+.sign{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.sign div{border-top:1px solid var(--ink);padding-top:4px;font-size:.88rem}
+.scroll{overflow-x:auto;min-width:0}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--bg);font-weight:600;white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:.82rem}
+.pill{display:inline-block;font:500 .72rem var(--mono);padding:2px 7px;border-radius:4px;white-space:nowrap}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.info{background:var(--accent-soft);color:var(--accent)}
+.raci{text-align:center;font-family:var(--mono);font-weight:500}
+.raci-A{background:var(--accent-soft);color:var(--accent)}
+
+/* WBS */
+.wbs{display:grid;gap:4px;font-size:.95rem}
+.wbs .n{display:flex;gap:10px;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface)}
+.wbs .n .c{font:500 .8rem var(--mono);color:var(--accent);min-width:3.5em}
+.wbs .l1{margin-left:0;font-weight:700}
+.wbs .l2{margin-left:18px;font-weight:600}
+.wbs .l3{margin-left:36px}
+.wbs .wp{border-style:dashed}
+
+/* grid quadrants */
+.quad{display:grid;grid-template-columns:28px 1fr 1fr;grid-template-rows:1fr 1fr 24px;gap:6px;min-height:260px}
+.quad .q{border:1px solid var(--line);border-radius:6px;padding:8px;background:var(--surface);display:grid;align-content:start;gap:4px;min-width:0}
+.quad .q .h{font:500 .7rem var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.quad .q span{font-size:.85rem}
+.quad .ax{font:500 .68rem var(--mono);color:var(--muted);display:grid;place-items:center;text-transform:uppercase;letter-spacing:.06em}
+.quad .ay{writing-mode:vertical-rl;transform:rotate(180deg)}
+
+/* sims */
+.sim{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:14px;min-width:0}
+.ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.ctrl label{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
+input[type=number],select{font:inherit;padding:7px 9px;border-radius:7px;border:1px solid var(--line);background:var(--paper);color:var(--ink);width:100%;min-width:0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.stat{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);display:grid;gap:2px}
+.stat .v{font:500 1.05rem var(--mono);font-variant-numeric:tabular-nums}
+.stat .k{font-size:.78rem;color:var(--muted)}
+.stat.good .v{color:var(--good)} .stat.bad .v{color:var(--bad)}
+.readout{padding:10px 14px;border-radius:8px;background:var(--bg);font-size:.95rem}
+svg text{font-family:var(--mono)}
+.gantt{display:grid;gap:4px;font-size:.82rem;min-width:520px}
+.g-row{display:grid;grid-template-columns:150px 1fr;gap:8px;align-items:center}
+.g-track{position:relative;height:20px;background:var(--bg);border-radius:4px}
+.g-bar{position:absolute;top:2px;bottom:2px;border-radius:3px;background:var(--accent-soft);border:1px solid var(--accent)}
+.g-bar.crit{background:var(--bad-soft);border-color:var(--bad)}
+.g-float{position:absolute;top:8px;height:4px;background:var(--line)}
+
+/* heat map */
+.heat{display:grid;grid-template-columns:24px repeat(5,1fr);gap:3px;max-width:420px}
+.heat .c{aspect-ratio:1.3;border-radius:4px;display:flex;flex-wrap:wrap;gap:2px;align-content:center;justify-content:center;padding:2px;font:500 .62rem var(--mono)}
+.heat .lo{background:var(--good-soft)} .heat .md{background:var(--warn-soft)} .heat .hi{background:var(--bad-soft)}
+.heat .lbl{font:500 .66rem var(--mono);color:var(--muted);display:grid;place-items:center}
+.heat .tok{background:var(--surface);border:1px solid var(--ink);border-radius:3px;padding:0 3px;color:var(--ink)}
+
+/* kanban */
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.col{border:1px solid var(--line);border-radius:8px;background:var(--paper);padding:8px;display:grid;gap:6px;align-content:start;min-height:130px;min-width:0}
+.col .h{display:flex;justify-content:space-between;font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);gap:4px;flex-wrap:wrap}
+.col.over{border-color:var(--bad);background:var(--bad-soft)}
+.dots{display:flex;flex-wrap:wrap;gap:3px}
+.dot{width:14px;height:14px;border-radius:3px;background:var(--accent-soft);border:1px solid var(--accent)}
+.dot.done{background:var(--good-soft);border-color:var(--good)}
+.card-s{border:1px solid var(--line);border-radius:6px;padding:6px 8px;background:var(--surface);font-size:.82rem;display:grid;gap:2px}
+.card-s .id{font:500 .7rem var(--mono);color:var(--muted)}
+
+/* scenarios / sort */
+.choices{display:grid;gap:8px}
+.choice{text-align:left;font:inherit;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);cursor:pointer}
+.choice.best{border-color:var(--good);background:var(--good-soft)}
+.choice.no{border-color:var(--bad);background:var(--bad-soft)}
+.fb{padding:10px 14px;border-radius:8px;font-size:.95rem}
+.fb.good{background:var(--good-soft)} .fb.bad{background:var(--bad-soft)}
+.sort-item{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.sort-item .opts{display:flex;flex-wrap:wrap;gap:6px}
+.sort-item .opts button{font:.85rem var(--body);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--surface);color:var(--ink);cursor:pointer}
+.sort-item .opts button.best{border-color:var(--good);background:var(--good-soft)}
+.sort-item .opts button.no{border-color:var(--bad);background:var(--bad-soft)}
+.story{display:grid;gap:4px}
+/* plain-English explainer */
+.explain{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:12px}
+.explain .lead{font-size:1.08rem;line-height:1.55}
+.explain .parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.explain .part{display:grid;gap:4px;align-content:start;min-width:0}
+.explain .part p{font-size:.95rem}
+.terms{display:grid;gap:6px;border-top:1px solid var(--line);padding-top:10px}
+.terms dl{display:grid;grid-template-columns:minmax(110px,170px) 1fr;gap:6px 12px;margin:0;font-size:.92rem}
+.terms dt{font-weight:700}
+.terms dd{margin:0}
+.read{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:4px}
+@media (max-width:520px){.terms dl{grid-template-columns:1fr;gap:0}.terms dd{margin-bottom:8px}}
+@media (max-width:520px){.kv{grid-template-columns:1fr;gap:2px}.kv dd{margin-bottom:6px}.doc{padding:14px}.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:no-preference){.item,.choice{transition:border-color .15s,background .15s}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">CAPM · Examples &amp; simulations</span>
+  <h1>CAPM Field Kit</h1>
+  <div class="project">
+    <span class="eyebrow">One project, every artifact</span>
+    <p><b>HB14 GPU Rack Deployment</b> at the fictional Lakeshore Datacenter: install and commission 24 high-density racks in Hall B, Row 14. The hardware rollout runs <i>predictive</i>. A small team builds a Power Apps "Rack Readiness Tracker" for it using <i>agile</i>. Together that's a hybrid project, which the exam loves.</p>
+  </div>
+</header>
+
+<div id="contents"></div>
+
+<div id="reader" hidden>
+  <div class="bar-nav">
+    <button class="btn ghost" id="back">All artifacts</button>
+    <div class="row"><button class="btn ghost" id="prev">Previous</button><button class="btn ghost" id="next">Next</button></div>
+  </div>
+  <div id="articles">
+
+<!-- ================= INITIATING ================= -->
+<article id="business-case" data-group="Start the project" data-sub="Why the project should exist" hidden>
+  <h2>Business case</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals · Business Analysis</span></div><div><span class="eyebrow">When</span><span>Before the charter (pre-project)</span></div><div><span class="eyebrow">Owner</span><span>Sponsor, often with a BA</span></div></div>
+  <div class="tip"><b>Exam tip.</b> The business case justifies the investment; the charter authorizes the project. A business case is an <i>input</i> to the charter, and the PM usually doesn't write it.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Business case</span><h3>Hall B Row 14 high-density capacity</h3></div><div class="ids"><span>BC-HB14-001 · v1.2</span><span>Jul 13, 2026</span></div></div>
+    <div><h4>Problem / opportunity</h4><p>Internal AI workloads need 24 GPU racks of new capacity by Q4. Hall B has floor space and power headroom in Row 14, but no high-density cooling or power distribution.</p></div>
+    <div><h4>Options analyzed</h4>
+      <div class="scroll"><table><tr><th>Option</th><th class="num">Cost</th><th class="num">Ready in</th><th>Outcome</th></tr>
+      <tr><td>1. Do nothing</td><td class="num">$0</td><td class="num">n/a</td><td>Capacity shortfall; workloads delayed</td></tr>
+      <tr><td>2. Lease colocation space</td><td class="num">$1.1M/yr</td><td class="num">6 wks</td><td>Fast but recurring cost, less control</td></tr>
+      <tr><td>3. Build out Row 14 in-house</td><td class="num">$480K once</td><td class="num">8 wks</td><td><span class="pill ok">Recommended</span></td></tr></table></div></div>
+    <div><h4>Cost-benefit</h4><p>Option 3 pays back in about 5 months against Option 2's lease cost. NPV over 3 years at 8% favors Option 3 by roughly $2.3M.</p></div>
+    <div><h4>Success measures</h4><ul><li>24 racks live and accepted by Oct 30, 2026</li><li>Rack inlet temp held at or under 27 °C at full load</li><li>Within ±5% of the $480K budget</li></ul></div>
+  </div>
+</article>
+
+<article id="charter" data-group="Start the project" data-sub="Formally authorizes the project" hidden>
+  <h2>Project charter</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals &amp; Core Concepts</span></div><div><span class="eyebrow">When</span><span>Initiating</span></div><div><span class="eyebrow">Issued by</span><span>Sponsor (PM may draft)</span></div></div>
+  <div class="tip"><b>Exam tip.</b> The charter names the PM and gives the PM authority to use resources. It holds high-level info only: summary milestones, a summary budget, high-level risks. Detail lives in the project management plan.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Project charter</span><h3>HB14 GPU Rack Deployment</h3></div><div class="ids"><span>PRJ-HB14-CH-001 · v1.0</span><span>Approved Aug 3, 2026</span></div></div>
+    <dl class="kv"><dt>Sponsor</dt><dd>Dana Ruiz, Site Director</dd><dt>Project manager</dt><dd>Tre Toby</dd><dt>PM authority</dt><dd>Assign site staff to project tasks; approve spend up to $15K per item; recommend changes to the change control board (CCB)</dd><dt>Customer</dt><dd>Priya Shah, Capacity Planning Lead</dd></dl>
+    <div><h4>Purpose</h4><p>Deliver 24 production-ready GPU racks in Hall B, Row 14 to meet Q4 AI capacity demand (see BC-HB14-001).</p></div>
+    <div><h4>Measurable objectives and success criteria</h4><ul><li>All 24 racks pass 48-hour burn-in and customer acceptance by Oct 30, 2026</li><li>Final cost at or under $480,000 (±5%)</li><li>Zero recordable safety incidents</li></ul></div>
+    <div><h4>High-level requirements</h4><ul><li>Each rack supplied by dual 415 V feeds through redundant PDUs</li><li>Rear-door heat exchangers (RDHx) on every rack</li><li>400G network uplinks to the spine</li></ul></div>
+    <div><h4>Boundaries</h4><p><b>In:</b> site prep, power, cooling, cabling, rack install, testing, handoff. <b>Out:</b> server OS imaging, customer workload migration.</p></div>
+    <div><h4>Summary milestones</h4><div class="scroll"><table><tr><th>Milestone</th><th>Target</th></tr><tr><td>Design review complete</td><td>Aug 14</td></tr><tr><td>All materials on site</td><td>Sep 4</td></tr><tr><td>Installation complete</td><td>Oct 16</td></tr><tr><td>Customer acceptance</td><td>Oct 30</td></tr></table></div></div>
+    <div><h4>Overall risks</h4><ul><li>PDU supply chain delays</li><li>Floor load limits for fully loaded racks</li><li>Electrical shutdown window availability</li></ul></div>
+    <div><h4>Summary budget</h4><p>$480,000 total, including a $30,000 contingency reserve. A management reserve of $25,000 is held by the sponsor.</p></div>
+    <div><h4>Key stakeholders</h4><p>Dana Ruiz, Priya Shah, Marcus Lee (Critical Facilities), Aisha Grant (Network), Jordan Kim (Procurement), Sam Ortiz (DC Tech Lead), Elena Novak (EHS).</p></div>
+    <div><h4>Exit criteria</h4><p>Signed acceptance from the customer, or cancellation by the sponsor if the business case no longer holds.</p></div>
+    <div class="sign"><div>Dana Ruiz, Sponsor</div><div>Tre Toby, Project Manager</div></div>
+  </div>
+</article>
+
+<article id="stakeholders" data-group="Start the project" data-sub="Who's involved and how to engage them" hidden>
+  <h2>Stakeholder register &amp; power/interest grid</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals · Business Analysis</span></div><div><span class="eyebrow">When</span><span>Initiating, then updated throughout</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Exam tip.</b> Identify stakeholders as early as possible. The grid sets strategy: high power + high interest = <i>manage closely</i>; high power + low interest = <i>keep satisfied</i>; low power + high interest = <i>keep informed</i>; low + low = <i>monitor</i>.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Stakeholder register</span><h3>HB14 GPU Rack Deployment</h3></div><div class="ids"><span>PRJ-HB14-SR-001 · v1.3</span></div></div>
+    <div class="scroll"><table>
+      <tr><th>Name</th><th>Role</th><th>Power</th><th>Interest</th><th>Key expectation</th><th>Current → desired</th></tr>
+      <tr><td>Dana Ruiz</td><td>Sponsor</td><td>High</td><td>High</td><td>On-time, on-budget capacity</td><td>Supportive → Leading</td></tr>
+      <tr><td>Priya Shah</td><td>Customer</td><td>High</td><td>High</td><td>Racks ready for workloads by Q4</td><td>Supportive → Supportive</td></tr>
+      <tr><td>Ops Manager</td><td>Site operations</td><td>High</td><td>Low</td><td>No disruption to live halls</td><td>Neutral → Supportive</td></tr>
+      <tr><td>Elena Novak</td><td>EHS</td><td>High</td><td>Low</td><td>Safe electrical work, LOTO followed</td><td>Neutral → Supportive</td></tr>
+      <tr><td>Sam Ortiz</td><td>DC Tech Lead</td><td>Low</td><td>High</td><td>Clear install runbooks</td><td>Supportive → Supportive</td></tr>
+      <tr><td>Night shift techs</td><td>Install labor</td><td>Low</td><td>High</td><td>Predictable schedule</td><td>Resistant → Supportive</td></tr>
+      <tr><td>Finance analyst</td><td>Cost tracking</td><td>Low</td><td>Low</td><td>Monthly actuals on time</td><td>Unaware → Neutral</td></tr>
+    </table></div>
+    <p class="note">"Current → desired" uses the PMBOK stakeholder engagement assessment levels: Unaware, Resistant, Neutral, Supportive, Leading.</p>
+    <div class="quad" role="img" aria-label="Power interest grid">
+      <div class="ax ay">Power →</div>
+      <div class="q"><span class="h">Keep satisfied</span><span>Ops Manager</span><span>Elena Novak</span></div>
+      <div class="q"><span class="h">Manage closely</span><span>Dana Ruiz</span><span>Priya Shah</span></div>
+      <div class="ax ay"></div>
+      <div class="q"><span class="h">Monitor</span><span>Finance analyst</span></div>
+      <div class="q"><span class="h">Keep informed</span><span>Sam Ortiz</span><span>Night shift techs</span></div>
+      <div></div><div class="ax" style="grid-column:2/4">Interest →</div>
+    </div>
+  </div>
+</article>
+
+<!-- ================= PLANNING ================= -->
+<article id="scope" data-group="Plan the work" data-sub="Exactly what will and won't be delivered" hidden>
+  <h2>Project scope statement</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Predictive, Plan-Based</span></div><div><span class="eyebrow">When</span><span>Planning (Define Scope)</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Exam tip.</b> Scope statement + WBS + WBS dictionary = the <b>scope baseline</b>. Exclusions matter as much as inclusions because they head off scope creep.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Project scope statement</span><h3>HB14 GPU Rack Deployment</h3></div><div class="ids"><span>PRJ-HB14-SS-001 · v1.0</span><span>Baselined Aug 14, 2026</span></div></div>
+    <div><h4>Product scope description</h4><p>24 GPU racks in Hall B, Row 14, each with dual-fed PDUs, an RDHx cooling door, and four 400G uplinks, burned in and accepted for production.</p></div>
+    <div><h4>Deliverables</h4><ul><li>Approved row layout and electrical one-line drawing</li><li>Installed and labeled racks, power, cooling and cabling</li><li>Burn-in test reports for all 24 racks</li><li>As-built documentation and handoff package</li></ul></div>
+    <div><h4>Acceptance criteria</h4><ul><li>48-hour burn-in at 90% load with no thermal alarms</li><li>Every link passes optical loss test (≤ 2.5 dB)</li><li>Labeling matches the as-built drawings</li></ul></div>
+    <div><h4>Exclusions</h4><ul><li>Server OS imaging and configuration</li><li>Workload migration</li><li>Changes to Rows 1–13</li></ul></div>
+    <div><h4>Constraints</h4><ul><li>Electrical work only in approved Sunday maintenance windows</li><li>Fixed budget of $480K</li></ul></div>
+    <div><h4>Assumptions</h4><ul><li>Floor rated for 1,500 kg per rack position (to be verified)</li><li>Customer supplies the servers by Sep 25</li></ul></div>
+  </div>
+</article>
+
+<article id="wbs" data-group="Plan the work" data-sub="Deliverables broken into work packages" hidden>
+  <h2>Work breakdown structure &amp; WBS dictionary</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Predictive, Plan-Based</span></div><div><span class="eyebrow">When</span><span>Planning (Create WBS)</span></div><div><span class="eyebrow">Owner</span><span>PM with the team</span></div></div>
+  <div class="tip"><b>Exam tip.</b> The WBS is deliverable-oriented, not a task list. The <b>100% rule</b>: child elements add up to exactly the parent's work. The lowest level is the <b>work package</b> (dashed below). Activities come later, in scheduling.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Work breakdown structure</span><h3>HB14 GPU Rack Deployment</h3></div><div class="ids"><span>PRJ-HB14-WBS-001 · v1.0</span></div></div>
+    <div class="wbs">
+      <div class="n l1"><span class="c">1</span>HB14 GPU Rack Deployment</div>
+      <div class="n l2"><span class="c">1.1</span>Project management</div>
+      <div class="n l3 wp"><span class="c">1.1.1</span>Plans, status reports, change control</div>
+      <div class="n l2"><span class="c">1.2</span>Design &amp; site preparation</div>
+      <div class="n l3 wp"><span class="c">1.2.1</span>Site survey &amp; design review</div>
+      <div class="n l3 wp"><span class="c">1.2.2</span>Floor prep &amp; cable tray</div>
+      <div class="n l2"><span class="c">1.3</span>Procurement</div>
+      <div class="n l3 wp"><span class="c">1.3.1</span>PDUs &amp; power whips</div>
+      <div class="n l3 wp"><span class="c">1.3.2</span>RDHx cooling doors</div>
+      <div class="n l3 wp"><span class="c">1.3.3</span>Optics &amp; fiber</div>
+      <div class="n l2"><span class="c">1.4</span>Installation</div>
+      <div class="n l3 wp"><span class="c">1.4.1</span>Rack placement</div>
+      <div class="n l3 wp"><span class="c">1.4.2</span>Power install</div>
+      <div class="n l3 wp"><span class="c">1.4.3</span>Network cabling</div>
+      <div class="n l3 wp"><span class="c">1.4.4</span>Cooling install</div>
+      <div class="n l2"><span class="c">1.5</span>Testing &amp; commissioning</div>
+      <div class="n l3 wp"><span class="c">1.5.1</span>Burn-in &amp; acceptance testing</div>
+      <div class="n l2"><span class="c">1.6</span>Handoff &amp; closure</div>
+      <div class="n l3 wp"><span class="c">1.6.1</span>As-builts, handoff, lessons learned</div>
+    </div>
+    <div class="doc" style="background:var(--surface)">
+      <div class="doc-head"><div><span class="eyebrow">WBS dictionary entry</span><h3>1.4.3 Network cabling</h3></div><div class="ids"><span>Control account CA-1.4</span></div></div>
+      <dl class="kv">
+        <dt>Description</dt><dd>Run, terminate, label and test 96 × 400G fiber uplinks from Row 14 racks to spine switches.</dd>
+        <dt>Responsible</dt><dd>Aisha Grant (Network Lead)</dd>
+        <dt>Acceptance criteria</dt><dd>All links ≤ 2.5 dB loss; labels match as-built</dd>
+        <dt>Duration / cost</dt><dd>9 days · $62,000</dd>
+        <dt>Dependencies</dt><dd>Starts after 1.4.1 Rack placement</dd>
+        <dt>Resources</dt><dd>2 network techs, OTDR test set</dd>
+      </dl>
+    </div>
+  </div>
+</article>
+
+<article id="schedule" data-group="Plan the work" data-sub="Network diagram, critical path, Gantt" data-sim="1" hidden>
+  <h2>Schedule network &amp; critical path</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Predictive, Plan-Based</span></div><div><span class="eyebrow">When</span><span>Planning (Develop Schedule)</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Try it.</b> Change a duration and watch the forward pass (ES, EF), backward pass (LS, LF) and float update. Activity B has 1 day of float, so add 2 days to B and the critical path moves. Each node reads <span class="mono">ES | Dur | EF</span> on top and <span class="mono">LS | Float | LF</span> on the bottom.</div>
+  <div class="sim">
+    <div class="scroll"><svg id="net" viewBox="0 0 880 300" style="min-width:680px;width:100%"></svg></div>
+    <div class="stats" id="cp-stats"></div>
+    <div class="scroll"><table id="cp-table"></table></div>
+    <div class="row"><button class="btn ghost" id="cp-reset">Reset durations</button></div>
+    <h3>Gantt view</h3>
+    <div class="scroll"><div class="gantt" id="gantt"></div></div>
+    <p class="note">Red bars are critical. Grey tails show total float, the slack an activity has before it delays the finish.</p>
+  </div>
+</article>
+
+<article id="estimating" data-group="Plan the work" data-sub="PERT and triangular estimates" data-sim="1" hidden>
+  <h2>Three-point estimating</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Predictive, Plan-Based</span></div><div><span class="eyebrow">When</span><span>Planning (Estimate Durations / Costs)</span></div><div><span class="eyebrow">Owner</span><span>Team members doing the work</span></div></div>
+  <div class="tip"><b>Exam tip.</b> Beta (PERT) = (O + 4M + P) ÷ 6. Triangular = (O + M + P) ÷ 3. Standard deviation ≈ (P − O) ÷ 6. The people who do the work give the best estimates.</div>
+  <div class="sim">
+    <p>Activity E, power install. Marcus Lee's estimates in days:</p>
+    <div class="ctrl">
+      <label for="est-o">Optimistic (O)<input type="number" id="est-o" value="5" min="0" step="0.5"></label>
+      <label for="est-m">Most likely (M)<input type="number" id="est-m" value="7" min="0" step="0.5"></label>
+      <label for="est-p">Pessimistic (P)<input type="number" id="est-p" value="12" min="0" step="0.5"></label>
+    </div>
+    <div class="stats" id="est-out"></div>
+    <p class="readout" id="est-read"></p>
+  </div>
+</article>
+
+<article id="raci" data-group="Plan the work" data-sub="Who does what" hidden>
+  <h2>RACI chart (responsibility assignment matrix)</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals &amp; Core Concepts</span></div><div><span class="eyebrow">When</span><span>Planning (Resource management)</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Exam tip.</b> <b>R</b>esponsible does the work, <b>A</b>ccountable owns the outcome, <b>C</b>onsulted gives input (two-way), <b>I</b>nformed gets updates (one-way). Exactly one A per row.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">RACI chart</span><h3>HB14 key deliverables</h3></div><div class="ids"><span>PRJ-HB14-RAM-001</span></div></div>
+    <div class="scroll"><table id="raci-t"></table></div>
+  </div>
+</article>
+
+<article id="comms" data-group="Plan the work" data-sub="Who hears what, when, and how" hidden>
+  <h2>Communications management plan</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals &amp; Core Concepts</span></div><div><span class="eyebrow">When</span><span>Planning</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Exam tip.</b> Three methods: <b>interactive</b> (meetings, calls), <b>push</b> (email, reports sent out), <b>pull</b> (intranet, dashboards people visit). PMs spend about 90% of their time communicating.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Communications plan</span><h3>HB14 GPU Rack Deployment</h3></div><div class="ids"><span>PRJ-HB14-CMP-001</span></div></div>
+    <div class="scroll"><table>
+      <tr><th>Communication</th><th>Audience</th><th>Method</th><th>Frequency</th><th>Owner</th></tr>
+      <tr><td>Daily install huddle</td><td>Install crew, leads</td><td><span class="pill info">Interactive</span></td><td>Daily, shift start</td><td>Sam Ortiz</td></tr>
+      <tr><td>Status report (RAG, EVM)</td><td>Sponsor, customer</td><td><span class="pill warn">Push</span></td><td>Weekly, Friday</td><td>Tre Toby</td></tr>
+      <tr><td>Steering review</td><td>Sponsor, customer, Ops Mgr</td><td><span class="pill info">Interactive</span></td><td>Bi-weekly</td><td>Tre Toby</td></tr>
+      <tr><td>Rack Readiness dashboard</td><td>All stakeholders</td><td><span class="pill ok">Pull</span></td><td>Live</td><td>Rack Readiness team</td></tr>
+      <tr><td>Maintenance window notice</td><td>Site ops, EHS</td><td><span class="pill warn">Push</span></td><td>7 days before each window</td><td>Marcus Lee</td></tr>
+      <tr><td>Monthly cost actuals</td><td>Finance analyst</td><td><span class="pill warn">Push</span></td><td>Monthly</td><td>Jordan Kim</td></tr>
+    </table></div>
+  </div>
+</article>
+
+<article id="risk" data-group="Plan the work" data-sub="Score risks on a probability-impact grid" data-sim="1" hidden>
+  <h2>Risk register &amp; probability-impact matrix</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals &amp; Core Concepts</span></div><div><span class="eyebrow">When</span><span>Planning, reviewed throughout</span></div><div><span class="eyebrow">Owner</span><span>PM; each risk has a risk owner</span></div></div>
+  <div class="tip"><b>Try it.</b> Change probability (P) or impact (I) and the score (P × I) and heat map update. Threat responses: <b>avoid, mitigate, transfer, escalate, accept</b>. Opportunity responses: <b>exploit, enhance, share, escalate, accept</b>.</div>
+  <div class="sim">
+    <div class="scroll"><table id="risk-t"></table></div>
+    <div class="row" style="align-items:start;gap:20px">
+      <div class="heat" id="heat" aria-label="Probability impact heat map"></div>
+      <p class="note" style="max-width:32ch">Rows are probability (5 = very likely), columns are impact. Scores of 12+ are high priority, 5–11 medium, 1–4 low.</p>
+    </div>
+  </div>
+</article>
+
+<!-- ================= EXECUTING / MONITORING ================= -->
+<article id="evm" data-group="Run and control" data-sub="Are we on budget and on schedule?" data-sim="1" hidden>
+  <h2>Earned value management</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Predictive, Plan-Based</span></div><div><span class="eyebrow">When</span><span>Monitoring &amp; controlling</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Try it.</b> Pick a status week, then set how much work is actually done and what it actually cost. CPI and SPI below 1.0 are bad. Memory hook: <b>EV comes first</b> in every formula (CV = EV − AC, SV = EV − PV, CPI = EV ÷ AC, SPI = EV ÷ PV).</div>
+  <div class="sim">
+    <div class="ctrl">
+      <label for="evm-w">Status week: <b id="evm-wv"></b><input type="range" id="evm-w" min="1" max="7" value="4"></label>
+      <label for="evm-pc">Work actually complete: <b id="evm-pcv"></b><input type="range" id="evm-pc" min="0" max="100" value="45"></label>
+      <label for="evm-ac">Actual cost to date: <b id="evm-acv"></b><input type="range" id="evm-ac" min="0" max="600000" step="5000" value="240000"></label>
+    </div>
+    <div class="scroll"><svg id="evm-chart" viewBox="0 0 560 250" style="min-width:420px;width:100%"></svg></div>
+    <div class="stats" id="evm-stats"></div>
+    <p class="readout" id="evm-read"></p>
+    <p class="note">BAC = $480,000. Planned cumulative spend by week: 8%, 20%, 35%, 52%, 70%, 88%, 100%. EAC here uses BAC ÷ CPI (current cost performance continues). TCPI = (BAC − EV) ÷ (BAC − AC).</p>
+  </div>
+</article>
+
+<article id="issues" data-group="Run and control" data-sub="Problems happening now" hidden>
+  <h2>Issue log</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals &amp; Core Concepts</span></div><div><span class="eyebrow">When</span><span>Executing / monitoring</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Exam tip.</b> A <b>risk</b> might happen; an <b>issue</b> is happening. When a planned risk occurs, carry out its planned response, log the issue, and update the risk register. Notice I-01 below came straight from risk R1.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Issue log</span><h3>HB14 GPU Rack Deployment</h3></div><div class="ids"><span>PRJ-HB14-IL · updated Sep 18</span></div></div>
+    <div class="scroll"><table>
+      <tr><th>ID</th><th>Issue</th><th>Priority</th><th>Owner</th><th>Action</th><th>Status</th></tr>
+      <tr><td class="mono">I-01</td><td>Primary PDU vendor shipped 8 of 24 PDUs (R1 occurred)</td><td><span class="pill bad">High</span></td><td>Jordan Kim</td><td>Triggered contingency: order 16 from pre-qualified second supplier</td><td><span class="pill ok">Closed</span></td></tr>
+      <tr><td class="mono">I-02</td><td>Two RDHx doors arrived with damaged hinges</td><td><span class="pill warn">Medium</span></td><td>Marcus Lee</td><td>Warranty replacement; install other 22 first</td><td><span class="pill info">Open</span></td></tr>
+      <tr><td class="mono">I-03</td><td>Night shift unclear on new cable labeling scheme</td><td><span class="pill warn">Medium</span></td><td>Sam Ortiz</td><td>15-min walkthrough at shift start; laminated label guide</td><td><span class="pill ok">Closed</span></td></tr>
+      <tr><td class="mono">I-04</td><td>Sunday Sep 27 shutdown window moved by site ops</td><td><span class="pill bad">High</span></td><td>Tre Toby</td><td>Escalated to sponsor; window secured for Oct 4</td><td><span class="pill info">Open</span></td></tr>
+    </table></div>
+  </div>
+</article>
+
+<article id="change" data-group="Run and control" data-sub="Change request form and change log" hidden>
+  <h2>Change request &amp; change log</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Predictive, Plan-Based</span></div><div><span class="eyebrow">When</span><span>Monitoring &amp; controlling (Integrated Change Control)</span></div><div><span class="eyebrow">Decided by</span><span>Change control board (CCB)</span></div></div>
+  <div class="tip"><b>Exam tip.</b> The PM's move for any change: <b>analyze impact → submit a change request → CCB decides → update plans and baselines → communicate</b>. Never just do it, and never just refuse.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Change request</span><h3>CR-01: Add 2 racks to Row 14</h3></div><div class="ids"><span>Submitted Sep 9, 2026</span><span>Requestor: Priya Shah</span></div></div>
+    <div><h4>Description and justification</h4><p>Increase Row 14 from 24 to 26 racks to absorb a new inference workload. Power and floor space exist at positions 25–26.</p></div>
+    <div><h4>Impact analysis</h4>
+      <div class="scroll"><table><tr><th>Area</th><th>Impact</th></tr>
+        <tr><td>Scope</td><td>+2 racks, +8 uplinks, +2 RDHx doors</td></tr>
+        <tr><td>Schedule</td><td>+3 days to installation; acceptance moves Oct 30 → Nov 4</td></tr>
+        <tr><td>Cost</td><td>+$38,000 (customer funds)</td></tr>
+        <tr><td>Risk</td><td>Cooling margin drops from 18% to 11% (acceptable)</td></tr>
+        <tr><td>Quality</td><td>No change to acceptance criteria</td></tr></table></div></div>
+    <div><h4>CCB decision</h4><p><span class="pill ok">Approved</span> Sep 11, 2026 by Dana Ruiz, Priya Shah, Marcus Lee. Scope, schedule and cost baselines updated to v1.1.</p></div>
+  </div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Change log</span><h3>HB14 GPU Rack Deployment</h3></div></div>
+    <div class="scroll"><table>
+      <tr><th>CR</th><th>Change</th><th>Requested by</th><th>Decision</th><th>Baselines hit</th></tr>
+      <tr><td class="mono">CR-01</td><td>Add 2 racks</td><td>Priya Shah</td><td><span class="pill ok">Approved</span></td><td>Scope, schedule, cost</td></tr>
+      <tr><td class="mono">CR-02</td><td>Switch to color-coded fiber jackets</td><td>Aisha Grant</td><td><span class="pill bad">Rejected</span></td><td>None; 2-week lead time</td></tr>
+      <tr><td class="mono">CR-03</td><td>Move burn-in to weekends</td><td>Sam Ortiz</td><td><span class="pill warn">Deferred</span></td><td>Review after Oct 4 window</td></tr>
+    </table></div>
+  </div>
+</article>
+
+<article id="channels" data-group="Run and control" data-sub="Why big teams are harder" data-sim="1" hidden>
+  <h2>Communication channels</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals &amp; Core Concepts</span></div><div><span class="eyebrow">Formula</span><span>n(n − 1) ÷ 2</span></div><div><span class="eyebrow">Common question</span><span>"How many channels were added?"</span></div></div>
+  <div class="tip"><b>Watch out.</b> When the exam says the team grew, compute channels for both sizes and subtract. Include the PM in n.</div>
+  <div class="sim">
+    <div class="ctrl">
+      <label for="ch-a">Team size before: <b id="ch-av"></b><input type="range" id="ch-a" min="2" max="30" value="8"></label>
+      <label for="ch-b">Team size after: <b id="ch-bv"></b><input type="range" id="ch-b" min="2" max="30" value="12"></label>
+    </div>
+    <div class="stats" id="ch-out"></div>
+    <div class="scroll"><svg id="ch-svg" viewBox="0 0 300 300" style="max-width:300px;width:100%;display:block;margin:0 auto"></svg></div>
+  </div>
+</article>
+
+<article id="lessons" data-group="Close the project" data-sub="What to repeat and what to fix" hidden>
+  <h2>Lessons learned register</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Fundamentals &amp; Core Concepts</span></div><div><span class="eyebrow">When</span><span>Throughout; finalized at closing</span></div><div><span class="eyebrow">Owner</span><span>Project manager</span></div></div>
+  <div class="tip"><b>Exam tip.</b> Capture lessons <i>throughout</i> the project, not only at the end. At closing they're archived as <b>organizational process assets</b> so future projects can use them.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Lessons learned register</span><h3>HB14 GPU Rack Deployment</h3></div><div class="ids"><span>PRJ-HB14-LL · final Nov 6</span></div></div>
+    <div class="scroll"><table>
+      <tr><th>Category</th><th>What happened</th><th>Recommendation</th></tr>
+      <tr><td><span class="pill ok">Went well</span></td><td>Pre-qualifying a second PDU supplier turned a 3-week delay into 4 days</td><td>Make a qualified backup supplier standard for long-lead items</td></tr>
+      <tr><td><span class="pill ok">Went well</span></td><td>Pull-based Rack Readiness dashboard cut status questions by about half</td><td>Reuse the app on the next hall build-out</td></tr>
+      <tr><td><span class="pill bad">Improve</span></td><td>Shutdown window moved with 5 days' notice</td><td>Lock windows with site ops at charter time; add to the risk register</td></tr>
+      <tr><td><span class="pill bad">Improve</span></td><td>Damaged RDHx hinges found at install, not at receiving</td><td>Add receiving inspection to the procurement checklist</td></tr>
+    </table></div>
+    <div><h4>Closure checklist</h4><ul><li>Customer acceptance signed (Nov 4)</li><li>Vendor contracts closed, final invoices paid</li><li>As-builts and handoff package delivered to site ops</li><li>Team released; lessons learned archived</li></ul></div>
+  </div>
+</article>
+
+<!-- ================= AGILE ================= -->
+<article id="backlog" data-group="Agile" data-sub="User stories, points and priority" hidden>
+  <h2>Product backlog &amp; user stories</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Agile Frameworks</span></div><div><span class="eyebrow">When</span><span>Continuously refined</span></div><div><span class="eyebrow">Owner</span><span>Product Owner (Priya Shah)</span></div></div>
+  <div class="tip"><b>Exam tip.</b> Story format: "As a <i>role</i>, I want <i>goal</i>, so that <i>benefit</i>." Good stories are <b>INVEST</b>: Independent, Negotiable, Valuable, Estimable, Small, Testable. The Product Owner orders the backlog by value.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Product backlog</span><h3>Rack Readiness Tracker (Power Apps)</h3></div><div class="ids"><span>Sprint 3 planning · Sep 14</span></div></div>
+    <div class="scroll"><table>
+      <tr><th>#</th><th>User story</th><th class="num">Pts</th><th>MoSCoW</th></tr>
+      <tr><td class="mono">1</td><td>As a <b>DC tech</b>, I want to mark a rack's install step done from my phone, so that status updates without a spreadsheet.</td><td class="num">5</td><td><span class="pill bad">Must</span></td></tr>
+      <tr><td class="mono">2</td><td>As the <b>PM</b>, I want a dashboard of racks by stage, so that I can report status in under 5 minutes.</td><td class="num">8</td><td><span class="pill bad">Must</span></td></tr>
+      <tr><td class="mono">3</td><td>As the <b>network lead</b>, I want to attach optical test results to a rack, so that acceptance evidence is in one place.</td><td class="num">5</td><td><span class="pill bad">Must</span></td></tr>
+      <tr><td class="mono">4</td><td>As the <b>sponsor</b>, I want a weekly email summary, so that I don't have to log in.</td><td class="num">3</td><td><span class="pill warn">Should</span></td></tr>
+      <tr><td class="mono">5</td><td>As a <b>DC tech</b>, I want to scan a rack's QR code to open it, so that I don't pick the wrong rack.</td><td class="num">3</td><td><span class="pill info">Could</span></td></tr>
+      <tr><td class="mono">6</td><td>As the <b>customer</b>, I want a Teams alert when a rack is accepted.</td><td class="num">2</td><td><span class="pill">Won't (now)</span></td></tr>
+    </table></div>
+    <div class="story"><h4>Acceptance criteria for story 1 (Given / When / Then)</h4>
+      <p><b>Given</b> I'm signed in as a DC tech assigned to Row 14,<br><b>when</b> I tap "Mark complete" on a rack's install step,<br><b>then</b> the step shows complete with my name and timestamp, and the dashboard updates within 1 minute.</p></div>
+    <p class="note">Team velocity, last 3 sprints: 16, 19, 18 points. Sprint 3 commits to 18 (stories 1, 2, 3).</p>
+  </div>
+</article>
+
+<article id="sprint" data-group="Agile" data-sub="Scrum roles, events, Definition of Done" hidden>
+  <h2>Sprint board &amp; Definition of Done</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Agile Frameworks</span></div><div><span class="eyebrow">Cadence</span><span>2-week sprints</span></div><div><span class="eyebrow">Roles</span><span>Product Owner, Scrum Master, Developers</span></div></div>
+  <div class="tip"><b>Exam tip.</b> Five Scrum events: the <b>sprint</b> itself, <b>sprint planning</b>, <b>daily scrum</b> (15 min, for developers), <b>sprint review</b> (demo the increment to stakeholders), <b>retrospective</b> (improve how the team works). Three artifacts: product backlog, sprint backlog, increment.</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Sprint 3 board · day 6 of 10</span><h3>Rack Readiness Tracker</h3></div><div class="ids"><span>PO Priya Shah · SM Kevin Brooks</span></div></div>
+    <div class="board">
+      <div class="col"><div class="h"><span>To do</span></div><div class="card-s"><span class="id">#3 · 5 pts</span>Attach optical test results</div></div>
+      <div class="col"><div class="h"><span>In progress</span><span>WIP 2</span></div><div class="card-s"><span class="id">#2 · 8 pts</span>Racks-by-stage dashboard</div></div>
+      <div class="col"><div class="h"><span>Review</span><span>WIP 2</span></div></div>
+      <div class="col"><div class="h"><span>Done</span></div><div class="card-s"><span class="id">#1 · 5 pts</span>Mark step complete from phone</div></div>
+    </div>
+    <div><h4>Definition of Done</h4><ul><li>Acceptance criteria met and demoed to the Product Owner</li><li>Peer-reviewed by another maker</li><li>Tested on iOS and Android in the Power Apps mobile player</li><li>Data permissions verified (techs can't edit other rows)</li><li>User guide note updated</li></ul></div>
+    <p class="note">The Definition of Done applies to every story. Acceptance criteria are specific to one story.</p>
+  </div>
+</article>
+
+<article id="burndown" data-group="Agile" data-sub="Read the shape of a sprint" data-sim="1" hidden>
+  <h2>Burndown chart</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Agile Frameworks</span></div><div><span class="eyebrow">Shows</span><span>Work remaining vs. time</span></div><div><span class="eyebrow">Updated</span><span>Daily</span></div></div>
+  <div class="tip"><b>Try it.</b> Each pattern below shows up on the exam. Pick one and read the diagnosis. Burndown shows work <i>remaining</i>; a burnup shows work <i>completed</i> and makes scope changes visible.</div>
+  <div class="sim">
+    <div class="row" id="bd-pick"></div>
+    <div class="scroll"><svg id="bd-chart" viewBox="0 0 560 260" style="min-width:420px;width:100%"></svg></div>
+    <p class="readout" id="bd-read"></p>
+  </div>
+</article>
+
+<article id="kanban" data-group="Agile" data-sub="See why WIP limits speed up flow" data-sim="1" hidden>
+  <h2>Kanban flow &amp; WIP limits</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Agile Frameworks</span></div><div><span class="eyebrow">Core ideas</span><span>Visualize work, limit WIP, manage flow</span></div><div><span class="eyebrow">Key metric</span><span>Cycle time</span></div></div>
+  <div class="tip"><b>Try it.</b> Builders can finish 2 items a day; the tester finishes 1. Run 12 days without limits and work piles up in Test. Turn limits on: builders stop starting new work and help test (swarming), so WIP falls and cycle time drops.</div>
+  <div class="sim">
+    <div class="row"><label class="row" for="kb-limit" style="gap:6px"><input type="checkbox" id="kb-limit"> WIP limits on (Build 3, Test 2)</label></div>
+    <div class="board" id="kb-board"></div>
+    <div class="stats" id="kb-stats"></div>
+    <div class="row"><button class="btn" id="kb-step">Next day</button><button class="btn ghost" id="kb-run">Run to day 12</button><button class="btn ghost" id="kb-reset">Reset</button></div>
+    <p class="readout" id="kb-read"></p>
+  </div>
+</article>
+
+<!-- ================= BUSINESS ANALYSIS ================= -->
+<article id="req-types" data-group="Business analysis" data-sub="Sort requirements by type" data-sim="1" hidden>
+  <h2>Requirement types</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Business Analysis Frameworks</span></div><div><span class="eyebrow">When</span><span>Elicitation and analysis</span></div><div><span class="eyebrow">Owner</span><span>Business analyst</span></div></div>
+  <div class="tip"><b>Try it.</b> Classify each requirement from the Rack Readiness project. <b>Business</b> = why the org needs it. <b>Stakeholder</b> = what a group needs. <b>Solution</b> = what the product does (functional) or how well (non-functional). <b>Transition</b> = temporary needs to get from now to the future state.</div>
+  <div class="sim" id="sort"></div>
+</article>
+
+<article id="rtm" data-group="Business analysis" data-sub="Trace every requirement to a test" hidden>
+  <h2>Requirements traceability matrix</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>Business Analysis Frameworks</span></div><div><span class="eyebrow">When</span><span>Planning through closing</span></div><div><span class="eyebrow">Owner</span><span>Business analyst / PM</span></div></div>
+  <div class="tip"><b>Exam tip.</b> The RTM links each requirement <b>backward</b> to its business objective and <b>forward</b> to the design, build and test that prove it's delivered. It stops gold plating (nothing is built without a source) and gaps (nothing required is missed).</div>
+  <div class="doc">
+    <div class="doc-head"><div><span class="eyebrow">Requirements traceability matrix</span><h3>Rack Readiness Tracker</h3></div><div class="ids"><span>RRT-RTM · v0.4</span></div></div>
+    <div class="scroll"><table>
+      <tr><th>Req ID</th><th>Requirement</th><th>Source / objective</th><th>Story</th><th>Test case</th><th>Status</th></tr>
+      <tr><td class="mono">BR-1</td><td>Cut weekly status prep time by 75%</td><td>Charter objective (on-time delivery)</td><td class="mono">#2</td><td class="mono">UAT-02</td><td><span class="pill info">In build</span></td></tr>
+      <tr><td class="mono">SR-1</td><td>Techs update rack status from the floor</td><td>Interview: Sam Ortiz</td><td class="mono">#1</td><td class="mono">TC-01, UAT-01</td><td><span class="pill ok">Verified</span></td></tr>
+      <tr><td class="mono">SR-2</td><td>Acceptance evidence stored per rack</td><td>Workshop: Aisha Grant</td><td class="mono">#3</td><td class="mono">TC-05</td><td><span class="pill warn">Not started</span></td></tr>
+      <tr><td class="mono">NFR-1</td><td>Dashboard refresh ≤ 1 minute</td><td>Observation: status meeting</td><td class="mono">#2</td><td class="mono">PT-01</td><td><span class="pill info">In build</span></td></tr>
+      <tr><td class="mono">TR-1</td><td>Import current rack list from spreadsheet once</td><td>Document analysis</td><td class="mono">#7</td><td class="mono">TC-09</td><td><span class="pill ok">Verified</span></td></tr>
+    </table></div>
+    <p class="note">Sources show the elicitation technique used: interviews, workshops, observation, document analysis.</p>
+  </div>
+</article>
+
+<!-- ================= SCENARIOS ================= -->
+<article id="scenarios" data-group="Exam scenarios" data-sub="Situational questions, PMI mindset" data-sim="1" hidden>
+  <h2>Situation simulator</h2>
+  <div class="meta"><div><span class="eyebrow">ECO domain</span><span>All four</span></div><div><span class="eyebrow">Format</span><span>"What should the PM do next?"</span></div><div><span class="eyebrow">Rule of thumb</span><span>Analyze first, then follow the process</span></div></div>
+  <div class="tip"><b>PMI mindset.</b> Assess before acting, handle it at the lowest level first, follow the agreed process (change control, risk response), protect the team, and communicate.</div>
+  <div class="sim" id="scen"></div>
+</article>
+
+  </div>
+</div>
+</div>
+
+
+<footer class="wrap" style="padding-block:0 32px;display:grid;gap:6px">
+  <p class="note">© 2026 Tre Toby. All rights reserved.</p>
+  <p class="note">CAPM, PMP and PMBOK are registered marks of the Project Management Institute, Inc. This independent study resource is not affiliated with, endorsed by, or sponsored by PMI. Lakeshore Datacenter and every person and figure in the example project are fictional.</p>
+</footer>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const money=n=>(n<0?"−$":"$")+Math.round(Math.abs(n)).toLocaleString("en-US");
+
+// ---------- plain-English explainers ----------
+const EXPLAIN={
+"business-case":{
+  lead:"A business case is the argument for why a project is worth doing at all. It compares options, adds up costs and benefits, and recommends one path. It's written before the project officially exists.",
+  why:"Leaders use it to decide whether to spend the money. If the business case stops making sense later (say costs double), that's a reason to cancel the project.",
+  like:"Before buying a new UPS for your home lab, you'd compare: keep the old one, buy a cheap one, or buy a good one. You'd weigh the cost against what an outage costs you. That comparison is a business case.",
+  read:"Look at the options table. Three choices were compared, and Option 3 won because it's a one-time $480K instead of $1.1M every year. The success measures at the bottom are how everyone will know it paid off.",
+  terms:[["NPV","Net present value. Future money is worth less than money today, so NPV converts it all to today's dollars. Higher is better."],["Payback period","How long until the project earns back what it cost."],["Sponsor","The senior person who funds and champions the project."]]},
+"charter":{
+  lead:"The project charter is the official birth certificate of a project. Once the sponsor signs it, the project exists, the PM is named, and the PM has authority to use people and money.",
+  why:"Without a charter, a PM has no formal authority. People can say \"who told you to do this?\" The charter answers that question. It also sets the big picture: goals, rough budget, key dates, major risks.",
+  like:"It's like a work order at the datacenter that says: this job is approved, Tre is in charge, here's the budget, here's the deadline. Detailed steps come later.",
+  read:"Notice it stays high-level: four milestones, one budget number, three risks. The \"PM authority\" line says exactly what Tre can approve on his own ($15K per item). Signatures at the bottom make it official.",
+  terms:[["Milestone","A significant point in time with zero duration, like \"design approved.\" Not a task, a checkpoint."],["Contingency reserve","Money set aside for known risks. The PM can use it."],["Management reserve","Money set aside for surprises nobody predicted. The sponsor controls it."],["Exit criteria","The conditions that end the project, whether it succeeds or gets cancelled."]]},
+"stakeholders":{
+  lead:"A stakeholder is anyone who affects the project or is affected by it. The stakeholder register is a list of all of them: who they are, what they care about, and how much power they have.",
+  why:"Projects fail more often from people problems than technical problems. If you forget the ops manager who controls shutdown windows, your install can get blocked. Listing everyone early prevents that.",
+  like:"Before a big maintenance window, you think about who needs to know: the shift lead, the customer, safety, the on-call engineer. Each needs different info. That's stakeholder management.",
+  read:"The table lists each person's power, interest, and what they expect. The 2×2 grid below sorts them into four strategies. Dana and Priya have high power and high interest, so Tre manages them closely. The \"current → desired\" column shows where Tre wants each person's attitude to be.",
+  terms:[["Power","How much someone can influence decisions or block the project."],["Interest","How much the project's outcome affects or matters to them."],["Engagement level","How involved someone is: Unaware, Resistant, Neutral, Supportive, or Leading."]]},
+"scope":{
+  lead:"The scope statement says exactly what the project will deliver and, just as important, what it won't. It turns the charter's big picture into specifics.",
+  why:"Scope creep (extra work sneaking in) kills budgets and deadlines. A clear scope statement gives you something to point to: \"Imaging servers wasn't part of this project.\"",
+  like:"A ticket that says \"fix the rack\" is vague. A good ticket says \"replace PSU 2 in rack 14-07, test it, close the ticket. Firmware updates not included.\" That's a scope statement.",
+  read:"Deliverables are the things handed over. Acceptance criteria are the tests they must pass (48-hour burn-in, ≤2.5 dB optical loss). Exclusions draw the fence. Constraints are limits you can't change; assumptions are things believed true but not yet proven.",
+  terms:[["Deliverable","A tangible thing the project produces, like installed racks or a test report."],["Constraint","A fixed limit, like a budget cap or only working on Sundays."],["Assumption","Something treated as true for planning that might turn out false. Assumptions should be verified."],["Scope creep","Uncontrolled growth in scope without adjusting time, cost, or resources."]]},
+"wbs":{
+  lead:"A work breakdown structure (WBS) breaks the whole project into smaller and smaller pieces until each piece is small enough to estimate, assign, and track. It's organized around deliverables, not actions.",
+  why:"You can't estimate or manage \"deploy 24 racks.\" You can estimate \"run and test 96 fiber uplinks.\" Breaking work down is how you make a huge project manageable and make sure nothing is forgotten.",
+  like:"Think of a parts tree for a server: server → chassis, motherboard, storage, power. Storage → drives, backplane, cables. A WBS does the same thing for project work.",
+  read:"Number 1 is the whole project. Level 2 (1.1, 1.2, …) are major chunks. The dashed boxes are work packages, the smallest pieces. The WBS dictionary entry below gives full detail on one work package: who owns it, what it costs, how long it takes, and how it's accepted.",
+  terms:[["Work package","The lowest level of the WBS. Where cost and time get estimated."],["100% rule","All the pieces under a box must add up to exactly that box's work. Nothing missing, nothing extra."],["WBS dictionary","A companion document describing each WBS element in detail."],["Control account","A management checkpoint where scope, cost and schedule are tracked together."]]},
+"schedule":{
+  lead:"A network diagram shows the order tasks have to happen in: what must finish before something else can start. The critical path is the longest chain of dependent tasks, and it sets how short the project can possibly be.",
+  why:"If any task on the critical path slips a day, the whole project slips a day. Tasks off the critical path have \"float,\" slack they can use without delaying the finish. Knowing which is which tells you where to focus.",
+  like:"You can't cable a rack until it's placed, and you can't place it until the floor is ready. Those form a chain. Ordering PDUs happens in parallel. Whichever chain takes longest decides when the job is done.",
+  read:"Each box is a task. Top row: Early Start, Duration, Early Finish (found by working left to right). Bottom row: Late Start, Float, Late Finish (found right to left). Red boxes have zero float, so they're critical. The Gantt chart below shows the same thing as bars on a timeline.",
+  terms:[["ES / EF","Early start / early finish: the soonest a task can begin and end."],["LS / LF","Late start / late finish: the latest it can begin and end without delaying the project."],["Float (slack)","LS − ES. How long a task can slip without delaying the finish."],["Forward pass","Calculating ES and EF from start to finish."],["Backward pass","Calculating LS and LF from finish back to start."],["Gantt chart","A bar chart of tasks over time."]]},
+"estimating":{
+  lead:"Three-point estimating asks for three guesses instead of one: best case (optimistic), most likely, and worst case (pessimistic). Then you average them to get a more realistic number.",
+  why:"Single guesses are usually too optimistic. Using three points builds uncertainty into the estimate and tells you how risky that estimate is.",
+  like:"\"How long to replace a failed drive?\" Best case 20 minutes, usually 45, worst case 2 hours if the RAID rebuild acts up. Planning around 45 alone would burn you on the bad days.",
+  read:"Change the three numbers. PERT counts the most likely value four times, so it leans toward M. Standard deviation shows how spread out the guesses are: bigger means more uncertain.",
+  terms:[["PERT / beta","(O + 4M + P) ÷ 6. The weighted average."],["Triangular","(O + M + P) ÷ 3. The simple average."],["Standard deviation","(P − O) ÷ 6. How uncertain the estimate is."]]},
+"raci":{
+  lead:"A RACI chart is a grid that shows, for each piece of work, who does it, who owns it, who gets asked for input, and who just needs to be told.",
+  why:"It stops two problems: work nobody does because everyone thought someone else had it, and arguments because two people both thought they were in charge.",
+  like:"For a rack install: a tech does the physical install (Responsible), the tech lead signs off that it's right (Accountable), the network team gets asked about port layout (Consulted), and the customer gets an email when it's done (Informed).",
+  read:"Read across a row. For \"Network cabling\": Aisha is R (does it), Tre is A (owns the outcome), Sam is C (gives input), everyone else is I. Every row has exactly one A, highlighted in blue.",
+  terms:[["R: Responsible","Does the work. Can be several people."],["A: Accountable","Owns the result and signs off. Only one per task."],["C: Consulted","Gives input before or during the work. Two-way conversation."],["I: Informed","Gets told about progress or results. One-way."]]},
+"comms":{
+  lead:"The communications management plan spells out who needs what information, how they'll get it, how often, and who sends it.",
+  why:"Sponsors want a one-page summary; techs want today's task list. Sending everyone everything wastes time. Sending too little causes surprises. The plan makes sure each group gets the right info.",
+  like:"At the datacenter, the shift huddle, the incident email, and the ticket dashboard each reach different people in different ways. Someone decided that, and that decision is a comms plan.",
+  read:"Each row is one communication. The method column is the key exam concept: interactive (live conversation), push (sent to people), pull (people go get it).",
+  terms:[["Interactive","Real-time, two-way: meetings, calls, video chats. Best for complex or sensitive topics."],["Push","Sent to specific people: emails, memos, reports. You can't be sure they read it."],["Pull","Posted for people to access when they want: dashboards, SharePoint, wikis. Good for large audiences."]]},
+"risk":{
+  lead:"A risk is something that might happen and would affect the project, for better or worse. The risk register lists each risk, how likely it is, how bad it would be, and the plan for dealing with it.",
+  why:"You can't avoid every problem, but you can plan for the likely ones. When a risk you planned for happens, you already know what to do instead of scrambling.",
+  like:"Dual power feeds, spare parts on the shelf, and an on-call rotation all exist because someone thought \"what if a PDU fails?\" ahead of time. That's risk management.",
+  read:"Probability (P) and impact (I) are rated 1–5. Multiply them for the score. Higher scores get more attention. The heat map puts each risk in its spot: top-right is the danger zone. Notice O1 is a positive risk (an opportunity), which PMI counts as a risk too.",
+  terms:[["Threat","A risk that would hurt the project."],["Opportunity","A risk that would help the project."],["Avoid","Change the plan so the threat can't happen."],["Mitigate","Reduce the chance or impact."],["Transfer","Shift the impact to someone else, like insurance or a contract penalty."],["Accept","Do nothing now (passive), or set aside time or money just in case (active)."],["Escalate","Hand it up because it's outside the project's authority."],["Exploit / Enhance / Share","Opportunity versions: make sure it happens / increase its chances / partner with someone to capture it."]]},
+"evm":{
+  lead:"Earned value management answers two questions with numbers: are we on budget, and are we on schedule? It compares the work you planned, the work you actually did, and what it actually cost.",
+  why:"\"We've spent half the money\" sounds fine, unless only a quarter of the work is done. EVM catches that early, while there's still time to fix it.",
+  like:"Say a 10-rack job is budgeted at $100K. By week 4 you planned to have 5 racks done ($50K of value). You've actually finished 4 ($40K earned) but spent $45K. You're behind and over budget, and EVM puts exact numbers on it.",
+  read:"Drag the sliders. The blue line is the plan. Green dot is the value of work actually done; red dot is what you actually spent. If green sits below blue, you're behind. If red sits above green, you're over budget. CPI and SPI turn that into a single number each: 1.0 is perfect, below 1.0 is bad.",
+  terms:[["BAC","Budget at completion. The total budget."],["PV","Planned value. What you planned to have done by now, in dollars."],["EV","Earned value. What you actually got done, in dollars of budget."],["AC","Actual cost. What you actually spent."],["CPI","Cost performance index (EV ÷ AC). Below 1 is over budget."],["SPI","Schedule performance index (EV ÷ PV). Below 1 is behind schedule."],["EAC","Estimate at completion. What the whole project will likely cost."],["TCPI","How efficient you must be from now on to still hit the budget."]]},
+"issues":{
+  lead:"The issue log tracks problems that are happening right now: who owns each one, what's being done, and whether it's resolved.",
+  why:"Problems that live only in someone's head get forgotten. A shared log makes sure every issue has an owner and a next step, and nothing quietly sits open.",
+  like:"It's basically a ticket queue for project problems. Each issue has an ID, priority, owner, action and status, just like an incident ticket.",
+  read:"I-01 is the key example: it was risk R1 on the risk register. Once it actually happened, it became an issue, and the team carried out the backup plan they'd already written.",
+  terms:[["Risk vs. issue","A risk might happen in the future. An issue is happening now."],["Workaround","An unplanned fix for a problem nobody saw coming."]]},
+"change":{
+  lead:"A change request is the formal way to ask for a change to the project's agreed scope, schedule, or budget. A group called the change control board reviews it and approves, rejects, or defers it.",
+  why:"Changes are normal, but uncontrolled changes wreck projects. The process makes sure every change gets its impact checked and the right people agree before work starts.",
+  like:"It's the change management process you already know from datacenter ops: you don't just reboot a production switch because someone asked. You file a change, it gets reviewed, then it's scheduled.",
+  read:"CR-01 shows the full form: what's being asked, why, the impact on each area, and the decision. Below it, the change log tracks every request and its outcome, including rejected and deferred ones.",
+  terms:[["Change control board (CCB)","The group with authority to approve or reject changes."],["Baseline","The approved version of the plan (scope, schedule, or cost) that progress is measured against."],["Integrated change control","Reviewing every change for its effect on the whole project, not just one area."],["Gold plating","Adding extras the customer didn't ask for. PMI says don't."]]},
+"channels":{
+  lead:"Communication channels are the number of possible one-to-one conversations on a team. The count grows much faster than the team size.",
+  why:"Adding people adds coordination overhead. Going from 8 to 12 people more than doubles the channels. That's why big teams need more structured communication.",
+  like:"Two techs on a shift talk directly. With eight, messages get missed and you need a shift lead and a huddle. The math shows why.",
+  read:"Move the sliders. Each line in the drawing is one channel between two people. Watch how quickly the picture fills in as the team grows.",
+  terms:[["Formula","n × (n − 1) ÷ 2, where n is the number of people, including the PM."]]},
+"lessons":{
+  lead:"The lessons learned register records what went well and what didn't, so the next project can repeat the good and avoid the bad.",
+  why:"Without it, every project repeats the same mistakes. Saved lessons become part of the company's knowledge for future teams.",
+  like:"It's like a post-incident review, but for a whole project. What happened, why, and what we'll do differently next time.",
+  read:"Each entry pairs what happened with a specific recommendation. The closure checklist below shows the formal steps to officially finish a project: acceptance, contracts closed, handoff, team released.",
+  terms:[["Organizational process assets (OPAs)","The company's stored templates, policies, and lessons learned that future projects can use."],["Closing","The final phase: confirm all work is accepted, close contracts, archive records, release the team."]]},
+"backlog":{
+  lead:"In agile, the product backlog is a ranked to-do list of everything the product might need. Each item is usually written as a user story: a short description from the point of view of the person who wants it.",
+  why:"Instead of planning everything up front, agile teams keep the list flexible and always work on the most valuable items first. The Product Owner decides the order.",
+  like:"Imagine you're building a rack-tracking app. You don't spec every screen up front. You list features by importance, build the top few in two weeks, show people, then adjust the list.",
+  read:"Each story says who wants something, what they want, and why. Points estimate effort, not hours. MoSCoW shows priority. The Given/When/Then block shows exactly how story 1 will be tested. Velocity at the bottom tells you how many points the team usually finishes per sprint.",
+  terms:[["User story","\"As a [role], I want [goal], so that [benefit].\""],["Story points","A relative measure of effort and complexity, not hours."],["Product Owner","The person who decides what gets built and in what order."],["Velocity","How many points a team finishes per sprint, on average."],["MoSCoW","Must have, Should have, Could have, Won't have (this time)."],["INVEST","Good stories are Independent, Negotiable, Valuable, Estimable, Small, Testable."]]},
+"sprint":{
+  lead:"Scrum is the most common agile framework. Work happens in short, fixed cycles called sprints, usually two weeks. The sprint board shows where each item stands, and the Definition of Done is the team's checklist for calling anything finished.",
+  why:"Short cycles mean you get working results and feedback every couple of weeks instead of waiting months. A shared Definition of Done stops \"it's done… except testing.\"",
+  like:"The board works like a ticket queue with columns: new, in progress, review, done. Everyone sees at a glance what's moving and what's stuck.",
+  read:"Cards move left to right as work progresses. \"WIP 2\" means at most two items may sit in that column. The Definition of Done list applies to every single story.",
+  terms:[["Sprint","A fixed time-box (usually 1–4 weeks) to finish a set of work."],["Scrum Master","Coaches the team on Scrum and removes obstacles. Not the boss."],["Developers","The people who build the product (in Scrum, anyone doing the work)."],["Daily scrum","A 15-minute daily check-in to plan the next 24 hours."],["Sprint review","Demo the finished work to stakeholders and get feedback."],["Retrospective","The team discusses how to work better next sprint."],["Increment","The working product produced by a sprint."]]},
+"burndown":{
+  lead:"A burndown chart shows how much work is left in a sprint, day by day. The line should slope down to zero by the last day.",
+  why:"It shows problems at a glance. A flat line means the team is stuck. A line that jumps up means work was added. Teams and Scrum Masters check it daily.",
+  like:"Think of a battery meter draining toward empty. The dashed line is a perfectly steady drain. The blue line is what actually happened.",
+  read:"Click each pattern. Compare the blue line to the dashed ideal line, then read the diagnosis below. Exam questions often show one of these shapes and ask what's wrong.",
+  terms:[["Ideal line","A straight line from the starting work to zero. The perfectly steady pace."],["Burnup chart","The opposite: shows work completed going up. Makes added scope easier to see."]]},
+"kanban":{
+  lead:"Kanban is an agile method built around a board of columns that show each stage of work. Its main rule: limit how many items can be in each stage at once. That cap is called a WIP (work in progress) limit.",
+  why:"Starting lots of work feels productive, but it creates traffic jams. Finishing beats starting. WIP limits force the team to clear bottlenecks before taking on more.",
+  like:"If one tech is testing and three are racking servers, racked servers pile up waiting for testing. A WIP limit says \"stop racking, go help test,\" and more servers end up fully done.",
+  read:"Run the sim without limits, then with limits. Watch the Test column. Without limits it keeps growing as work waits for the tester. With limits, more items reach Done and each finishes faster.",
+  terms:[["WIP limit","The maximum number of items allowed in a column at once."],["Bottleneck","The slowest stage, which holds everything else back."],["Cycle time","How long one item takes from start to finish."],["Throughput","How many items get finished in a period of time."],["Swarming","Team members jump in to help clear a stuck item or stage."]]},
+"req-types":{
+  lead:"Requirements describe what a solution needs to do or be. Business analysts sort them into types, because different types come from different people and get tested in different ways.",
+  why:"Mixing them up causes gaps. If you capture what the app does but forget how fast it needs to be, or forget training for go-live, the project can \"work\" and still fail.",
+  like:"For a new ticketing system: the business wants faster resolution (business). Techs want mobile access (stakeholder). It logs timestamps (functional). It loads in 2 seconds (non-functional). Old tickets get migrated once (transition).",
+  read:"Tap the type you think fits each requirement. Green means right; you'll get a short explanation either way.",
+  terms:[["Business requirement","Why the organization needs the project. High-level goals."],["Stakeholder requirement","What a specific group of people needs."],["Functional requirement","What the solution does: a behavior or feature."],["Non-functional requirement","How well it does it: speed, security, reliability, usability."],["Transition requirement","Temporary needs to get from today to the new state, like data migration or training."]]},
+"rtm":{
+  lead:"A requirements traceability matrix (RTM) is a table that connects every requirement to where it came from and to the work and tests that prove it was delivered.",
+  why:"It answers two questions: did we build everything that was asked for, and did we build anything nobody asked for? Every row should trace all the way across.",
+  like:"It's like a cable schedule: every cable traced from source port to destination port. If a row has a blank, something isn't connected.",
+  read:"Read each row left to right: the requirement, who or what it came from, which user story builds it, which test proves it, and its status. SR-2 is \"not started,\" so it's a visible gap the team can't miss.",
+  terms:[["Traceability","Being able to follow a requirement from its origin through to delivery."],["Elicitation","Gathering requirements from people, through interviews, workshops, observation, surveys, or document review."],["UAT","User acceptance testing. Real users confirm the solution works for them."]]},
+"scenarios":{
+  lead:"Most CAPM questions are short situations that ask what the project manager should do next. These test judgment, not memorization.",
+  why:"Several answers often sound reasonable. PMI wants the one that follows good process: understand the problem first, use the agreed process, and handle it at the right level.",
+  like:"It's like an incident response drill. Panicking or jumping straight to the director isn't the move; triage, follow the runbook, then escalate if needed.",
+  read:"Pick an answer. Every option comes with an explanation of why it's right or wrong, so read the wrong ones too. That's where the learning is.",
+  terms:[["\"What should you do first?\"","Usually the answer is to gather info or analyze before acting."],["\"What should you do next?\"","The situation is already analyzed; follow the process."]]},
+};
+document.querySelectorAll("#articles article").forEach(a=>{
+  const x=EXPLAIN[a.id]; if(!x)return;
+  const box=document.createElement("div"); box.className="explain";
+  box.innerHTML=`<span class="eyebrow">In plain English</span><p class="lead">${esc(x.lead)}</p>
+  <div class="parts"><div class="part"><h4>Why it matters</h4><p>${esc(x.why)}</p></div><div class="part"><h4>Think of it like</h4><p>${esc(x.like)}</p></div></div>
+  <div class="read"><h4>How to read the example below</h4><p>${esc(x.read)}</p></div>
+  ${x.terms?.length?`<div class="terms"><h4>Key terms</h4><dl>${x.terms.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join("")}</dl></div>`:""}`;
+  a.querySelector("h2").after(box);
+});
+
+// ---------- contents & navigation ----------
+const arts=[...document.querySelectorAll("#articles article")];
+(function buildContents(){
+  const groups={}; arts.forEach(a=>(groups[a.dataset.group]??=[]).push(a));
+  const box=$("contents");
+  for(const g in groups){
+    const sec=document.createElement("section"); sec.className="group";
+    const sims=groups[g].filter(a=>a.dataset.sim).length;
+    sec.innerHTML=`<div class="group-head"><h2 style="font-size:1.1rem">${esc(g)}</h2><span class="eyebrow">${groups[g].length} item${groups[g].length>1?"s":""}${sims?` · ${sims} interactive`:""}</span></div><div class="items"></div>`;
+    groups[g].forEach(a=>{const b=document.createElement("button");b.className="item";
+      b.innerHTML=`<span class="t">${esc(a.querySelector("h2").textContent)}</span><span class="s">${esc(a.dataset.sub)}</span>${a.dataset.sim?'<span class="sim-badge">Interactive</span>':""}`;
+      b.addEventListener("click",()=>open(a.id));sec.querySelector(".items").appendChild(b)});
+    box.appendChild(sec);
+  }
+})();
+let curIdx=-1;
+function open(id){
+  const i=arts.findIndex(a=>a.id===id); if(i<0)return;
+  curIdx=i; arts.forEach((a,j)=>a.hidden=j!==i);
+  $("contents").hidden=true; $("reader").hidden=false;
+  $("prev").disabled=i===0; $("next").disabled=i===arts.length-1;
+  if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
+  window.scrollTo(0,0);
+}
+function home(){$("reader").hidden=true;$("contents").hidden=false;history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0)}
+$("back").addEventListener("click",home);
+$("prev").addEventListener("click",()=>curIdx>0&&open(arts[curIdx-1].id));
+$("next").addEventListener("click",()=>curIdx<arts.length-1&&open(arts[curIdx+1].id));
+if(location.hash.length>1)open(location.hash.slice(1));
+
+// ---------- RACI ----------
+(function(){
+  const ppl=["Dana (Sponsor)","Tre (PM)","Marcus (Facilities)","Aisha (Network)","Jordan (Procure.)","Sam (Tech Lead)","Priya (Customer)"];
+  const rows=[["Design review","C","A","R","R","I","C","C"],["Procurement","I","A","C","C","R","I","I"],["Rack placement","I","A","C","I","I","R","I"],["Power install","I","A","R","I","I","C","I"],["Network cabling","I","A","I","R","I","C","I"],["Cooling install","I","A","R","I","C","C","I"],["Burn-in testing","I","A","C","C","I","R","C"],["Acceptance sign-off","I","R","I","I","I","I","A"]];
+  let h="<tr><th>Deliverable</th>"+ppl.map(p=>`<th>${esc(p)}</th>`).join("")+"</tr>";
+  rows.forEach(r=>{h+=`<tr><td>${esc(r[0])}</td>`+r.slice(1).map(v=>`<td class="raci ${v==="A"?"raci-A":""}">${v}</td>`).join("")+"</tr>"});
+  $("raci-t").innerHTML=h;
+})();
+
+// ---------- critical path ----------
+const ACT=[
+  {id:"A",name:"Site survey & design",d:5,pre:[],col:0,row:1},
+  {id:"B",name:"Procure PDUs",d:15,pre:["A"],col:1,row:0},
+  {id:"C",name:"Floor prep & tray",d:8,pre:["A"],col:1,row:2},
+  {id:"D",name:"Rack placement",d:6,pre:["C"],col:2,row:2},
+  {id:"E",name:"Power install",d:7,pre:["B","D"],col:3,row:0},
+  {id:"G",name:"Cooling install",d:6,pre:["D"],col:3,row:1},
+  {id:"F",name:"Network cabling",d:9,pre:["D"],col:3,row:2},
+  {id:"H",name:"Burn-in & testing",d:5,pre:["E","F","G"],col:4,row:1},
+  {id:"I",name:"Customer handoff",d:2,pre:["H"],col:5,row:1},
+];
+const DEF=Object.fromEntries(ACT.map(a=>[a.id,a.d]));
+function cpm(acts){
+  const by=Object.fromEntries(acts.map(a=>[a.id,{...a}]));
+  const order=["A","B","C","D","E","G","F","H","I"];
+  order.forEach(k=>{const a=by[k];a.es=a.pre.length?Math.max(...a.pre.map(p=>by[p].ef)):0;a.ef=a.es+a.d});
+  const end=Math.max(...order.map(k=>by[k].ef));
+  [...order].reverse().forEach(k=>{const a=by[k];const succ=order.filter(s=>by[s].pre.includes(k));
+    a.lf=succ.length?Math.min(...succ.map(s=>by[s].ls)):end;a.ls=a.lf-a.d;a.fl=a.ls-a.es});
+  return {by,end,order};
+}
+function drawCP(){
+  const r=cpm(ACT), {by,end,order}=r;
+  const W=116,H=72,X=c=>14+c*146,Y=rw=>14+rw*96;
+  const crit=k=>by[k].fl===0;
+  let s=`<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker><marker id="arc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--bad)"/></marker></defs>`;
+  order.forEach(k=>by[k].pre.forEach(p=>{const a=by[p],b=by[k];const c=crit(p)&&crit(k)&&a.ef===b.es;
+    s+=`<line x1="${X(a.col)+W}" y1="${Y(a.row)+H/2}" x2="${X(b.col)-2}" y2="${Y(b.row)+H/2}" stroke="${c?"var(--bad)":"var(--muted)"}" stroke-width="${c?2.2:1.2}" marker-end="url(#${c?"arc":"ar"})"/>`}));
+  order.forEach(k=>{const a=by[k],x=X(a.col),y=Y(a.row),c=crit(k);
+    s+=`<g><rect x="${x}" y="${y}" width="${W}" height="${H}" rx="6" fill="${c?"var(--bad-soft)":"var(--paper)"}" stroke="${c?"var(--bad)":"var(--line)"}" stroke-width="${c?2:1}"/>
+    <line x1="${x}" y1="${y+20}" x2="${x+W}" y2="${y+20}" stroke="var(--line)"/><line x1="${x}" y1="${y+H-20}" x2="${x+W}" y2="${y+H-20}" stroke="var(--line)"/>
+    <text x="${x+6}" y="${y+14}" font-size="11" fill="var(--ink)">${a.es}</text><text x="${x+W/2}" y="${y+14}" font-size="11" text-anchor="middle" fill="var(--ink)">${a.d}d</text><text x="${x+W-6}" y="${y+14}" font-size="11" text-anchor="end" fill="var(--ink)">${a.ef}</text>
+    <text x="${x+W/2}" y="${y+40}" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="600">${a.id} · ${esc(a.name.split(" ")[0])}</text>
+    <text x="${x+6}" y="${y+H-6}" font-size="11" fill="var(--muted)">${a.ls}</text><text x="${x+W/2}" y="${y+H-6}" font-size="11" text-anchor="middle" fill="${c?"var(--bad)":"var(--good)"}">F${a.fl}</text><text x="${x+W-6}" y="${y+H-6}" font-size="11" text-anchor="end" fill="var(--muted)">${a.lf}</text></g>`});
+  $("net").innerHTML=s;
+  const path=order.filter(k=>crit(k)).join(" → ");
+  $("cp-stats").innerHTML=`<div class="stat"><span class="v">${end} days</span><span class="k">Project duration</span></div><div class="stat"><span class="v">${path}</span><span class="k">Critical path</span></div><div class="stat"><span class="v">${order.filter(k=>!crit(k)).map(k=>k+":"+by[k].fl).join(" ")}</span><span class="k">Float on other activities</span></div>`;
+  let t=`<tr><th>Act.</th><th>Name</th><th>Predecessors</th><th class="num">Duration</th><th class="num">ES</th><th class="num">EF</th><th class="num">LS</th><th class="num">LF</th><th class="num">Float</th></tr>`;
+  order.forEach(k=>{const a=by[k];t+=`<tr><td class="mono">${a.id}</td><td>${esc(a.name)}</td><td class="mono">${a.pre.join(", ")||"—"}</td><td class="num"><input type="number" min="1" max="40" value="${a.d}" data-act="${a.id}" id="dur-${a.id}" aria-label="Duration of ${a.id}" style="width:64px"></td><td class="num">${a.es}</td><td class="num">${a.ef}</td><td class="num">${a.ls}</td><td class="num">${a.lf}</td><td class="num">${crit(k)?'<span class="pill bad">0</span>':a.fl}</td></tr>`});
+  $("cp-table").innerHTML=t;
+  $("cp-table").querySelectorAll("input").forEach(inp=>inp.addEventListener("change",()=>{const v=Math.max(1,Math.min(40,parseInt(inp.value)||1));ACT.find(a=>a.id===inp.dataset.act).d=v;drawCP();$("dur-"+inp.dataset.act)?.focus()}));
+  let g=""; order.forEach(k=>{const a=by[k];g+=`<div class="g-row"><span>${a.id} · ${esc(a.name)}</span><div class="g-track"><div class="g-bar ${crit(k)?"crit":""}" style="left:${a.es/end*100}%;width:${a.d/end*100}%"></div>${a.fl?`<div class="g-float" style="left:${a.ef/end*100}%;width:${a.fl/end*100}%"></div>`:""}</div></div>`});
+  g+=`<div class="g-row"><span></span><div class="row" style="justify-content:space-between"><span class="nums mono">Day 0</span><span class="mono">Day ${Math.round(end/2)}</span><span class="mono">Day ${end}</span></div></div>`;
+  $("gantt").innerHTML=g;
+}
+$("cp-reset").addEventListener("click",()=>{ACT.forEach(a=>a.d=DEF[a.id]);drawCP()});
+drawCP();
+
+// ---------- three-point ----------
+function est(){const o=+$("est-o").value||0,m=+$("est-m").value||0,p=+$("est-p").value||0;
+  if(!(o<=m&&m<=p)){$("est-out").innerHTML="";$("est-read").textContent="Keep the estimates in order: O ≤ M ≤ P.";return}
+  const beta=(o+4*m+p)/6,tri=(o+m+p)/3,sd=(p-o)/6;
+  $("est-out").innerHTML=`<div class="stat"><span class="v">${beta.toFixed(2)} d</span><span class="k">Beta / PERT</span></div><div class="stat"><span class="v">${tri.toFixed(2)} d</span><span class="k">Triangular</span></div><div class="stat"><span class="v">${sd.toFixed(2)} d</span><span class="k">Std. deviation</span></div><div class="stat"><span class="v">${(beta-sd).toFixed(1)}–${(beta+sd).toFixed(1)} d</span><span class="k">±1σ range (~68%)</span></div>`;
+  $("est-read").textContent=`PERT weights the most likely value 4×, so it sits closer to M (${m}) than the triangular average does. ${p-m>m-o?"The pessimistic tail is longer than the optimistic one, which pulls both estimates above M.":"The range is balanced around M."}`;
+}
+["est-o","est-m","est-p"].forEach(i=>$(i).addEventListener("input",est)); est();
+
+// ---------- risk ----------
+const RISKS=[
+  {id:"R1",t:"Threat",d:"PDU delivery slips (vendor backorder)",p:4,i:4,r:"Mitigate",a:"Order on day 1; pre-qualify a second supplier",o:"Jordan Kim"},
+  {id:"R2",t:"Threat",d:"Floor can't carry fully loaded GPU racks",p:2,i:5,r:"Avoid",a:"Structural engineer verifies rating before placement",o:"Marcus Lee"},
+  {id:"R3",t:"Threat",d:"Cooling vendor install crew unavailable",p:3,i:3,r:"Transfer",a:"Fixed-date SLA with penalty clause in vendor contract",o:"Jordan Kim"},
+  {id:"R4",t:"Threat",d:"Higher than expected dead-on-arrival optics",p:3,i:2,r:"Accept",a:"Active acceptance: 10% spare optics on site",o:"Aisha Grant"},
+  {id:"R5",t:"Threat",d:"Site-wide shutdown calendar conflict",p:2,i:4,r:"Escalate",a:"Outside project authority; site director owns the calendar",o:"Dana Ruiz"},
+  {id:"O1",t:"Opportunity",d:"Vendor offers pre-cabled racks, saving 4 days",p:3,i:4,r:"Enhance",a:"Negotiate early to raise the odds it's available",o:"Aisha Grant"},
+];
+const lvl=s=>s>=12?["hi","High","bad"]:s>=5?["md","Medium","warn"]:["lo","Low","ok"];
+function drawRisk(){
+  let t=`<tr><th>ID</th><th>Type</th><th>Risk</th><th class="num">P</th><th class="num">I</th><th class="num">Score</th><th>Response</th><th>Action</th><th>Owner</th></tr>`;
+  RISKS.forEach((r,k)=>{const s=r.p*r.i,L=lvl(s);const sel=(f)=>`<select id="rk-${f}-${k}" data-k="${k}" data-f="${f}" aria-label="${f==="p"?"Probability":"Impact"} of ${r.id}" style="width:58px">${[1,2,3,4,5].map(v=>`<option${v===r[f]?" selected":""}>${v}</option>`).join("")}</select>`;
+    t+=`<tr><td class="mono">${r.id}</td><td>${r.t==="Threat"?'<span class="pill bad">Threat</span>':'<span class="pill ok">Opportunity</span>'}</td><td>${esc(r.d)}</td><td class="num">${sel("p")}</td><td class="num">${sel("i")}</td><td class="num"><span class="pill ${L[2]}">${s}</span></td><td><b>${r.r}</b></td><td>${esc(r.a)}</td><td>${esc(r.o)}</td></tr>`});
+  $("risk-t").innerHTML=t;
+  $("risk-t").querySelectorAll("select").forEach(s=>s.addEventListener("change",()=>{RISKS[s.dataset.k][s.dataset.f]=+s.value;const id=s.id;drawRisk();$(id)?.focus()}));
+  let h="";
+  for(let p=5;p>=1;p--){h+=`<div class="lbl">P${p}</div>`;for(let i=1;i<=5;i++){const L=lvl(p*i);h+=`<div class="c ${L[0]}">${RISKS.filter(r=>r.p===p&&r.i===i).map(r=>`<span class="tok">${r.id}</span>`).join("")}</div>`}}
+  h+=`<div></div>`+[1,2,3,4,5].map(i=>`<div class="lbl">I${i}</div>`).join("");
+  $("heat").innerHTML=h;
+}
+drawRisk();
+
+// ---------- EVM ----------
+const BAC=480000, PLAN=[0,.08,.20,.35,.52,.70,.88,1];
+function evm(){
+  const w=+$("evm-w").value,pc=+$("evm-pc").value/100,ac=+$("evm-ac").value;
+  $("evm-wv").textContent=`week ${w} of 7`;$("evm-pcv").textContent=Math.round(pc*100)+"%";$("evm-acv").textContent=money(ac);
+  const pv=BAC*PLAN[w],ev=BAC*pc,cv=ev-ac,sv=ev-pv,cpi=ac?ev/ac:NaN,spi=pv?ev/pv:NaN,eac=cpi?BAC/cpi:NaN,etc=eac-ac,vac=BAC-eac,tcpi=(BAC-ac)?(BAC-ev)/(BAC-ac):NaN;
+  const f=x=>isFinite(x)?x.toFixed(2):"—", m=x=>isFinite(x)?money(x):"—";
+  const st=(k,v,good)=>`<div class="stat ${good===undefined?"":good?"good":"bad"}"><span class="v">${v}</span><span class="k">${k}</span></div>`;
+  $("evm-stats").innerHTML=st("PV (planned value)",money(pv))+st("EV (earned value)",money(ev))+st("AC (actual cost)",money(ac))+st("CV = EV − AC",money(cv),cv>=0)+st("SV = EV − PV",money(sv),sv>=0)+st("CPI = EV ÷ AC",f(cpi),cpi>=1)+st("SPI = EV ÷ PV",f(spi),spi>=1)+st("EAC = BAC ÷ CPI",m(eac))+st("ETC = EAC − AC",m(etc))+st("VAC = BAC − EAC",m(vac),vac>=0)+st("TCPI",f(tcpi),tcpi<=1);
+  let txt=[];
+  if(isFinite(cpi))txt.push(cpi>=1?`Under budget (CPI ${f(cpi)}): every $1 spent is earning $${cpi.toFixed(2)} of planned work.`:`Over budget (CPI ${f(cpi)}): every $1 spent earns only $${cpi.toFixed(2)} of planned work.`);
+  if(isFinite(spi))txt.push(spi>=1?`Ahead of or on schedule (SPI ${f(spi)}).`:`Behind schedule (SPI ${f(spi)}): ${Math.round(spi*100)}% of the planned work is done.`);
+  if(isFinite(eac))txt.push(`At this rate the project finishes at ${money(eac)}, ${vac>=0?money(vac)+" under":money(-vac)+" over"} budget.`);
+  if(isFinite(tcpi)&&tcpi>1)txt.push(`To still hit BAC, remaining work needs a CPI of ${f(tcpi)}.`);
+  $("evm-read").textContent=txt.join(" ")||"No cost spent yet.";
+  // chart
+  const L=56,R=544,T=14,B=214,x=wk=>L+(R-L)*wk/7,ymax=600000,y=v=>B-(B-T)*Math.min(v,ymax)/ymax;
+  let s="";
+  [0,150000,300000,450000,600000].forEach(v=>{s+=`<line x1="${L}" x2="${R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${v/1000}K</text>`});
+  for(let k=0;k<=7;k++)s+=`<text x="${x(k)}" y="${B+16}" font-size="10" text-anchor="middle" fill="var(--muted)">W${k}</text>`;
+  s+=`<line x1="${L}" x2="${R}" y1="${y(BAC)}" y2="${y(BAC)}" stroke="var(--muted)" stroke-dasharray="4 4"/><text x="${R}" y="${y(BAC)-5}" font-size="10" text-anchor="end" fill="var(--muted)">BAC $480K</text>`;
+  s+=`<polyline fill="none" stroke="var(--accent)" stroke-width="2.2" points="${PLAN.map((p,k)=>x(k)+","+y(BAC*p)).join(" ")}"/>`;
+  s+=`<line x1="${x(w)}" x2="${x(w)}" y1="${T}" y2="${B}" stroke="var(--ink)" stroke-dasharray="2 3"/>`;
+  s+=`<circle cx="${x(w)}" cy="${y(pv)}" r="5" fill="var(--accent)"/><circle cx="${x(w)}" cy="${y(ev)}" r="5" fill="var(--good)"/><circle cx="${x(w)}" cy="${y(ac)}" r="5" fill="var(--bad)"/>`;
+  s+=`<g font-size="11"><rect x="${L+6}" y="${T+2}" width="10" height="3" fill="var(--accent)"/><text x="${L+20}" y="${T+7}" fill="var(--ink)">PV</text><circle cx="${L+56}" cy="${T+4}" r="4" fill="var(--good)"/><text x="${L+64}" y="${T+7}" fill="var(--ink)">EV</text><circle cx="${L+98}" cy="${T+4}" r="4" fill="var(--bad)"/><text x="${L+106}" y="${T+7}" fill="var(--ink)">AC</text></g>`;
+  $("evm-chart").innerHTML=s;
+}
+["evm-w","evm-pc","evm-ac"].forEach(i=>$(i).addEventListener("input",evm)); evm();
+
+// ---------- channels ----------
+function chan(){const a=+$("ch-a").value,b=+$("ch-b").value,ca=a*(a-1)/2,cb=b*(b-1)/2;
+  $("ch-av").textContent=a;$("ch-bv").textContent=b;
+  $("ch-out").innerHTML=`<div class="stat"><span class="v">${ca}</span><span class="k">Channels with ${a} people</span></div><div class="stat"><span class="v">${cb}</span><span class="k">Channels with ${b} people</span></div><div class="stat ${cb>ca?"bad":"good"}"><span class="v">${cb-ca>=0?"+":""}${cb-ca}</span><span class="k">Change in channels</span></div>`;
+  const n=Math.min(b,30),pts=[...Array(n)].map((_,k)=>[150+120*Math.cos(2*Math.PI*k/n-Math.PI/2),150+120*Math.sin(2*Math.PI*k/n-Math.PI/2)]);
+  let s="";for(let i=0;i<n;i++)for(let j=i+1;j<n;j++)s+=`<line x1="${pts[i][0]}" y1="${pts[i][1]}" x2="${pts[j][0]}" y2="${pts[j][1]}" stroke="var(--accent)" stroke-opacity="${n>16?.18:.4}"/>`;
+  pts.forEach(p=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="var(--paper)" stroke="var(--ink)"/>`);
+  $("ch-svg").innerHTML=s;}
+["ch-a","ch-b"].forEach(i=>$(i).addEventListener("input",chan)); chan();
+
+// ---------- burndown ----------
+const BD=[
+  {k:"On track",d:[40,37,33,30,26,22,18,14,10,5,0],r:"Actual tracks the ideal line closely. The team estimated well and finished all committed work. Nothing to fix, just keep the cadence."},
+  {k:"Scope added mid-sprint",d:[40,36,32,28,38,34,30,25,20,14,8],r:"The line jumps up on day 4: new work entered the sprint. The team ends with 8 points undone. In Scrum, new work goes to the product backlog and the Product Owner orders it for a later sprint, rather than being pushed into the current sprint."},
+  {k:"Blocked",d:[40,39,39,39,38,38,30,22,15,9,4],r:"Flat for days 1–5, then a steep drop. Something blocked the team (a dependency or environment issue). The Scrum Master should have surfaced and removed the impediment at the first daily scrum it appeared."},
+  {k:"Hockey stick",d:[40,40,40,40,38,38,35,30,20,10,0],r:"Little is finished until late in the sprint. Stories are probably too large, so nothing reaches done until the end. Slice stories smaller (the S in INVEST) so value is finished steadily."},
+  {k:"Finished early",d:[40,34,28,22,16,10,5,0,0,0,0],r:"All work done by day 7. The team under-committed or over-estimated. Use this sprint's actual velocity in the next sprint planning and pull in more work."},
+];
+let bdSel=0;
+function bd(){
+  $("bd-pick").innerHTML=BD.map((b,i)=>`<button class="btn ${i===bdSel?"":"ghost"}" data-i="${i}">${b.k}</button>`).join("");
+  $("bd-pick").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{bdSel=+b.dataset.i;bd()}));
+  const d=BD[bdSel].d,L=44,R=544,T=14,B=224,x=k=>L+(R-L)*k/10,ymax=50,y=v=>B-(B-T)*v/ymax;
+  let s="";[0,10,20,30,40,50].forEach(v=>s+=`<line x1="${L}" x2="${R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${y(v)+4}" font-size="10" text-anchor="end" fill="var(--muted)">${v}</text>`);
+  for(let k=0;k<=10;k++)s+=`<text x="${x(k)}" y="${B+16}" font-size="10" text-anchor="middle" fill="var(--muted)">D${k}</text>`;
+  s+=`<text x="${L}" y="${T-2}" font-size="10" fill="var(--muted)">Story points remaining</text>`;
+  s+=`<line x1="${x(0)}" y1="${y(40)}" x2="${x(10)}" y2="${y(0)}" stroke="var(--muted)" stroke-dasharray="5 4" stroke-width="1.5"/>`;
+  s+=`<polyline fill="none" stroke="var(--accent)" stroke-width="2.4" points="${d.map((v,k)=>x(k)+","+y(v)).join(" ")}"/>`;
+  d.forEach((v,k)=>s+=`<circle cx="${x(k)}" cy="${y(v)}" r="3" fill="var(--accent)"/>`);
+  s+=`<g font-size="11"><line x1="${R-150}" x2="${R-132}" y1="${T+6}" y2="${T+6}" stroke="var(--muted)" stroke-dasharray="5 4"/><text x="${R-128}" y="${T+10}" fill="var(--ink)">Ideal</text><line x1="${R-80}" x2="${R-62}" y1="${T+6}" y2="${T+6}" stroke="var(--accent)" stroke-width="2.4"/><text x="${R-58}" y="${T+10}" fill="var(--ink)">Actual</text></g>`;
+  $("bd-chart").innerHTML=s; $("bd-read").textContent=BD[bdSel].r;
+}
+bd();
+
+// ---------- kanban ----------
+let kb;
+function kbReset(){kb={day:0,backlog:[...Array(30)].map((_,i)=>({id:i+1})),build:[],test:[],done:[],blocked:false}; kbDraw()}
+function kbStep(){
+  const lim=$("kb-limit").checked; kb.day++;
+  // test finishes work (swarming adds a helper when limits are on and builders are blocked)
+  const testCap=1+(lim&&kb.blocked?1:0);
+  for(let k=0;k<testCap&&kb.test.length;k++){const it=kb.test.shift();it.end=kb.day;kb.done.push(it)}
+  // build finishes up to 2, but with limits only into free Test slots
+  let room=lim?2-kb.test.length:Infinity, moved=0, ready=Math.min(2,kb.build.length);
+  for(let k=0;k<ready&&moved<room;k++){kb.test.push(kb.build.shift());moved++}
+  kb.blocked=lim&&moved<ready;
+  // pull new work: without limits start 2 a day regardless; with limits fill Build to 3 (none if blocked)
+  const pull=lim?(kb.blocked?0:Math.max(0,3-kb.build.length)):2;
+  for(let k=0;k<pull&&kb.backlog.length;k++){const it=kb.backlog.shift();it.start=kb.day;kb.build.push(it)}
+  kbDraw();
+}
+function kbDraw(){
+  const lim=$("kb-limit").checked;
+  const col=(name,arr,max,done)=>`<div class="col ${max&&arr.length>max?"over":""}"><div class="h"><span>${name}</span><span>${arr.length}${max?" / "+max:""}</span></div><div class="dots">${arr.map(()=>`<span class="dot ${done?"done":""}"></span>`).join("")}</div></div>`;
+  $("kb-board").innerHTML=col("Backlog",kb.backlog,0)+col("Build",kb.build,lim?3:0)+col("Test",kb.test,lim?2:0)+col("Done",kb.done,0,true);
+  const ct=kb.done.length?kb.done.reduce((s,i)=>s+(i.end-i.start+1),0)/kb.done.length:0;
+  const wip=kb.build.length+kb.test.length;
+  $("kb-stats").innerHTML=`<div class="stat"><span class="v">${kb.day}</span><span class="k">Day</span></div><div class="stat"><span class="v">${kb.done.length}</span><span class="k">Items done (throughput)</span></div><div class="stat ${wip>5?"bad":"good"}"><span class="v">${wip}</span><span class="k">Work in progress</span></div><div class="stat"><span class="v">${ct?ct.toFixed(1)+" d":"—"}</span><span class="k">Avg cycle time</span></div>`;
+  $("kb-read").textContent=kb.day===0?"Day 0. Press Next day, or run to day 12, then compare with limits on.":lim?"With WIP limits, builders stop starting new items when Test is full and help test instead. Less work sits waiting, so each item finishes sooner.":"Without limits, builders keep starting work the tester can't absorb. Test becomes the bottleneck, WIP keeps climbing, and every item waits longer.";
+  $("kb-step").disabled=kb.backlog.length+wip===0;
+}
+$("kb-step").addEventListener("click",kbStep);
+$("kb-run").addEventListener("click",()=>{while(kb.day<12)kbStep()});
+$("kb-reset").addEventListener("click",kbReset);
+$("kb-limit").addEventListener("change",kbReset);
+kbReset();
+
+// ---------- requirement sort ----------
+const TYPES=["Business","Stakeholder","Solution: functional","Solution: non-functional","Transition"];
+const REQS=[
+  {t:"Reduce weekly status reporting effort by 75% across the site.",a:0,e:"A high-level organizational goal, the reason the project exists."},
+  {t:"DC techs need to update rack status without returning to a desk.",a:1,e:"A need of one stakeholder group, stated in their terms."},
+  {t:"The app shall let a user attach a PDF test report to a rack record.",a:2,e:"Describes a behavior the solution performs."},
+  {t:"The dashboard shall refresh within 60 seconds of any update.",a:3,e:"A quality attribute (performance), how well the solution works."},
+  {t:"Import the existing rack spreadsheet into the app once at go-live.",a:4,e:"Needed only to move from the current state to the future state."},
+  {t:"Train all three shifts on the app before cutover.",a:4,e:"Training for go-live is a classic transition requirement."},
+  {t:"Only the assigned tech can mark their rack's steps complete.",a:3,e:"Security and access control are non-functional (quality) requirements."},
+];
+const ans={};
+function sortDraw(){
+  const done=Object.keys(ans).length, right=Object.entries(ans).filter(([k,v])=>REQS[k].a===v).length;
+  let h=`<div class="row" style="justify-content:space-between"><span class="eyebrow">${done} of ${REQS.length} answered</span><span class="mono">${right} correct</span></div>`;
+  REQS.forEach((r,k)=>{const a=ans[k];
+    h+=`<div class="sort-item"><p>${esc(r.t)}</p><div class="opts">${TYPES.map((t,i)=>`<button data-k="${k}" data-i="${i}" class="${a===undefined?"":i===r.a?"best":i===a?"no":""}"${a!==undefined?" disabled":""}>${t}</button>`).join("")}</div>${a!==undefined?`<p class="fb ${a===r.a?"good":"bad"}">${a===r.a?"Correct. ":"It's "+TYPES[r.a]+". "}${esc(r.e)}</p>`:""}</div>`});
+  if(done===REQS.length)h+=`<div class="row"><button class="btn ghost" id="sort-again">Try again</button></div>`;
+  $("sort").innerHTML=h;
+  $("sort").querySelectorAll(".opts button").forEach(b=>b.addEventListener("click",()=>{ans[b.dataset.k]=+b.dataset.i;sortDraw()}));
+  $("sort-again")?.addEventListener("click",()=>{for(const k in ans)delete ans[k];sortDraw()});
+}
+sortDraw();
+
+// ---------- scenarios ----------
+const SC=[
+  {s:"During rack installation, the customer walks the floor and asks Sam, the tech lead, to add two more racks at positions 25–26 \"while the crew is already here.\" Sam tells you. What should you do first?",
+   c:[["Have the crew install them; the customer is paying",0,"That's scope creep. Uncontrolled changes skip impact analysis and can blow up schedule, cost and risk."],
+      ["Politely refuse because the scope is baselined",0,"Baselines can change, through the process. Refusing outright ignores a legitimate business need."],
+      ["Analyze the impact, then submit a change request to the change control board",1,"Right. Assess impact on scope, schedule, cost, risk and quality, then let the CCB decide. This is exactly how CR-01 played out."],
+      ["Escalate to the sponsor immediately",0,"Premature. The PM analyzes the change and uses the agreed change control process before escalating."]]},
+  {s:"The PDU vendor confirms it can ship only 8 of 24 PDUs on time. This was risk R1 on your register, with a planned response. What next?",
+   c:[["Implement the planned response and log the issue",1,"Right. The risk has occurred, so it's now an issue. Execute the planned response (order from the backup supplier), add it to the issue log, and update the risk register."],
+      ["Call a meeting to brainstorm options",0,"You already planned a response. Use it. Brainstorming wastes the work done in risk planning."],
+      ["Re-baseline the schedule for the delay",0,"Re-baselining needs an approved change and isn't the first step. The planned response may avoid most of the delay."],
+      ["Tell the customer the project will be late",0,"Communicate, yes, but first act on the plan. The response may keep you on schedule."]]},
+  {s:"You're the Scrum Master. The daily scrum keeps running 25 minutes because two developers debate the dashboard's data model. What should you do?",
+   c:[["Let it run; the discussion is valuable",0,"The daily scrum is time-boxed to 15 minutes. Long debates block everyone else."],
+      ["Decide the data model yourself to save time",0,"A Scrum Master facilitates; technical decisions belong to the developers."],
+      ["Keep the scrum to 15 minutes and have the two continue right after",1,"Right. Protect the time-box and take detailed problem-solving offline (a \"parking lot\") with only the people who need to be there."],
+      ["Ask the Product Owner to resolve it",0,"The data model is a developer decision. The PO owns what to build and its order, not how."]]},
+  {s:"Two senior techs strongly disagree about how fiber should be routed in the overhead tray, and it's starting to affect the crew. What's the best first step?",
+   c:[["Tell them to follow the network lead's standard",0,"That's forcing. It ends the argument but not the disagreement, and can damage the relationship."],
+      ["Meet with both, examine the options together, and agree on a solution",1,"Right. Collaborating (problem solving) addresses the root cause and gets commitment. Start at the lowest level, directly with the people involved."],
+      ["Separate them onto different shifts",0,"Withdrawing or avoiding. The disagreement and its technical question remain unresolved."],
+      ["Report them to their manager",0,"Escalation comes after the PM tries to resolve it with the people involved."]]},
+  {s:"In a requirements workshop, the operations manager says, \"The dashboard just has to be fast.\" As the BA, what do you do?",
+   c:[["Write it down as stated; the stakeholder knows what they want",0,"\"Fast\" can't be tested, so it can't be verified or accepted."],
+      ["Ask what fast means in practice and agree on a measurable criterion",1,"Right. Turn it into a testable non-functional requirement, like \"refreshes within 60 seconds\" (NFR-1 in the RTM)."],
+      ["Leave it out since it's not a functional requirement",0,"Non-functional requirements matter just as much. Performance often decides whether people adopt the tool."],
+      ["Let the developers decide what's fast enough",0,"Acceptance belongs to stakeholders. The BA's job is to elicit and clarify their expectation."]]},
+  {s:"Halfway through, your status report shows CPI 0.86 and SPI 1.05. What does this tell the sponsor?",
+   c:[["Over budget and behind schedule",0,"SPI above 1.0 means ahead of schedule."],
+      ["Under budget and ahead of schedule",0,"CPI below 1.0 means over budget."],
+      ["Over budget but ahead of schedule",1,"Right. CPI < 1 is over budget, SPI > 1 is ahead. Possibly the team spent extra (overtime, expedited shipping) to gain time. Look into the cause."],
+      ["Not enough information",0,"CPI and SPI are enough to state cost and schedule status."]]},
+];
+let si=0, sScore=0, sDone=false;
+function scen(){
+  const box=$("scen");
+  if(si>=SC.length){box.innerHTML=`<h3>You got ${sScore} of ${SC.length}</h3><p>${sScore===SC.length?"Clean sweep. You're thinking like PMI.":"Review the explanations. Most misses come from acting before analyzing or skipping the agreed process."}</p><div class="row"><button class="btn" id="sc-again">Start over</button></div>`;
+    $("sc-again").addEventListener("click",()=>{si=0;sScore=0;sDone=false;scen()});return}
+  const q=SC[si];
+  box.innerHTML=`<div class="row" style="justify-content:space-between"><span class="eyebrow">Scenario ${si+1} of ${SC.length}</span><span class="mono">${sScore} correct</span></div><p style="font-size:1.05rem">${esc(q.s)}</p><div class="choices">${q.c.map((c,i)=>`<button class="choice" data-i="${i}">${esc(c[0])}</button>`).join("")}</div><div id="sc-fb"></div>`;
+  sDone=false;
+  box.querySelectorAll(".choice").forEach(b=>b.addEventListener("click",()=>{
+    if(sDone)return; sDone=true; const i=+b.dataset.i, ok=q.c[i][1]===1; if(ok)sScore++;
+    box.querySelectorAll(".choice").forEach((x,j)=>{if(q.c[j][1])x.classList.add("best");else if(j===i)x.classList.add("no")});
+    const best=q.c.find(c=>c[1]);
+    $("sc-fb").innerHTML=`<div class="stack"><p class="fb ${ok?"good":"bad"}">${esc(ok?q.c[i][2]:q.c[i][2]+" Best answer: "+best[0]+". "+best[2])}</p><div class="row"><button class="btn" id="sc-next">${si===SC.length-1?"See score":"Next scenario"}</button></div></div>`;
+    $("sc-next").addEventListener("click",()=>{si++;scen()});
+  }));
+}
+scen();
+</script>
+
+</body>
+</html>
