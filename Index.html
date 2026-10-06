@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Free CAPM study kit: a lesson for every exam-outline task, a fully documented example project with simulators, and two 150-question timed mock exams.">
+<meta name="description" content="Free CAPM study kit: lessons for every exam-outline task, 624 flashcards, two 150-question timed mock exams, and a fully documented example project.">
 <style>
 :root{color-scheme:light}
 body{margin:0;-webkit-text-size-adjust:100%}
@@ -246,6 +246,35 @@ article>*,.doc>*,.sim>*,.explain>*{min-width:0}
 .sec-intro{display:grid;gap:10px}
 .sec-intro p{max-width:65ch}
 #hub{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+
+#hub{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.fc-controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.fc-controls label{display:flex;gap:6px;align-items:center;font-size:.92rem}
+.fc-controls select{width:auto}
+.fc-controls .chk input{width:17px;height:17px;accent-color:var(--accent)}
+.fc-prog{display:grid;gap:4px}
+.fc-stage{display:grid;gap:12px}
+.fc-card{all:unset;box-sizing:border-box;cursor:pointer;display:grid;place-items:center;align-content:center;gap:10px;text-align:center;min-height:240px;padding:26px 20px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 0 var(--line);width:100%}
+.fc-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.fc-card.flipped{background:var(--accent-soft);border-color:var(--accent)}
+.fc-side{font:500 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fc-text.term{font:700 clamp(1.4rem,5vw,1.9rem)/1.2 var(--display);color:var(--ink);text-wrap:balance}
+.fc-text.def{font-size:1.08rem;line-height:1.5;max-width:46ch;color:var(--ink)}
+.fc-hint{font-size:.8rem;color:var(--muted)}
+.fc-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fc-actions .btn{padding:12px}
+.fc-done{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:8px;text-align:center;justify-items:center}
+.fc-browse{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:8px}
+.fc-browse summary{cursor:pointer;font-weight:600}
+.fc-browse input[type=search]{font:inherit;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);width:100%;margin-block:6px}
+.fc-list{margin:0;display:grid;gap:0}
+.fc-row{display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:4px 14px;padding-block:8px;border-bottom:1px solid var(--line)}
+.fc-row dt{font-weight:700}.fc-row dd{margin:0}
+.fc-k{color:var(--good)}
+@media (max-width:520px){.fc-row{grid-template-columns:1fr}.fc-keys{display:none}}
+#hub{grid-template-columns:1fr}
+@media (min-width:600px){#hub{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fc-card{min-height:210px}
 </style>
 </head>
 <body>
@@ -256,7 +285,7 @@ article>*,.doc>*,.sim>*,.explain>*{min-width:0}
   <span class="eyebrow">CAPM exam prep</span>
   <h1>CAPM Field Kit</h1>
 </header>
-<nav class="tabs" id="tabs" aria-label="Sections"><button data-tab="home">Home</button><button data-tab="project">The Project</button><button data-tab="study">Study Guide</button><button data-tab="exams">Exams</button></nav>
+<nav class="tabs" id="tabs" aria-label="Sections"><button data-tab="home">Home</button><button data-tab="study">Study Guide</button><button data-tab="flash">Flashcards</button><button data-tab="exams">Exams</button><button data-tab="project">The Project</button></nav>
 
 <div id="home"><section class="hub" id="hub" aria-label="Sections"></section></div>
 <div id="contents" hidden></div>
@@ -1827,9 +1856,11 @@ function renderHub(){
   document.querySelectorAll("[data-tag]").forEach(t=>t.hidden=!studied[t.dataset.tag]);
   const studyMeter=`<div class="meter"><i style="width:${done/LESSONS.length*100}%"></i></div><p class="note">${done} of ${LESSONS.length} tasks studied</p>`;
   const examLine=inProg?`${MODES[ex.mode].label} in progress · ${Object.keys(ex.ans).length}/${ex.order.length} answered · ${fmt(ex.remaining)} left`:`Exam A: ${la?la.pct+"%":"not taken"} · Exam B: ${lb?lb.pct+"%":"not taken"}`;
-  h.innerHTML=`<button class="sec-card" data-tab="project"><span class="eyebrow">Section 1</span><span class="sec-title">The Project</span><span class="sec-desc">One datacenter project from business case to lessons learned. ${pa.length-sims} filled-in documents and ${sims} interactive simulators.</span><span class="sec-go">Open The Project →</span></button>
-  <button class="sec-card" data-tab="study"><span class="eyebrow">Section 2</span><span class="sec-title">Study Guide</span><span class="sec-desc">A lesson for every task on PMI's exam outline.</span>${studyMeter}<span class="sec-go">Open the Study Guide →</span></button>
-  <button class="sec-card" data-tab="exams"><span class="eyebrow">Section 3</span><span class="sec-title">Exams</span><span class="sec-desc">Two 150-question mock exams, a Quick 50, and situational practice.</span><p class="note">${examLine}</p><span class="sec-go">Open Exams →</span></button>`;
+  const ft=flashTotals();
+  h.innerHTML=`<button class="sec-card" data-tab="study"><span class="eyebrow">Step 1</span><span class="sec-title">Study Guide</span><span class="sec-desc">A lesson for every task on PMI's exam outline.</span>${studyMeter}<span class="sec-go">Open the Study Guide →</span></button>
+  <button class="sec-card" data-tab="flash"><span class="eyebrow">Step 2</span><span class="sec-title">Flashcards</span><span class="sec-desc">${ft.t} cards: the full glossary, formulas, look-alikes and more.</span><div class="meter"><i style="width:${ft.k/ft.t*100}%"></i></div><p class="note">${ft.k} of ${ft.t} cards known</p><span class="sec-go">Open Flashcards →</span></button>
+  <button class="sec-card" data-tab="exams"><span class="eyebrow">Step 3</span><span class="sec-title">Exams</span><span class="sec-desc">Two 150-question mock exams, a Quick 50, and situational practice.</span><p class="note">${examLine}</p><span class="sec-go">Open Exams →</span></button>
+  <button class="sec-card" data-tab="project"><span class="eyebrow">Step 4</span><span class="sec-title">The Project</span><span class="sec-desc">Tie it all together: one datacenter project from business case to lessons learned, with ${pa.length-sims} filled-in documents and ${sims} simulators.</span><span class="sec-go">Open The Project →</span></button>`;
   const xs=$("sec-extra-study");
   if(xs)xs.innerHTML=`<div class="hub-card">${studyMeter}<div class="row"><button class="btn" data-open="${next.id}">${done?"Continue":"Start"}: ${next.n} ${esc(next.title)}</button></div></div>`;
   const xe=$("sec-extra-exams");
@@ -1981,17 +2012,699 @@ document.querySelectorAll("#articles article").forEach(a=>{
   a.querySelector("h2").after(box);
 });
 
+// ---------- Flashcard decks: [front, back, tag] tag: F P A B (exam domains) or G (general) ----------
+const FLASH_DECKS=[
+{id:"fc-glossary",title:"Glossary A–Z",desc:"Every key term on the CAPM, with a plain definition. Filter by domain or search.",cards:[
+["100% rule","The WBS must include all of the project's work, and nothing outside it. Children add up to exactly the parent.","P"],
+["100-point method","Prioritization where each stakeholder splits 100 points across items to show relative importance.","A"],
+["Acceptance criteria","Specific, testable conditions a deliverable or user story must meet to be accepted.","B"],
+["Accept (risk response)","Acknowledge a risk and take no action unless it occurs (passive), or set aside reserve for it (active).","F"],
+["Active listening","Listening to fully understand: paraphrasing, asking questions and confirming meaning.","F"],
+["Activity","A distinct, scheduled piece of work with a duration, created by decomposing work packages.","P"],
+["Activity list","The full list of scheduled activities with identifiers and descriptions.","P"],
+["Actual cost (AC)","The cost actually incurred for work performed during a period.","P"],
+["Adaptive approach","A development approach where requirements evolve and work is delivered in short iterations with frequent feedback (agile).","A"],
+["Affinity diagram","Groups many ideas into themes based on similarity.","F"],
+["Affinity estimating","Quickly grouping backlog items of similar size together to estimate them.","A"],
+["Agile Manifesto","Four values and 12 principles that define agile ways of working (2001).","A"],
+["Agile Release Train (ART)","In SAFe, a long-lived team of agile teams that plans and delivers together.","A"],
+["Analogous estimating","Estimating using data from a similar past project. Fast, top-down, less accurate.","P"],
+["Appraisal costs","Cost of quality spent checking for defects: inspections, testing, audits.","P"],
+["As-is / to-be","Models of the current process (as-is) and the desired future process (to-be).","B"],
+["Assumption","Something treated as true for planning without proof. Should be validated.","F"],
+["Assumption log","Records assumptions and constraints throughout the project.","F"],
+["Audit (quality)","A structured review to check whether project activities follow policies and processes.","P"],
+["Avoid (risk response)","Change the plan to eliminate a threat or shield objectives from it entirely.","F"],
+["Backlog refinement","Ongoing work to clarify, split, estimate and order backlog items.","A"],
+["Backward pass","Calculating late start and late finish dates by working back from the project end.","P"],
+["Baseline","The approved version of a plan (scope, schedule or cost), changed only through change control.","P"],
+["Basis of estimates","Supporting detail that explains how an estimate was developed.","P"],
+["Benchmarking","Comparing practices or products to others to find best practices or set targets.","B"],
+["Benefit-cost ratio (BCR)","Benefits divided by costs. Above 1 means benefits outweigh costs.","F"],
+["Benefits management plan","Describes how and when project benefits will be delivered and measured, and who owns them.","F"],
+["Benefits owner","The person accountable for realizing and measuring benefits, often after the project ends.","F"],
+["Bottom-up estimating","Estimating each work package or activity and adding them up. Most accurate, most effort.","P"],
+["Brainstorming","Group technique to generate many ideas quickly without judging them.","F"],
+["Brainwriting","Each person writes ideas independently before the group shares them.","F"],
+["Budget at completion (BAC)","The total approved budget for the work.","P"],
+["Burndown chart","Shows work remaining over time in an iteration or release.","A"],
+["Burnup chart","Shows work completed over time against total scope, making scope changes visible.","A"],
+["Business analysis","Work that enables change by defining needs and recommending solutions that deliver value.","B"],
+["Business analyst (BA)","Elicits, analyzes and manages requirements and helps ensure the solution delivers value.","B"],
+["Business case","Document that justifies a project by comparing options, costs and benefits.","F"],
+["Business requirement","A high-level need of the organization: why the project is being done.","B"],
+["Business rules catalog","A list of the policies and rules a solution must enforce.","B"],
+["Business value","The net benefit an organization gains from a project, tangible or intangible.","F"],
+["Capacity","How much work a team can take on in an iteration, given availability.","A"],
+["Cause-and-effect diagram","See fishbone diagram. Sorts possible causes of a problem into categories.","F"],
+["Change control","The process of reviewing, approving or rejecting, and recording changes to baselines.","P"],
+["Change control board (CCB)","The group responsible for reviewing and deciding on change requests.","P"],
+["Change log","A record of all change requests and their status and decisions.","P"],
+["Change management plan","Describes how change requests will be submitted, evaluated and controlled.","P"],
+["Change request","A formal proposal to modify a document, deliverable or baseline.","P"],
+["Checklist","A list of items to verify, used to make sure steps or quality checks are completed.","P"],
+["Closing process group","Processes to formally complete or close a project or phase.","F"],
+["Coaching","Developing someone's skills and performance through guidance and feedback.","F"],
+["Code of Ethics and Professional Conduct","PMI's standard based on four values: responsibility, respect, fairness and honesty.","F"],
+["Coercive power","Power based on the ability to punish. Least effective long term.","F"],
+["Colocation","Placing team members in the same physical space to improve communication.","A"],
+["Communication channels","Number of possible two-way links in a group: n(n − 1) ÷ 2.","F"],
+["Communications management plan","Defines who needs what information, when, how and from whom.","F"],
+["Compromise","Conflict technique where each side gives up something. Lose-lose but quick.","F"],
+["Configuration management","Controlling the versions and specifications of deliverables and documents.","P"],
+["Conflict of interest","A situation where personal interests could improperly influence decisions. Must be disclosed.","F"],
+["Constraint","A limit the project must work within, such as a fixed budget, date or regulation.","F"],
+["Context diagram","Shows a system's scope and its interactions with external people and systems.","B"],
+["Contingency plan","A response planned in advance to be used if a specific risk occurs.","F"],
+["Contingency reserve","Time or money set aside for identified risks. Within the PM's authority.","F"],
+["Continuous integration","Merging and testing code changes frequently, often several times a day (XP).","A"],
+["Control account","A management point in the WBS where scope, cost and schedule are integrated and tracked.","P"],
+["Control chart","Shows process data over time against control limits to judge whether a process is stable.","P"],
+["Control limits","Upper and lower boundaries on a control chart that show expected variation.","P"],
+["Control Quality","Monitoring deliverables to verify they meet quality requirements.","P"],
+["Cost baseline","The approved, time-phased budget, excluding management reserve.","P"],
+["Cost of delay","The value lost by delaying a feature or decision.","A"],
+["Cost of quality (COQ)","Total cost of conformance (prevention + appraisal) and nonconformance (internal + external failure).","P"],
+["Cost performance index (CPI)","EV ÷ AC. Below 1 means over budget.","P"],
+["Cost-reimbursable contract","Seller is paid actual costs plus a fee. Buyer carries more cost risk.","P"],
+["Cost variance (CV)","EV − AC. Negative means over budget.","P"],
+["Crashing","Shortening the schedule by adding resources to critical activities, usually at extra cost.","P"],
+["Critical path","The longest path through the schedule network; it sets the shortest possible duration.","P"],
+["Critical path method (CPM)","Finding the critical path and float using forward and backward passes.","P"],
+["Cross-functional team","A team with all the skills needed to deliver a working increment.","A"],
+["Crystal","A family of agile methods scaled by team size and criticality.","A"],
+["Cumulative flow diagram (CFD)","Stacked chart of work in each state over time. Widening bands show bottlenecks.","A"],
+["Customer","The person or group that will use or pay for the project's result.","B"],
+["Cycle time","Time from when work starts on an item until it's done.","A"],
+["Daily scrum","15-minute daily event for developers to inspect progress and plan the next 24 hours.","A"],
+["Data flow diagram","Shows how data moves between processes, stores and external entities.","B"],
+["Decision table","A table showing combinations of conditions and the resulting actions.","B"],
+["Decision tree","A diagram of choices and possible outcomes, often with probabilities and values.","B"],
+["Decomposition","Breaking work into smaller, more manageable parts.","P"],
+["Definition of Done (DoD)","Shared checklist every increment or item must meet to be considered complete.","A"],
+["Definition of Ready (DoR)","Criteria a backlog item must meet before the team pulls it into an iteration.","A"],
+["Deliverable","Any unique, verifiable product, result or capability produced to complete a project or phase.","F"],
+["Delphi technique","Anonymous rounds of expert input to reach consensus without dominant personalities.","F"],
+["Dependency","A logical relationship between activities, such as finish-to-start.","P"],
+["Developers (Scrum)","The people in the Scrum team who create the increment each sprint.","A"],
+["Development approach","The method used to create the product: predictive, iterative, incremental, adaptive or hybrid.","F"],
+["Discretionary dependency","A preferred sequence based on best practice, not physical necessity. Also called soft logic.","P"],
+["Document analysis","Eliciting requirements by reviewing existing documents, systems and regulations.","B"],
+["Dot voting","Each person places a set number of dots on the items they favor.","A"],
+["DSDM","Dynamic Systems Development Method. Fixes time and cost, flexes scope; source of MoSCoW.","A"],
+["Duration","The total working time needed to complete an activity, in calendar or work periods.","F"],
+["Earned value (EV)","The budgeted value of the work actually completed.","P"],
+["Earned value management (EVM)","Measuring project performance by comparing planned value, earned value and actual cost.","P"],
+["Effort","The number of labor units (such as hours) needed to complete work.","F"],
+["Elicitation","Drawing out information and requirements from stakeholders and other sources.","B"],
+["Emotional intelligence (EQ)","Ability to recognize and manage your own emotions and understand others'.","F"],
+["End user","The person who directly uses the solution.","B"],
+["Enhance (opportunity)","Increase the probability or impact of an opportunity.","F"],
+["Enterprise environmental factors (EEFs)","Conditions outside the team's control that influence the project, such as culture or regulations.","F"],
+["Epic","A large body of work that is split into features or user stories.","A"],
+["Escalate (risk response)","Pass a threat or opportunity to a higher level when it's outside the project's authority.","F"],
+["Escalation path","The agreed route for raising issues beyond the PM's authority.","F"],
+["Estimate at completion (EAC)","Forecast of the total cost at completion. Typical formula: BAC ÷ CPI.","P"],
+["Estimate to complete (ETC)","Forecast of the cost still needed: EAC − AC.","P"],
+["Executing process group","Processes to complete the work defined in the plan.","F"],
+["Expert power","Power based on knowledge and skill.","F"],
+["Exploit (opportunity)","Take action to make sure an opportunity happens.","F"],
+["External dependency","A relationship with something outside the project, like a permit or vendor delivery.","P"],
+["External failure costs","Cost of defects found by the customer: warranty, returns, reputation. The most expensive.","P"],
+["External stakeholder","A stakeholder outside the performing organization, such as a regulator or vendor.","B"],
+["Extreme Programming (XP)","Agile method focused on engineering practices like pair programming and test-driven development.","A"],
+["Facilitation","Guiding a group to reach decisions without dictating the outcome.","F"],
+["Fallback plan","A backup plan used if the primary risk response doesn't work.","F"],
+["Fast tracking","Shortening the schedule by doing activities in parallel that were planned in sequence. Adds risk.","P"],
+["Feature","A distinct piece of functionality that delivers value, usually made of several user stories.","A"],
+["Feature-Driven Development (FDD)","Agile method that plans and builds the product feature by feature.","A"],
+["Finish-to-finish (FF)","Successor can't finish until the predecessor finishes.","P"],
+["Finish-to-start (FS)","Successor can't start until the predecessor finishes. The most common dependency.","P"],
+["Fishbone diagram","Ishikawa diagram that sorts possible causes into categories to find root cause.","F"],
+["Fixed-price contract","Seller agrees to a set price for defined work. Seller carries the cost risk.","P"],
+["Float (slack)","How long an activity can be delayed without affecting the project end date (total float).","P"],
+["Focus group","Moderated discussion with prequalified stakeholders to learn their attitudes and expectations.","B"],
+["Forcing","Conflict technique where one view wins over others. Win-lose.","F"],
+["Forming","First Tuckman stage: team members meet and learn about the project.","F"],
+["Forward pass","Calculating early start and early finish dates from the project start.","P"],
+["Free float","How long an activity can be delayed without delaying the next activity.","P"],
+["Functional manager","Manages a department and its people; assigns staff to projects in a matrix.","F"],
+["Functional organization","Structure organized by department, where the PM has little authority.","P"],
+["Functional requirement","Describes what the solution must do: a behavior or function.","B"],
+["Gantt chart","Bar chart of activities against time showing start dates, durations and dependencies.","P"],
+["Gold plating","Adding features or extras the customer didn't ask for. Not recommended.","F"],
+["Grade","A category or rank given to products with the same use but different features.","P"],
+["Ground rules","Expectations for acceptable team behavior, often in the team charter.","F"],
+["Herzberg's theory","Hygiene factors (pay, conditions) prevent dissatisfaction; motivators (achievement, recognition) create satisfaction.","F"],
+["Histogram","Bar chart showing the frequency of data values.","P"],
+["Hybrid approach","A combination of predictive and adaptive elements in one project.","F"],
+["Ideal days","An estimate of work time without interruptions.","A"],
+["Impediment","Anything that slows or blocks the team.","A"],
+["Increment","A usable, done piece of product produced in an iteration.","A"],
+["Incremental life cycle","Delivers the product in usable pieces that add functionality over time.","F"],
+["Information radiator","A large, visible display of project information, such as a task board.","A"],
+["Initiating process group","Processes to define and authorize a new project or phase.","F"],
+["Integrated change control","Reviewing every change request for its effect on the whole project.","P"],
+["Interface analysis","Identifying where and how a solution interacts with other systems and users.","B"],
+["Internal failure costs","Cost of defects found before delivery: rework and scrap.","P"],
+["Internal stakeholder","A stakeholder inside the performing organization.","B"],
+["Interview","Eliciting information by talking directly with stakeholders, usually one-on-one.","B"],
+["INVEST","Good user stories are Independent, Negotiable, Valuable, Estimable, Small and Testable.","A"],
+["Issue","A current condition or problem that needs action.","F"],
+["Issue log","Records issues, owners, actions, due dates and status.","F"],
+["Iteration","A timeboxed cycle of development, usually 1–4 weeks.","A"],
+["Iterative life cycle","Refines the product through repeated cycles of feedback.","F"],
+["Joint application design (JAD)","A facilitated workshop where users and developers define requirements together.","B"],
+["Kanban","Flow-based agile method: visualize work, limit WIP, manage flow, no fixed iterations.","A"],
+["Kanban board","A visual board with columns for each stage of work.","A"],
+["Kano model","Classifies features as basic needs, performance features or delighters.","A"],
+["Kickoff meeting","Meeting at the start of execution to align the team and stakeholders on the plan.","F"],
+["Lag","A required waiting time between activities.","P"],
+["Laissez-faire leadership","Hands-off style that lets the team make decisions.","F"],
+["Lead","An overlap that lets a successor start before its predecessor finishes.","P"],
+["Lead time","Time from when a request is made until it's delivered.","A"],
+["Lean","Approach focused on maximizing value and eliminating waste.","A"],
+["Lessons learned","Knowledge gained from a project, captured throughout and archived at closure.","F"],
+["Lessons learned register","Records lessons as they're learned during the project.","F"],
+["Leveling (resource)","Adjusting dates to fix resource overallocation. Can extend the end date.","F"],
+["Life cycle (project)","The series of phases a project passes through from start to completion.","F"],
+["Make-or-buy analysis","Deciding whether to do work in-house or purchase it.","P"],
+["Management reserve","Budget held for unknown risks (unknown-unknowns). Requires sponsor approval to use.","F"],
+["Mandatory dependency","A sequence required by contract or the nature of the work. Also called hard logic.","P"],
+["Manage Quality","Turning the quality plan into executable activities; checking processes are followed (quality assurance).","P"],
+["Maslow's hierarchy","Needs from physiological to safety, social, esteem and self-actualization.","F"],
+["Matrix organization","Staff report to both a functional manager and a project manager. Weak, balanced or strong.","P"],
+["McGregor's Theory X and Y","X assumes people avoid work and need control; Y assumes people are self-motivated.","F"],
+["Mind mapping","Visually connecting ideas around a central topic.","F"],
+["Milestone","A significant point or event with zero duration.","F"],
+["Milestone chart","Shows key milestones and dates, without activity detail.","P"],
+["Minimum marketable feature (MMF)","The smallest feature that delivers value to users on its own.","B"],
+["Minimum viable product (MVP)","The smallest product version that delivers value and generates learning.","B"],
+["Mitigate (risk response)","Reduce the probability or impact of a threat.","F"],
+["Monitoring and Controlling process group","Processes to track, review and regulate progress and manage changes.","F"],
+["MoSCoW","Prioritization: Must have, Should have, Could have, Won't have (this time).","A"],
+["Multicriteria decision analysis","Evaluating options using weighted criteria.","F"],
+["Near-critical path","A path with very little float that could easily become critical.","P"],
+["Net present value (NPV)","Value of future cash flows in today's money minus the investment. Higher is better.","F"],
+["Network diagram","Shows activities and their logical dependencies.","P"],
+["Noise","Anything that interferes with a message being understood.","B"],
+["Nominal group technique","Brainstorming followed by voting and ranking so everyone's input counts.","F"],
+["Non-functional requirement","Describes how well a solution performs: speed, security, usability, reliability.","B"],
+["Norming","Tuckman stage where the team agrees on how to work together.","F"],
+["Observation (job shadowing)","Watching people do their work to learn requirements they may not express.","B"],
+["Onion diagram","Shows stakeholders in layers from the solution outward to external groups.","B"],
+["Operations","Ongoing, repetitive work that sustains the organization.","F"],
+["Opportunity","A risk with a positive effect on objectives.","F"],
+["Opportunity cost","The value of the option you give up when choosing another.","F"],
+["Organizational change management","Helping people move to the new way of working so the change lasts.","F"],
+["Organizational process assets (OPAs)","An organization's own plans, processes, templates and knowledge bases.","F"],
+["Pair programming","Two developers working together at one workstation (XP).","A"],
+["Parametric estimating","Estimating using a rate × quantity relationship, such as cost per rack × number of racks.","P"],
+["Pareto chart","Bar chart ordered by frequency to show the few causes behind most problems (80/20).","F"],
+["Parking lot","A list for off-topic items to handle after a meeting.","F"],
+["Payback period","How long until a project's benefits repay its cost. Shorter is better.","F"],
+["Performance domains","PMBOK 7's eight areas: stakeholders, team, development approach and life cycle, planning, project work, delivery, measurement, uncertainty.","F"],
+["Performance measurement baseline","The integrated scope, schedule and cost baselines used to measure performance.","P"],
+["Performing","Tuckman stage where the team works effectively and independently.","F"],
+["PI Planning","Program Increment planning in SAFe, where all teams on a release train plan together.","A"],
+["Plan-Do-Check-Act (PDCA)","Deming's continuous improvement cycle.","P"],
+["Planned value (PV)","The authorized budget for the work scheduled to be done by a point in time.","P"],
+["Planning poker","Team estimating where everyone reveals estimates at once, then discusses differences.","A"],
+["Planning process group","Processes to establish scope, refine objectives and define how to achieve them.","F"],
+["PMO","Project management office. Supportive, controlling or directive.","F"],
+["Portfolio","Projects, programs and operations managed together to meet strategic objectives.","F"],
+["Power/interest grid","Groups stakeholders by power and interest to decide how to engage them.","F"],
+["Predictive approach","Plan-based approach where scope, time and cost are determined early (waterfall).","P"],
+["Prevention costs","Cost of quality spent to avoid defects: training, planning, good processes.","P"],
+["Process owner","Accountable for a business process end to end: its design, performance and changes.","B"],
+["Process manager","Manages the day-to-day running of a business process and the people doing it.","B"],
+["Procurement management plan","Describes how goods and services will be acquired from outside the organization.","P"],
+["Product backlog","Ordered list of everything that might be needed in the product.","A"],
+["Product life cycle","The span of a product from concept through growth to retirement.","F"],
+["Product manager","Owns the product's strategy, market fit and life cycle.","B"],
+["Product Owner","In Scrum, accountable for maximizing product value and ordering the backlog.","A"],
+["Product roadmap","High-level view of a product's direction, themes and planned releases over time.","B"],
+["Product vision","A short statement of the product's purpose and target users.","A"],
+["Program","Related projects and activities managed together for benefits not available separately.","F"],
+["Progressive elaboration","Adding detail to the plan as more information becomes available.","F"],
+["Project","A temporary endeavor to create a unique product, service or result.","F"],
+["Project charter","Document issued by the sponsor that authorizes the project and the PM's authority.","F"],
+["Project management plan","Describes how the project will be executed, monitored, controlled and closed.","F"],
+["Project manager","The person assigned to lead the team responsible for achieving project objectives.","F"],
+["Projectized organization","Structure where the PM has full authority and the team reports to the PM.","P"],
+["Prototype","A working model used to get early feedback on requirements.","B"],
+["Pull communication","Information people access when they choose, like a wiki or dashboard.","B"],
+["Pull system","Work is started only when there's capacity for it.","A"],
+["Push communication","Information sent to specific recipients, like email or reports.","B"],
+["Quality","The degree to which deliverables meet requirements.","P"],
+["Quality management plan","Describes quality standards and how they will be met and checked.","P"],
+["RACI chart","Responsibility matrix: Responsible, Accountable, Consulted, Informed.","F"],
+["Referent power","Power based on respect, trust and likability.","F"],
+["Refactoring","Improving code structure without changing its behavior (XP).","A"],
+["Regulator","An external body whose rules the project and solution must follow.","B"],
+["Release","A set of increments delivered to users.","A"],
+["Release plan","Shows which features or stories are expected in upcoming releases.","A"],
+["Requirement","A condition or capability the solution must have to satisfy a need.","B"],
+["Requirements documentation","Describes how individual requirements meet the business need.","B"],
+["Requirements management plan","Describes how requirements will be analyzed, documented, prioritized and managed.","B"],
+["Requirements traceability matrix (RTM)","Links each requirement to its source and to the deliverables and tests that satisfy it.","B"],
+["Residual risk","Risk that remains after risk responses are implemented.","F"],
+["Resource breakdown structure (RBS)","Hierarchy of resources by category and type.","F"],
+["Resource histogram","Bar chart showing resource demand over time.","F"],
+["Resource management plan","Describes how team and physical resources are acquired, managed and released.","F"],
+["Responsibility assignment matrix (RAM)","Grid showing who is assigned to each work package. RACI is one type.","F"],
+["Retrospective","Event where the team inspects how it worked and plans improvements.","A"],
+["Risk","An uncertain event or condition that would affect objectives if it occurs.","F"],
+["Risk appetite","How much uncertainty an organization is willing to accept for a reward.","F"],
+["Risk management plan","Describes how risk management activities will be carried out.","F"],
+["Risk owner","The person responsible for monitoring a risk and carrying out its response.","F"],
+["Risk register","Records identified risks, their analysis, owners and planned responses.","F"],
+["Risk threshold","The level of risk beyond which the organization will act or escalate.","F"],
+["Roadmap","See product roadmap.","B"],
+["Rolling wave planning","Planning near-term work in detail and later work at a high level.","F"],
+["Root cause analysis","Finding the underlying cause of a problem rather than its symptoms.","F"],
+["Rule of seven","Seven consecutive points on one side of a control chart's mean suggests a problem.","P"],
+["SAFe","Scaled Agile Framework for coordinating many agile teams.","A"],
+["Salience model","Classifies stakeholders by power, legitimacy and urgency.","B"],
+["Schedule baseline","The approved version of the schedule.","P"],
+["Schedule compression","Shortening the schedule without changing scope: crashing or fast tracking.","P"],
+["Schedule performance index (SPI)","EV ÷ PV. Below 1 means behind schedule.","P"],
+["Schedule variance (SV)","EV − PV. Negative means behind schedule.","P"],
+["Scope","The work required to deliver a product with the specified features and functions.","F"],
+["Scope baseline","The approved scope statement, WBS and WBS dictionary.","P"],
+["Scope creep","Uncontrolled expansion of scope without adjusting time, cost or resources.","F"],
+["Scope management plan","Describes how scope will be defined, validated and controlled.","P"],
+["Scope statement","Describes the project scope, deliverables, acceptance criteria, exclusions, constraints and assumptions.","P"],
+["Scrum","Agile framework with a Product Owner, Scrum Master and Developers working in sprints.","A"],
+["Scrum Master","Servant leader who coaches the team on Scrum and removes impediments.","A"],
+["Scrum of Scrums","Representatives from several Scrum teams meet to coordinate.","A"],
+["Secondary risk","A new risk created by carrying out a risk response.","F"],
+["Self-organizing team","A team that decides how to do its work without being directed.","A"],
+["Servant leadership","Leading by supporting the team: removing obstacles and enabling its success.","F"],
+["Share (opportunity)","Partner with another party to capture an opportunity.","F"],
+["Smoothing (conflict)","Emphasizing agreement and downplaying differences. Also called accommodating.","F"],
+["Smoothing (resource)","Adjusting activities within their float so the end date doesn't change.","F"],
+["Solution evaluation","Checking whether a delivered solution actually provides the expected value.","B"],
+["Solution requirement","A requirement describing the features, functions and characteristics of the solution.","B"],
+["Spike","A timeboxed research story to reduce uncertainty.","A"],
+["Sponsor","Provides funding, issues the charter and champions the project.","F"],
+["Sprint","A timeboxed iteration of one month or less in Scrum.","A"],
+["Sprint backlog","The items selected for the sprint plus the plan to deliver them.","A"],
+["Sprint goal","The single objective for the sprint.","A"],
+["Sprint planning","Event where the team decides what it can deliver in the sprint and how.","A"],
+["Sprint review","Event where the team shows the increment to stakeholders and gets feedback.","A"],
+["Stakeholder","Anyone who can affect or be affected by the project.","F"],
+["Stakeholder engagement assessment matrix","Compares each stakeholder's current and desired engagement level.","F"],
+["Stakeholder engagement plan","Describes how stakeholders will be involved in decisions and execution.","F"],
+["Stakeholder register","Lists stakeholders with their roles, interests, influence and engagement.","F"],
+["Stakeholder requirement","A need of a particular stakeholder or group.","B"],
+["Standard deviation (estimating)","(P − O) ÷ 6. Shows how uncertain a three-point estimate is.","P"],
+["Start-to-finish (SF)","Successor can't finish until the predecessor starts. Rarely used.","P"],
+["Start-to-start (SS)","Successor can't start until the predecessor starts.","P"],
+["Statement of work (SOW)","Description of the products or services to be delivered, often in a contract.","P"],
+["Storming","Tuckman stage where conflicts arise as people work out roles.","F"],
+["Story points","Relative measure of a story's size, complexity and uncertainty.","A"],
+["Subject matter expert (SME)","A person with deep knowledge of an area who provides input.","B"],
+["Survey / questionnaire","Written questions to gather information quickly from many people.","B"],
+["Sustainable pace","Working at a pace the team can maintain indefinitely.","A"],
+["Swarming","Several team members working together on one item to finish it.","A"],
+["SWOT analysis","Strengths, weaknesses, opportunities and threats.","F"],
+["T-shirt sizing","Rough relative estimating using sizes like XS, S, M, L, XL.","A"],
+["Tailoring","Adapting the approach, processes and artifacts to fit the project's context.","F"],
+["Task board","Visual board showing tasks and their status.","A"],
+["Team charter","Team-agreed values, ground rules, decision-making and communication norms.","F"],
+["Test-driven development (TDD)","Writing automated tests before writing the code that passes them.","A"],
+["Theme","A group of related features or goals.","B"],
+["Threat","A risk with a negative effect on objectives.","F"],
+["Three-point estimating","Using optimistic, most likely and pessimistic estimates to account for uncertainty.","P"],
+["Time and materials (T&M) contract","Buyer pays a rate for time plus materials. Mix of fixed-price and cost-reimbursable traits.","P"],
+["Timebox","A fixed maximum period for an activity or event.","A"],
+["To-complete performance index (TCPI)","(BAC − EV) ÷ (BAC − AC). Efficiency needed to finish on budget.","P"],
+["Total float","LS − ES. Time an activity can slip without delaying the project end.","P"],
+["Transfer (risk response)","Shift a threat's impact and ownership to a third party, like insurance.","F"],
+["Transformational leadership","Inspires and motivates people toward a shared vision and change.","F"],
+["Transactional leadership","Manages through rewards and corrections tied to performance.","F"],
+["Transition requirement","A temporary need to move to the future state, like data migration or training.","B"],
+["Trigger","A sign that a risk is about to occur or has occurred.","F"],
+["Tuckman ladder","Team development stages: forming, storming, norming, performing, adjourning.","F"],
+["Use case","Describes the steps of an interaction between an actor and a system, including alternate flows.","B"],
+["User acceptance testing (UAT)","Testing by actual users to confirm the solution meets their needs.","B"],
+["User story","Short requirement: As a [role], I want [goal], so that [benefit].","A"],
+["Validate Scope","Formal acceptance of completed deliverables by the customer or sponsor.","P"],
+["Validation","Confirming the product meets the stakeholder's real need. Did we build the right thing?","B"],
+["Value stream mapping","Lean technique that maps the steps to deliver value to find waste.","A"],
+["Variance analysis","Comparing actual performance to the baseline and explaining the difference.","P"],
+["Variance at completion (VAC)","BAC − EAC. Negative means an expected overrun.","P"],
+["Velocity","Average amount of work, often story points, a team completes per iteration.","A"],
+["Verification","Confirming a product meets its specifications. Did we build it right?","B"],
+["Virtual team","Team members in different locations who rely on technology to communicate.","P"],
+["WBS dictionary","Detailed description of each WBS element: owner, criteria, cost, schedule.","P"],
+["Weighted shortest job first (WSJF)","Cost of delay ÷ job size. Highest score goes first (SAFe).","A"],
+["WIP limit","The maximum number of items allowed in a workflow stage at once.","A"],
+["Withdrawal (avoiding)","Conflict technique of retreating or postponing. Doesn't solve the problem.","F"],
+["Work breakdown structure (WBS)","Hierarchical, deliverable-oriented breakdown of the total project scope.","P"],
+["Work package","The lowest level of the WBS, where cost and duration are estimated and work is assigned.","P"],
+["Work performance data","Raw observations from executing the work, such as hours used or tasks done.","P"],
+["Work performance reports","Organized performance information used for decisions, like status reports.","P"],
+["Workaround","An unplanned response to a risk or issue that wasn't anticipated.","F"],
+["Wireframe","A simple layout of a screen showing where content and controls go.","B"]
+]},
+{id:"fc-formulas",title:"Formulas & calculations",desc:"Every formula the CAPM expects, plus how to read the result.",cards:[
+["Cost variance (CV)","CV = EV − AC. Negative = over budget. Positive = under budget.","P"],
+["Schedule variance (SV)","SV = EV − PV. Negative = behind schedule. Positive = ahead.","P"],
+["Cost performance index (CPI)","CPI = EV ÷ AC. Below 1 = over budget. Above 1 = under budget.","P"],
+["Schedule performance index (SPI)","SPI = EV ÷ PV. Below 1 = behind schedule. Above 1 = ahead.","P"],
+["EAC when current performance continues","EAC = BAC ÷ CPI.","P"],
+["EAC when the variance was a one-time event","EAC = AC + (BAC − EV).","P"],
+["EAC when the original estimate is no longer valid","EAC = AC + bottom-up ETC (a fresh estimate of remaining work).","P"],
+["EAC when both cost and schedule affect remaining work","EAC = AC + [(BAC − EV) ÷ (CPI × SPI)].","P"],
+["Estimate to complete (ETC)","ETC = EAC − AC. The money still needed.","P"],
+["Variance at completion (VAC)","VAC = BAC − EAC. Negative = expected overrun.","P"],
+["To-complete performance index (TCPI)","TCPI = (BAC − EV) ÷ (BAC − AC). Above 1 = must be more efficient than so far.","P"],
+["Earned value (EV)","EV = % complete × BAC.","P"],
+["Planned value (PV)","PV = planned % complete × BAC.","P"],
+["Memory trick for EVM","EV always comes first. Variance = subtract; index = divide. Negative or below 1 is bad.","P"],
+["PERT (beta) estimate","(O + 4M + P) ÷ 6.","P"],
+["Triangular estimate","(O + M + P) ÷ 3.","P"],
+["Standard deviation for three-point estimates","(P − O) ÷ 6.","P"],
+["Total float","Total float = LS − ES (or LF − EF).","P"],
+["Early finish","EF = ES + duration. (Some texts add − 1 when counting day 1 as the first day.)","P"],
+["Late start","LS = LF − duration.","P"],
+["Free float","ES of the next activity − EF of this activity.","P"],
+["Communication channels","n(n − 1) ÷ 2, where n is the number of people including the PM.","F"],
+["Added channels when a team grows","Calculate channels for the new size, subtract channels for the old size.","F"],
+["Benefit-cost ratio","Benefits ÷ costs. Above 1 = benefits outweigh costs.","F"],
+["Return on investment (ROI)","(Benefit − cost) ÷ cost, as a percentage. Higher is better.","F"],
+["Payback period","Investment ÷ periodic net cash flow. Shorter is better.","F"],
+["Choosing between projects","Pick the higher NPV, higher IRR, higher BCR or ROI, and the shorter payback period.","F"],
+["Duration from effort","Duration = effort ÷ (people × hours available per day).","F"],
+["Velocity forecast","Remaining story points ÷ average velocity = number of iterations left.","A"],
+["WSJF","Cost of delay ÷ job size. Highest score first.","A"],
+["Risk score","Probability × impact.","F"],
+["Expected monetary value (EMV)","Probability × impact in money. Threats are negative, opportunities positive.","F"]
+]},
+{id:"fc-compare",title:"Look-alikes: X vs Y",desc:"The pairs the exam uses to trick you.",cards:[
+["Project vs operations","Project: temporary and unique. Operations: ongoing and repetitive.","F"],
+["Program vs portfolio","Program: related projects managed for combined benefits. Portfolio: any components grouped to meet strategy.","F"],
+["Risk vs issue","Risk: might happen. Issue: happening now.","F"],
+["Assumption vs constraint","Assumption: believed true, unproven. Constraint: a fixed limit.","F"],
+["Contingency vs management reserve","Contingency: known risks, PM can use. Management: unknown risks, sponsor approves.","F"],
+["Contingency plan vs fallback plan","Contingency: used if a risk occurs. Fallback: used if the contingency plan fails.","F"],
+["Workaround vs contingency plan","Workaround: unplanned response. Contingency plan: planned in advance.","F"],
+["Residual vs secondary risk","Residual: what remains after a response. Secondary: new risk caused by the response.","F"],
+["Mitigate vs avoid","Mitigate: reduce probability or impact. Avoid: eliminate the threat entirely.","F"],
+["Transfer vs share","Transfer: shift a threat to a third party. Share: partner to capture an opportunity.","F"],
+["Exploit vs enhance","Exploit: make sure an opportunity happens. Enhance: increase its chance or impact.","F"],
+["Milestone vs activity","Milestone: zero duration. Activity: has duration.","F"],
+["Duration vs effort","Duration: calendar time. Effort: labor hours.","F"],
+["Leadership vs management","Leadership: inspire, guide, influence. Management: direct, administer, control.","F"],
+["Sponsor vs project manager","Sponsor: funds, authorizes, champions. PM: leads the team and manages the work.","F"],
+["Expert vs referent power","Expert: knowledge. Referent: respect and likability.","F"],
+["Leveling vs smoothing","Leveling: may change the end date. Smoothing: stays within float, end date unchanged.","F"],
+["Crashing vs fast tracking","Crashing: add resources (cost). Fast tracking: overlap activities (risk).","P"],
+["Lead vs lag","Lead: start early (overlap). Lag: wait (delay).","P"],
+["Total float vs free float","Total: slip without delaying the project. Free: slip without delaying the next activity.","P"],
+["Mandatory vs discretionary dependency","Mandatory: required by the work (hard logic). Discretionary: preferred practice (soft logic).","P"],
+["Quality vs grade","Quality: meets requirements. Grade: category of features. Low quality is always a problem.","P"],
+["Manage Quality vs Control Quality","Manage: are we following the right processes? Control: are the deliverables correct?","P"],
+["Control Quality vs Validate Scope","Control Quality: team checks correctness first. Validate Scope: customer formally accepts.","P"],
+["Prevention vs appraisal costs","Prevention: avoid defects (training). Appraisal: find defects (testing).","P"],
+["Internal vs external failure costs","Internal: found before delivery. External: found by the customer, most expensive.","P"],
+["WBS vs activity list","WBS: deliverables. Activity list: the actions to produce them.","P"],
+["Work package vs activity","Work package: lowest WBS level. Activity: scheduled task from decomposing a work package.","P"],
+["Analogous vs parametric estimating","Analogous: compare to a similar past project. Parametric: rate × quantity.","P"],
+["Fixed price vs cost-reimbursable","Fixed price: seller carries cost risk. Cost-reimbursable: buyer carries cost risk.","P"],
+["Functional vs projectized","Functional: PM has little authority. Projectized: PM has full authority.","P"],
+["Predictive vs adaptive","Predictive: plan scope up front. Adaptive: scope evolves through iterations.","A"],
+["Iterative vs incremental","Iterative: refine through repeated cycles. Incremental: deliver in usable pieces.","A"],
+["Burndown vs burnup","Burndown: work remaining. Burnup: work completed against total scope.","A"],
+["Lead time vs cycle time","Lead time: request to delivery. Cycle time: work start to done.","A"],
+["Sprint review vs retrospective","Review: inspect the product with stakeholders. Retrospective: improve the team's process.","A"],
+["Product backlog vs sprint backlog","Product: everything the product might need. Sprint: what's chosen for this sprint.","A"],
+["Definition of Done vs acceptance criteria","DoD: applies to all items. Acceptance criteria: specific to one story.","A"],
+["Definition of Ready vs Definition of Done","Ready: can start work. Done: work is complete.","A"],
+["Product Owner vs Scrum Master","PO: what to build and its order. SM: how the team uses Scrum; removes impediments.","A"],
+["EEFs vs OPAs","EEFs: outside the team's control (culture, laws). OPAs: the organization's own processes and knowledge.","A"],
+["Product owner vs product manager","Product owner: agile backlog. Product manager: product strategy and life cycle.","B"],
+["Process owner vs process manager","Owner: accountable for the process design. Manager: runs it day to day.","B"],
+["Verification vs validation","Verification: built it right (specs). Validation: built the right thing (needs).","B"],
+["User story vs use case","Story: short, value-focused. Use case: detailed actor-system steps with alternate flows.","B"],
+["Functional vs non-functional requirement","Functional: what it does. Non-functional: how well it does it.","B"],
+["Push vs pull communication","Push: sent to people. Pull: people access it when they choose.","B"],
+["Focus group vs survey","Focus group: moderated, in-depth, small group. Survey: many people, quick, less depth.","B"],
+["Interview vs workshop","Interview: depth from one person. Workshop: cross-functional agreement fast.","B"],
+["Roadmap vs release plan","Roadmap: high-level direction over time. Release plan: features in specific releases.","B"],
+["MVP vs MMF","MVP: smallest product for value and learning. MMF: smallest feature with value on its own.","B"],
+["Internal vs external stakeholder","Internal: inside the performing organization. External: outside it (regulators, vendors).","B"],
+["Business vs stakeholder requirement","Business: why the organization needs it. Stakeholder: what a specific group needs.","B"],
+["Scope creep vs gold plating","Scope creep: uncontrolled requested growth. Gold plating: adding extras nobody requested.","F"],
+["Project vs product life cycle","Project: phases of one project. Product: concept to retirement, across many projects.","F"]
+]},
+{id:"fc-acronyms",title:"Acronyms",desc:"Every abbreviation you're likely to see on the exam.",cards:[
+["AC","Actual cost","P"],["BAC","Budget at completion","P"],["BA","Business analyst","B"],["BCR","Benefit-cost ratio","F"],["BRD","Business requirements document","B"],["CCB","Change control board","P"],["CFD","Cumulative flow diagram","A"],["COQ","Cost of quality","P"],["CPI","Cost performance index","P"],["CPM","Critical path method","P"],["CR","Change request (or cost-reimbursable contract)","P"],["CV","Cost variance","P"],["DoD","Definition of Done","A"],["DoR","Definition of Ready","A"],["DSDM","Dynamic Systems Development Method","A"],["EAC","Estimate at completion","P"],["EEF","Enterprise environmental factor","F"],["EF / ES","Early finish / early start","P"],["EMV","Expected monetary value","F"],["EQ","Emotional intelligence","F"],["ETC","Estimate to complete","P"],["EV","Earned value","P"],["EVM","Earned value management","P"],["FDD","Feature-Driven Development","A"],["FF / FS / SF / SS","Finish-to-finish / finish-to-start / start-to-finish / start-to-start","P"],["FP","Fixed price","P"],["IRR","Internal rate of return","F"],["JAD","Joint application design (development)","B"],["KPI","Key performance indicator","F"],["LF / LS","Late finish / late start","P"],["MMF","Minimum marketable feature","B"],["MoSCoW","Must, Should, Could, Won't have","A"],["MVP","Minimum viable product","B"],["NPV","Net present value","F"],["OBS","Organizational breakdown structure","F"],["OPA","Organizational process asset","F"],["PDCA","Plan-Do-Check-Act","P"],["PERT","Program Evaluation and Review Technique","P"],["PI","Program Increment (SAFe)","A"],["PMBOK","Project Management Body of Knowledge","G"],["PMI","Project Management Institute","G"],["PMO","Project management office","F"],["PO","Product Owner","A"],["PV","Planned value","P"],["RACI","Responsible, Accountable, Consulted, Informed","F"],["RAG","Red, amber, green status","P"],["RAM","Responsibility assignment matrix","F"],["RBS","Resource (or risk) breakdown structure","F"],["ROI","Return on investment","F"],["RTM","Requirements traceability matrix","B"],["SAFe","Scaled Agile Framework","A"],["SM","Scrum Master","A"],["SME","Subject matter expert","B"],["SOW","Statement of work","P"],["SPI","Schedule performance index","P"],["SV","Schedule variance","P"],["SWOT","Strengths, weaknesses, opportunities, threats","F"],["T&M","Time and materials contract","P"],["TCPI","To-complete performance index","P"],["TDD","Test-driven development","A"],["UAT","User acceptance testing","B"],["VAC","Variance at completion","P"],["WBS","Work breakdown structure","P"],["WIP","Work in progress","A"],["WSJF","Weighted shortest job first","A"],["XP","Extreme Programming","A"]
+]},
+{id:"fc-agile",title:"Agile & Scrum facts",desc:"Roles, events, timeboxes, artifacts and method practices.",cards:[
+["Three Scrum accountabilities","Product Owner, Scrum Master, Developers.","A"],
+["Five Scrum events","The Sprint, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective.","A"],
+["Three Scrum artifacts and their commitments","Product Backlog (Product Goal), Sprint Backlog (Sprint Goal), Increment (Definition of Done).","A"],
+["Sprint length","One month or less.","A"],
+["Sprint Planning timebox","Up to 8 hours for a one-month sprint (shorter for shorter sprints).","A"],
+["Daily Scrum timebox","15 minutes.","A"],
+["Sprint Review timebox","Up to 4 hours for a one-month sprint.","A"],
+["Sprint Retrospective timebox","Up to 3 hours for a one-month sprint.","A"],
+["Who attends the Daily Scrum?","The Developers. The Scrum Master makes sure it happens; others may observe.","A"],
+["Who can cancel a sprint?","Only the Product Owner, if the sprint goal becomes obsolete.","A"],
+["Typical Scrum team size","10 or fewer people.","A"],
+["Four Agile Manifesto values","Individuals and interactions over processes and tools; working software over comprehensive documentation; customer collaboration over contract negotiation; responding to change over following a plan.","A"],
+["Agile's primary measure of progress","Working product (software).","A"],
+["Kanban core practices","Visualize work, limit WIP, manage flow, make policies explicit, use feedback loops, improve collaboratively.","A"],
+["Does Kanban require sprints or roles?","No. It's flow-based and can start from your current process.","A"],
+["XP core practices","Pair programming, TDD, continuous integration, refactoring, small releases, simple design, collective code ownership, coding standards, sustainable pace, on-site customer, planning game.","A"],
+["XP values","Communication, simplicity, feedback, courage, respect.","A"],
+["Lean principles","Eliminate waste, build quality in, create knowledge, defer commitment, deliver fast, respect people, optimize the whole.","A"],
+["Lean wastes in software","Partially done work, extra features, relearning, handoffs, delays, task switching, defects.","A"],
+["SAFe key terms","Agile Release Train (ART), PI Planning every 8–12 weeks, Release Train Engineer.","A"],
+["LeSS","Large-Scale Scrum: several teams, one Product Owner, one product backlog.","A"],
+["Scrumban","Scrum events with Kanban flow and WIP limits.","A"],
+["What happens to new work requested mid-sprint?","It goes into the product backlog for the Product Owner to order. The sprint goal is protected.","A"],
+["Three questions often used at the stand-up","What did I do yesterday? What will I do today? What's blocking me?","A"],
+["Who estimates backlog items?","The Developers who will do the work.","A"],
+["Who orders the backlog?","The Product Owner.","A"],
+["Who removes impediments?","The Scrum Master.","A"],
+["Information radiator examples","Task board, burndown chart, burnup chart, Kanban board on a wall or screen.","A"],
+["Spike","Timeboxed research to reduce uncertainty before estimating or building.","A"],
+["Iteration 0 (sprint zero)","Set-up work before delivery starts: environment, tools, initial backlog.","A"]
+]},
+{id:"fc-lists",title:"Must-know lists",desc:"Lists, models and theories the exam expects you to recall.",cards:[
+["Five process groups","Initiating, Planning, Executing, Monitoring and Controlling, Closing.","F"],
+["PMBOK 7: 12 principles","Stewardship, team, stakeholders, value, systems thinking, leadership, tailoring, quality, complexity, risk, adaptability and resiliency, change.","F"],
+["PMBOK 7: 8 performance domains","Stakeholders, team, development approach and life cycle, planning, project work, delivery, measurement, uncertainty.","F"],
+["PMI Code of Ethics values","Responsibility, respect, fairness, honesty.","F"],
+["Two kinds of ethics standards","Aspirational (strive for) and mandatory (must follow).","F"],
+["Tuckman's stages","Forming, storming, norming, performing, adjourning.","F"],
+["Four parts of emotional intelligence","Self-awareness, self-management, social awareness, relationship management.","F"],
+["Five types of power","Legitimate (formal), reward, coercive (penalty), expert, referent.","F"],
+["Five conflict techniques","Collaborate/problem solve, compromise/reconcile, smooth/accommodate, force/direct, withdraw/avoid.","F"],
+["Best conflict technique","Collaborate (problem solve): win-win, addresses the root cause.","F"],
+["Leadership styles","Servant, transformational, transactional, laissez-faire, charismatic, situational, autocratic, democratic.","F"],
+["Motivation theories","Maslow's hierarchy, Herzberg's two-factor theory, McGregor's Theory X and Y, McClelland's needs (achievement, affiliation, power).","F"],
+["Maslow's levels (bottom to top)","Physiological, safety, social (belonging), esteem, self-actualization.","F"],
+["PM roles in the ECO","Initiator, negotiator, listener, coach, working member, facilitator.","F"],
+["Threat responses","Avoid, mitigate, transfer, escalate, accept.","F"],
+["Opportunity responses","Exploit, enhance, share, escalate, accept.","F"],
+["Four costs of quality","Prevention, appraisal (conformance); internal failure, external failure (nonconformance).","P"],
+["Three baselines","Scope, schedule, cost. Together: the performance measurement baseline.","P"],
+["Scope baseline contents","Scope statement, WBS, WBS dictionary.","P"],
+["Four dependency types","Finish-to-start, start-to-start, finish-to-finish, start-to-finish.","P"],
+["Dependency categories","Mandatory, discretionary, external, internal.","P"],
+["Organizational structures (PM authority low to high)","Functional, weak matrix, balanced matrix, strong matrix, projectized.","P"],
+["Three PMO types","Supportive (low control), controlling (moderate), directive (high).","F"],
+["Contract types","Fixed price, cost-reimbursable, time and materials.","P"],
+["Stakeholder engagement levels","Unaware, resistant, neutral, supportive, leading.","F"],
+["Requirement types","Business, stakeholder, solution (functional and non-functional), transition.","B"],
+["Elicitation techniques","Interviews, workshops, focus groups, surveys, observation, document analysis, prototyping, brainstorming, interface analysis, benchmarking.","B"],
+["Communication methods","Interactive, push, pull.","B"],
+["Communication model","Sender encodes → medium (with noise) → receiver decodes → feedback.","B"],
+["INVEST","Independent, Negotiable, Valuable, Estimable, Small, Testable.","A"],
+["MoSCoW","Must have, Should have, Could have, Won't have this time.","A"],
+["Kano categories","Basic (must-be), performance, delighters (exciters), plus indifferent.","A"],
+["Life cycle types","Predictive, iterative, incremental, adaptive (agile), hybrid.","F"],
+["Estimating techniques","Analogous, parametric, bottom-up, three-point, expert judgment.","P"],
+["Decision-making methods","Unanimity, majority, plurality, autocratic, multicriteria decision analysis.","F"],
+["Data-gathering and analysis tools","Brainstorming, checklists, root cause analysis, SWOT, Pareto, fishbone, control charts, histograms, scatter diagrams.","F"],
+["Project closure steps","Get acceptance, transition deliverables, close contracts, finalize lessons learned, archive records, release resources.","F"]
+]},
+{id:"fc-which",title:"Which tool fits?",desc:"Situation on the front, the best tool or response on the back.",cards:[
+["Users can't explain how they do their work","Observation (job shadowing).","B"],
+["Need input from hundreds of people across many sites quickly","Survey / questionnaire.","B"],
+["Several departments disagree on requirements","Facilitated workshop (JAD).","B"],
+["Stakeholders can't describe a screen until they see one","Prototype or wireframe.","B"],
+["Requirements are buried in regulations and manuals","Document analysis.","B"],
+["Need candid input on a sensitive topic from one person","One-on-one interview.","B"],
+["Need attitudes of prequalified users, led by a moderator","Focus group.","B"],
+["Complex business rules with many conditions","Decision table or decision tree.","B"],
+["Show a system's boundary and who it interacts with","Context diagram.","B"],
+["Track every requirement from source to test","Requirements traceability matrix.","B"],
+["Executives want status at a glance","Dashboard or one-page status report.","B"],
+["Formal approval needed","Formal written document with sign-off.","B"],
+["Delivering sensitive news to a key stakeholder","Face-to-face or video conversation.","B"],
+["Many people need reference info whenever they want","Pull communication: wiki or shared repository.","B"],
+["Need expert consensus without groupthink","Delphi technique.","F"],
+["Need lots of ideas quickly","Brainstorming.","F"],
+["Need to rank brainstormed ideas fairly","Nominal group technique.","F"],
+["Group many ideas into themes","Affinity diagram.","F"],
+["Find which few causes create most defects","Pareto chart.","F"],
+["Sort possible causes into categories","Fishbone (Ishikawa) diagram.","F"],
+["Get to the root cause of a recurring failure","5 Whys / root cause analysis.","F"],
+["Check if a process is stable over time","Control chart.","P"],
+["Customer requests a change","Analyze impact, submit a change request, CCB decides, update baselines, communicate.","P"],
+["A planned risk occurs","Owner carries out the planned response; log the issue; update the risk register.","F"],
+["The planned risk response fails","Use the fallback plan.","F"],
+["An unexpected problem occurs","Workaround, then add it to the issue log and risk register.","F"],
+["Two team members are in conflict","Meet privately with them and collaborate on a solution.","F"],
+["A decision is beyond the PM's authority","Escalate to the sponsor through the escalation path.","F"],
+["A new stakeholder appears mid-project","Add them to the stakeholder register and analyze them.","F"],
+["A stakeholder isn't getting needed info","Review and update the communications management plan.","F"],
+["Need to shorten the schedule, have budget","Crash the critical path.","P"],
+["Need to shorten the schedule, no extra budget","Fast track (accept more risk).","P"],
+["Resources overallocated, end date can move","Resource leveling.","F"],
+["Resources overallocated, end date can't move","Resource smoothing (within float).","F"],
+["Estimate fast with little detail","Analogous estimating.","P"],
+["Estimate with a reliable unit rate","Parametric estimating.","P"],
+["Most accurate estimate, time available","Bottom-up estimating.","P"],
+["Requirements stable, regulated, fixed price","Predictive approach.","P"],
+["Requirements uncertain, fast feedback possible","Adaptive (agile) approach.","A"],
+["Some work stable, some uncertain","Hybrid approach.","A"],
+["Story too big for one sprint","Split it into smaller stories that each deliver value.","A"],
+["Need to research before estimating","Spike.","A"],
+["Work piling up in one column","Apply or lower WIP limits; swarm the bottleneck.","A"],
+["New request arrives mid-sprint","Add it to the product backlog for the Product Owner to order.","A"],
+["Developer blocked at the stand-up","Scrum Master takes the impediment and works to remove it.","A"],
+["Stand-up turns into a long debate","Park it; continue after with only the people needed.","A"],
+["Need to coordinate many agile teams","Scrum of Scrums, or SAFe PI Planning.","A"],
+["Pick features for the first release","MVP: the smallest set that delivers value and learning.","B"],
+["Is the product ready to ship?","Check the RTM or backlog: every requirement tested and accepted, transition needs done.","B"],
+["Vendor offers a gift during a bid","Decline and disclose the conflict of interest.","F"],
+["Asked to misreport status","Report honestly with a recovery plan.","F"]
+]}
+];
+
+// ---------- flashcard player ----------
+const TAG_NAME={F:"Fundamentals",P:"Predictive",A:"Agile",B:"Business Analysis",G:"General"};
+const DECK_GROUP={"fc-glossary":"Every term","fc-acronyms":"Every term"};
+FLASH_DECKS.find(d=>d.id==="fc-glossary").cards.sort((a,b)=>a[0].localeCompare(b[0],"en",{sensitivity:"base"}));
+const known=store.get("capm-flash-known",{});
+const kKey=(d,c)=>d.id+"|"+c[0];
+const isKnown=(d,c)=>!!known[kKey(d,c)];
+const FS={};
+(function buildDecks(){
+  const box=document.getElementById("articles");
+  FLASH_DECKS.forEach(d=>{
+    const tags=[...new Set(d.cards.map(c=>c[2]).filter(t=>t!=="G"))];
+    const a=document.createElement("article");
+    a.id=d.id; a.hidden=true; a.dataset.deck=d.id; a.dataset.group=DECK_GROUP[d.id]||"Exam power-ups"; a.dataset.sub=`${d.cards.length} cards · ${d.desc}`;
+    a.innerHTML=`<h2>${esc(d.title)}</h2><p class="note">${esc(d.desc)}</p>
+    <div class="fc-controls">
+      ${tags.length>1?`<label for="${d.id}-dom">Domain<select id="${d.id}-dom"><option value="all">All domains</option>${tags.map(t=>`<option value="${t}">${TAG_NAME[t]}</option>`).join("")}</select></label>`:""}
+      <label class="chk" for="${d.id}-hide"><input type="checkbox" id="${d.id}-hide" checked> Hide cards I know</label>
+      <label class="chk" for="${d.id}-rev"><input type="checkbox" id="${d.id}-rev"> Show definition first</label>
+      <label class="chk" for="${d.id}-shuf"><input type="checkbox" id="${d.id}-shuf" checked> Shuffle</label>
+    </div>
+    <div class="fc-prog"><div class="meter"><i></i></div><span class="note mono fc-count"></span></div>
+    <div class="fc-stage"></div>
+    <details class="fc-browse"><summary>Browse all ${d.cards.length} cards</summary>
+      <label for="${d.id}-q" class="eyebrow">Search</label><input type="search" id="${d.id}-q" placeholder="Type a term or word" autocomplete="off">
+      <dl class="fc-list"></dl>
+    </details>
+    <div class="row"><button class="btn ghost fc-reset">Reset this deck's progress</button><span class="fc-reset-confirm"></span></div>`;
+    box.appendChild(a);
+    FS[d.id]={d,a,order:[],pos:0,flipped:false,got:0,again:0};
+    const st=FS[d.id];
+    const rebuild=()=>{fcBuild(st);fcRender(st)};
+    a.querySelector(`#${d.id}-hide`).addEventListener("change",rebuild);
+    a.querySelector(`#${d.id}-shuf`).addEventListener("change",rebuild);
+    a.querySelector(`#${d.id}-rev`).addEventListener("change",()=>{st.flipped=false;fcRender(st)});
+    const dom=a.querySelector(`#${d.id}-dom`); if(dom)dom.addEventListener("change",()=>{rebuild();fcList(st)});
+    a.querySelector(`#${d.id}-q`).addEventListener("input",()=>fcList(st));
+    a.querySelector(".fc-browse").addEventListener("toggle",()=>fcList(st));
+    a.querySelector(".fc-reset").addEventListener("click",()=>{
+      const c=a.querySelector(".fc-reset-confirm");
+      c.innerHTML=`<span class="note">Mark every card in this deck as not known?</span> <button class="btn" data-yes>Reset</button> <button class="btn ghost" data-no>Cancel</button>`;
+      c.querySelector("[data-yes]").addEventListener("click",()=>{d.cards.forEach(x=>delete known[kKey(d,x)]);store.set("capm-flash-known",known);c.innerHTML="";rebuild();renderHub()});
+      c.querySelector("[data-no]").addEventListener("click",()=>c.innerHTML="");
+    });
+    fcBuild(st);fcRender(st);
+  });
+})();
+function fcView(st){
+  const dom=st.a.querySelector(`#${st.d.id}-dom`),dv=dom?dom.value:"all";
+  return st.d.cards.map((c,i)=>i).filter(i=>dv==="all"||st.d.cards[i][2]===dv||st.d.cards[i][2]==="G");
+}
+function fcBuild(st){
+  const hide=st.a.querySelector(`#${st.d.id}-hide`).checked,shuf=st.a.querySelector(`#${st.d.id}-shuf`).checked;
+  let list=fcView(st).filter(i=>!hide||!isKnown(st.d,st.d.cards[i]));
+  st.order=shuf?shuffle(list):list; st.pos=0; st.flipped=false; st.got=0; st.again=0;
+}
+function fcRender(st){
+  const {d,a}=st, view=fcView(st), k=view.filter(i=>isKnown(d,d.cards[i])).length;
+  a.querySelector(".fc-prog i").style.width=(view.length?k/view.length*100:0)+"%";
+  a.querySelector(".fc-count").textContent=`${k} of ${view.length} known`;
+  const stage=a.querySelector(".fc-stage");
+  if(!st.order.length){
+    stage.innerHTML=`<div class="fc-done"><b>You know every card in this view.</b><p class="note">Turn off "Hide cards I know" to review them all, or reset the deck.</p></div>`;return;
+  }
+  if(st.pos>=st.order.length){
+    stage.innerHTML=`<div class="fc-done"><b>Round complete</b><p>Got it: ${st.got} · Still learning: ${st.again}</p><div class="row"><button class="btn" data-again>Go again</button></div></div>`;
+    stage.querySelector("[data-again]").addEventListener("click",()=>{fcBuild(st);fcRender(st)});return;
+  }
+  const c=d.cards[st.order[st.pos]], rev=a.querySelector(`#${d.id}-rev`).checked;
+  const front=rev?c[1]:c[0], back=rev?c[0]:c[1];
+  stage.innerHTML=`<div class="row" style="justify-content:space-between"><span class="eyebrow">Card ${st.pos+1} of ${st.order.length}</span><span class="pill ${c[2]==="G"?"info":"info"}">${TAG_NAME[c[2]]}</span></div>
+  <button class="fc-card ${st.flipped?"flipped":""} ${rev?"rev":""}" aria-label="${st.flipped?"Showing answer. Tap to see the question":"Tap to reveal the answer"}">
+    <span class="fc-side">${st.flipped?"Answer":rev?"What term is this?":"Term"}</span>
+    <span class="fc-text ${st.flipped!==rev?"def":"term"}">${esc(st.flipped?back:front)}</span>
+    ${st.flipped?"":`<span class="fc-hint">Tap to flip</span>`}
+  </button>
+  <div class="fc-actions"><button class="btn ghost" data-again>Still learning</button><button class="btn" data-got>Got it</button></div>
+  <p class="note fc-keys">Keyboard: space to flip, ← still learning, → got it.</p>`;
+  stage.querySelector(".fc-card").addEventListener("click",()=>{st.flipped=!st.flipped;fcRender(st)});
+  stage.querySelector("[data-got]").addEventListener("click",()=>fcMark(st,true));
+  stage.querySelector("[data-again]").addEventListener("click",()=>fcMark(st,false));
+}
+function fcMark(st,ok){
+  const i=st.order[st.pos],c=st.d.cards[i];
+  if(ok){known[kKey(st.d,c)]=1;st.got++}else{delete known[kKey(st.d,c)];st.again++;st.order.push(i)}
+  store.set("capm-flash-known",known);
+  st.pos++;st.flipped=false;fcRender(st);
+  if(st.a.querySelector(".fc-browse").open)fcList(st);
+}
+function fcList(st){
+  const det=st.a.querySelector(".fc-browse");if(!det.open)return;
+  const q=st.a.querySelector(`#${st.d.id}-q`).value.trim().toLowerCase();
+  const rows=fcView(st).map(i=>st.d.cards[i]).filter(c=>!q||c[0].toLowerCase().includes(q)||c[1].toLowerCase().includes(q));
+  st.a.querySelector(".fc-list").innerHTML=rows.length?rows.map(c=>`<div class="fc-row"><dt>${isKnown(st.d,c)?'<span class="fc-k" title="Known">✓</span> ':""}${esc(c[0])}</dt><dd>${esc(c[1])} <span class="note">· ${TAG_NAME[c[2]]}</span></dd></div>`).join(""):`<p class="note">No cards match.</p>`;
+}
+document.addEventListener("keydown",e=>{
+  if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
+  const st=Object.values(FS).find(s=>!s.a.hidden);if(!st||st.pos>=st.order.length||!st.order.length)return;
+  if(e.key===" "||e.key==="Enter"){if(e.target.closest&&e.target.closest("button"))return;e.preventDefault();st.flipped=!st.flipped;fcRender(st)}
+  else if(e.key==="ArrowRight"){e.preventDefault();fcMark(st,true)}
+  else if(e.key==="ArrowLeft"){e.preventDefault();fcMark(st,false)}
+});
+const flashTotals=()=>{let t=0,k=0;FLASH_DECKS.forEach(d=>d.cards.forEach(c=>{t++;if(isKnown(d,c))k++}));return {t,k}};
+
 // ---------- sections, contents & navigation ----------
 const arts=[...document.querySelectorAll("#articles article")];
-const sectionOf=a=>a.dataset.lesson?"study":(a.id==="mock-exam"||a.id==="scenarios")?"exams":"project";
+const sectionOf=a=>a.dataset.lesson?"study":a.dataset.deck?"flash":(a.id==="mock-exam"||a.id==="scenarios")?"exams":"project";
 const SECTIONS={
-  project:{title:"The Project",eyebrow:"Section 1 · Start to finish",intro:`Follow one datacenter project from business case to lessons learned. Every document is filled in, and the interactive pages let you run the numbers yourself.`,
-    extra:`<div class="project"><span class="eyebrow">The example project</span><p><b>HB14 GPU Rack Deployment</b> at the fictional Lakeshore Datacenter: install and commission 24 high-density racks in Hall B, Row 14. The hardware rollout runs <i>predictive</i>. A small team builds a Power Apps "Rack Readiness Tracker" for it using <i>agile</i>. Together that's a hybrid project, which the exam loves.</p></div>`},
-  study:{title:"Study Guide",eyebrow:"Section 2 · Exam content",intro:`One lesson for each of the 19 tasks on PMI's CAPM exam outline, grouped by domain. Each lesson links to the matching examples in The Project.`,extra:""},
-  exams:{title:"Exams",eyebrow:"Section 3 · Check your readiness",intro:`Two full 150-question mock exams weighted like the real CAPM, a Quick 50 for spot checks, and situational practice with explanations.`,extra:""}
+  study:{title:"Study Guide",eyebrow:"Step 1 · Learn the content",intro:`One lesson for each of the 19 tasks on PMI's CAPM exam outline, grouped by domain. Start here.`,extra:""},
+  flash:{title:"Flashcards",eyebrow:"Step 2 · Lock it in",intro:`Every key term in a full glossary, plus decks for formulas, look-alike terms, acronyms, agile facts, must-know lists, and "which tool fits?" situations. Mark what you know and the deck keeps showing you the rest.`,extra:""},
+  exams:{title:"Exams",eyebrow:"Step 3 · Test yourself",intro:`Two full 150-question mock exams weighted like the real CAPM, a Quick 50 for spot checks, and situational practice with explanations.`,extra:""},
+  project:{title:"The Project",eyebrow:"Step 4 · Tie it all together",intro:`See everything you've learned working together on one datacenter project, from business case to lessons learned. Every document is filled in, and the interactive pages let you run the numbers yourself.`,
+    extra:`<div class="project"><span class="eyebrow">The example project</span><p><b>HB14 GPU Rack Deployment</b> at the fictional Lakeshore Datacenter: install and commission 24 high-density racks in Hall B, Row 14. The hardware rollout runs <i>predictive</i>. A small team builds a Power Apps "Rack Readiness Tracker" for it using <i>agile</i>. Together that's a hybrid project, which the exam loves.</p></div>`}
 };
 const GROUP_LABEL={"Start the project":"1 · Start the project","Plan the work":"2 · Plan the work","Run and control":"3 · Run and control","Close the project":"4 · Close the project","Agile":"Agile track: the Power Apps team","Business analysis":"Business analysis track"};
-const secArts={project:[],study:[],exams:[]}; arts.forEach(a=>secArts[sectionOf(a)].push(a));
+const secArts={study:[],flash:[],exams:[],project:[]}; arts.forEach(a=>secArts[sectionOf(a)].push(a));
 secArts.exams.sort((a,b)=>(a.id==="mock-exam"?0:1)-(b.id==="mock-exam"?0:1));
 (function buildContents(){
   const box=$("contents");
