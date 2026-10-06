@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Filled-in examples of every major CAPM artifact for one datacenter project, plus simulators for critical path, earned value, risk, burndown, Kanban and exam scenarios.">
+<meta name="description" content="Free CAPM study kit: a lesson for every exam-outline task, filled-in project artifacts, simulators and a 150-question timed mock exam.">
 <style>
 :root{color-scheme:light}
 body{margin:0;-webkit-text-size-adjust:100%}
@@ -181,6 +181,57 @@ svg text{font-family:var(--mono)}
 @media (max-width:520px){.terms dl{grid-template-columns:1fr;gap:0}.terms dd{margin-bottom:8px}}
 @media (max-width:520px){.kv{grid-template-columns:1fr;gap:2px}.kv dd{margin-bottom:6px}.doc{padding:14px}.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:no-preference){.item,.choice{transition:border-color .15s,background .15s}}
+
+/* ---------- hub ---------- */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.hub-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px;align-content:start}
+.hub-card h3{font-size:1.15rem}
+.meter{height:10px;background:var(--bg);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent)}
+/* ---------- lessons ---------- */
+.lesson-sec{display:grid;gap:8px;min-width:0}
+.lesson-sec h3{font-size:1.1rem;color:var(--ink)}
+.lesson-sec p{max-width:70ch}
+.lesson-sec ul,.lesson-sec ol{margin:0;padding-left:1.2em;display:grid;gap:4px;max-width:70ch}
+.lesson-sec table{font-size:.9rem}
+.lesson-body{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:20px;display:grid;gap:22px;min-width:0}
+.lesson-body .lesson-sec+.lesson-sec{border-top:1px solid var(--line);padding-top:18px}
+.traps{background:var(--bad-soft);border-radius:8px;padding:12px 14px;display:grid;gap:6px}
+.traps ul{margin:0;padding-left:1.2em;display:grid;gap:3px}
+.see{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.linkbtn{font:600 .85rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--accent);border-radius:999px;padding:5px 11px;cursor:pointer}
+.studied{display:flex;gap:8px;align-items:center;font-weight:600}
+.studied input{width:18px;height:18px;accent-color:var(--good)}
+.item .done-tag{font:500 .66rem var(--mono);letter-spacing:.06em;color:var(--good);background:var(--good-soft);padding:1px 6px;border-radius:3px;justify-self:start;text-transform:uppercase}
+@media (max-width:520px){.lesson-body{padding:14px}}
+/* ---------- exam ---------- */
+.ex-bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:4;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.ex-timer{font:500 1.1rem var(--mono);font-variant-numeric:tabular-nums}
+.ex-timer.low{color:var(--bad)}
+.ex-q{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:14px;min-width:0}
+.ex-stem{font-size:1.08rem;font-weight:600;max-width:70ch}
+.ex-opts{display:grid;gap:8px}
+.ex-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer}
+.ex-opt .k{font:500 .85rem var(--mono);color:var(--muted);flex:none;width:1.4em}
+.ex-opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.ex-opt.right{border-color:var(--good);background:var(--good-soft)}
+.ex-opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.ex-nav{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:4px}
+.ex-nav button{font:500 .75rem var(--mono);padding:7px 0;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer;position:relative}
+.ex-nav button.ans{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-soft)}
+.ex-nav button.cur{outline:2px solid var(--ink);outline-offset:1px}
+.ex-nav button.flag::after{content:"";position:absolute;top:2px;right:2px;width:6px;height:6px;border-radius:50%;background:var(--warn)}
+.ex-nav button:disabled{opacity:.35;cursor:default}
+.ex-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.8rem;color:var(--muted)}
+.flagbtn[aria-pressed="true"]{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
+.verdict{border-radius:10px;padding:16px;display:grid;gap:6px}
+.verdict.go{background:var(--good-soft)} .verdict.close{background:var(--warn-soft)} .verdict.no{background:var(--bad-soft)}
+.verdict b{font:700 1.4rem var(--display)}
+.rev-item{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--paper);display:grid;gap:8px}
+.rev-item .ans-line{font-size:.92rem}
+.attempts td,.attempts th{font-size:.85rem}
+article>*,.doc>*,.sim>*,.explain>*{min-width:0}
+.lesson-sec .scroll{display:grid;gap:10px}
 </style>
 </head>
 <body>
@@ -191,12 +242,12 @@ svg text{font-family:var(--mono)}
   <span class="eyebrow">CAPM · Examples &amp; simulations</span>
   <h1>CAPM Field Kit</h1>
   <div class="project">
-    <span class="eyebrow">One project, every artifact</span>
+    <span class="eyebrow">Study guide · Examples · Simulations · Mock exam</span>
     <p><b>HB14 GPU Rack Deployment</b> at the fictional Lakeshore Datacenter: install and commission 24 high-density racks in Hall B, Row 14. The hardware rollout runs <i>predictive</i>. A small team builds a Power Apps "Rack Readiness Tracker" for it using <i>agile</i>. Together that's a hybrid project, which the exam loves.</p>
   </div>
 </header>
 
-<div id="contents"></div>
+<div id="contents"><section class="hub" id="hub" aria-label="Study progress"></section></div>
 
 <div id="reader" hidden>
   <div class="bar-nav">
@@ -597,12 +648,996 @@ svg text{font-family:var(--mono)}
 
 <footer class="wrap" style="padding-block:0 32px;display:grid;gap:6px">
   <p class="note">© 2026 Tre Toby. All rights reserved.</p>
-  <p class="note">CAPM, PMP and PMBOK are registered marks of the Project Management Institute, Inc. This independent study resource is not affiliated with, endorsed by, or sponsored by PMI. Lakeshore Datacenter and every person and figure in the example project are fictional.</p>
+  <p class="note">CAPM, PMP and PMBOK are registered marks of the Project Management Institute, Inc. This independent study resource is not affiliated with, endorsed by, or sponsored by PMI. Practice questions are original and are not actual exam questions. Lakeshore Datacenter and every person and figure in the example project are fictional.</p>
 </footer>
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const money=n=>(n<0?"−$":"$")+Math.round(Math.abs(n)).toLocaleString("en-US");
+
+// ---------- Study guide: one lesson per CAPM ECO task ----------
+const LESSONS=[
+/* ================= DOMAIN 1 ================= */
+{id:"d1t1",d:"F",n:"1.1",title:"Project life cycles and processes",
+goal:"Tell projects apart from programs, portfolios and operations; pick predictive vs adaptive; separate issues, risks, assumptions and constraints; apply the PMI Code of Ethics.",
+sections:[
+["Project, program, portfolio, operations",`<table><tr><th>Term</th><th>What it is</th><th>Example</th></tr>
+<tr><td><b>Project</b></td><td>A <i>temporary</i> endeavor to create a <i>unique</i> product, service or result. Has a start and an end.</td><td>Deploy 24 GPU racks in Row 14</td></tr>
+<tr><td><b>Program</b></td><td>Related projects managed together to get benefits you couldn't get managing them separately.</td><td>All Hall B build-outs for the AI capacity expansion</td></tr>
+<tr><td><b>Portfolio</b></td><td>Projects, programs and operations grouped to meet <i>strategic</i> goals. Items may be unrelated.</td><td>Every capital investment for the MKE campus this year</td></tr>
+<tr><td><b>Operations</b></td><td>Ongoing, repetitive work that sustains the business. No planned end.</td><td>Daily break-fix and hardware swaps</td></tr></table>
+<p>Exam shortcut: <b>temporary + unique = project</b>. Ongoing + repeating = operations. When a project ends, its output is usually <b>transitioned to operations</b>.</p>`],
+["Predictive, adaptive and hybrid life cycles",`<ul><li><b>Predictive (waterfall, plan-based):</b> scope, time and cost are set early; work flows through phases (requirements → design → build → test → deploy). Best when requirements are clear and stable, or regulation demands documentation.</li>
+<li><b>Iterative:</b> the solution is refined through repeated cycles; feedback improves the product each time.</li>
+<li><b>Incremental:</b> the product is delivered in usable pieces that add functionality.</li>
+<li><b>Adaptive (agile):</b> iterative <i>and</i> incremental. Short timeboxes, frequent delivery, scope expected to change.</li>
+<li><b>Hybrid:</b> mixes approaches, e.g. predictive hardware rollout plus an agile software team (the Field Kit project).</li></ul>
+<p>A <b>project life cycle</b> is the series of phases a project passes through. A <b>product life cycle</b> runs from concept to retirement of the product and can contain many projects.</p>`],
+["Process groups, principles and performance domains",`<p><b>Five process groups</b> (Process Groups: A Practice Guide): <b>Initiating</b> (authorize, identify stakeholders), <b>Planning</b> (define how the work will be done), <b>Executing</b> (do the work, manage the team), <b>Monitoring &amp; Controlling</b> (track, compare to plan, control change), <b>Closing</b> (formally finish). They overlap and repeat in each phase; they are not phases themselves.</p>
+<p><b>PMBOK 7 has 12 principles:</b> stewardship, team, stakeholders, value, systems thinking, leadership, tailoring, quality, complexity, risk, adaptability &amp; resiliency, and change.</p>
+<p><b>And 8 performance domains:</b> stakeholders, team, development approach &amp; life cycle, planning, project work, delivery, measurement, and uncertainty.</p>
+<p><b>Tailoring</b> means adapting the approach, processes and artifacts to fit the project. PMI expects you to tailor, not follow one method blindly.</p>`],
+["Issues, risks, assumptions, constraints",`<table><tr><th></th><th>Definition</th><th>Logged in</th></tr>
+<tr><td><b>Risk</b></td><td>An uncertain event that <i>may</i> happen and would affect objectives (threat or opportunity)</td><td>Risk register</td></tr>
+<tr><td><b>Issue</b></td><td>Something happening <i>now</i> that needs action</td><td>Issue log</td></tr>
+<tr><td><b>Assumption</b></td><td>Something believed true for planning, without proof. Should be validated.</td><td>Assumption log</td></tr>
+<tr><td><b>Constraint</b></td><td>A limit you must work within (budget cap, fixed date, regulation)</td><td>Assumption log / scope statement</td></tr></table>
+<p>An assumption that turns out false often becomes a risk or an issue.</p>`],
+["Reviewing and critiquing scope",`<p>Good scope is <b>clear, measurable, agreed and bounded</b>. When you review a scope statement, check that deliverables have acceptance criteria, that exclusions are listed, that requirements trace to the business need, and that nothing vague ("fast", "user-friendly") is left undefined. Missing exclusions invite <b>scope creep</b>. Extras nobody asked for are <b>gold plating</b>. Both are bad.</p>`],
+["PMI Code of Ethics and Professional Conduct",`<p>Four values: <b>Responsibility, Respect, Fairness, Honesty</b>. Each has <i>aspirational</i> standards (strive for) and <i>mandatory</i> standards (must do).</p>
+<ul><li><b>Responsibility:</b> own your decisions and mistakes, protect confidential info, report unethical or illegal conduct.</li>
+<li><b>Respect:</b> listen, negotiate in good faith, don't abuse power, respect cultural norms.</li>
+<li><b>Fairness:</b> disclose conflicts of interest, don't play favorites, no bribes or discrimination.</li>
+<li><b>Honesty:</b> tell the truth in reports and status, don't mislead, no half-truths.</li></ul>
+<p>Exam pattern: when asked to bend the truth, accept a gift that could influence you, or hide a problem, the answer is the honest, transparent choice, usually <i>disclose</i> or <i>report</i>.</p>`],
+["Projects as vehicles for change",`<p>Organizations use projects to move from a <b>current state</b> to a <b>future state</b>. Projects deliver <b>business value</b>: tangible (money, capacity, market share) or intangible (reputation, brand, goodwill). Because projects change how people work, the PM supports <b>organizational change management</b>: explain why, involve the people affected, train them, and reinforce the new way so it sticks.</p>`]],
+terms:[["Phase gate","A review at the end of a phase to decide go, no-go, or change course."],["Business value","The net benefit a project delivers, tangible or intangible."],["Tailoring","Adapting methods and artifacts to fit the project's context."],["PMO","Project management office. Supportive (templates), controlling (requires compliance) or directive (manages projects directly)."]],
+traps:["A program is not just a big project; its projects are related and managed for combined benefits.","Process groups are not phases.","Never pick an answer that hides information from a stakeholder."],
+see:["business-case","charter","scope","issues"]},
+
+{id:"d1t2",d:"F",n:"1.2",title:"Project management planning",
+goal:"Know what each plan component is for, the difference between project and product plans, milestones vs durations, resources, the risk and stakeholder registers, and how projects close.",
+sections:[
+["The project management plan and its parts",`<p>The <b>project management plan</b> describes <i>how</i> the project will be run. It's built from subsidiary plans and baselines:</p>
+<table><tr><th>Component</th><th>Purpose</th></tr>
+<tr><td>Scope management plan</td><td>How scope is defined, validated and controlled</td></tr>
+<tr><td>Requirements management plan</td><td>How requirements are gathered, tracked and changed</td></tr>
+<tr><td>Schedule management plan</td><td>How the schedule is built and controlled</td></tr>
+<tr><td>Cost management plan</td><td>How costs are estimated, budgeted and controlled</td></tr>
+<tr><td>Quality management plan</td><td>Quality standards, how they're met and checked</td></tr>
+<tr><td>Resource management plan</td><td>How people and physical resources are acquired, managed and released</td></tr>
+<tr><td>Communications management plan</td><td>Who gets what information, when and how</td></tr>
+<tr><td>Risk management plan</td><td>How risk work is done: methods, roles, scales, budget</td></tr>
+<tr><td>Procurement management plan</td><td>How goods and services are bought from outside</td></tr>
+<tr><td>Stakeholder engagement plan</td><td>How to involve each stakeholder</td></tr>
+<tr><td>Change and configuration management plans</td><td>How changes are handled; how versions of deliverables are controlled</td></tr>
+<tr><td><b>Baselines</b></td><td>Approved <b>scope</b>, <b>schedule</b> and <b>cost</b> baselines. Together: the <b>performance measurement baseline</b>.</td></tr></table>
+<p>Cost and quality matter because they're constraints you trade off against each other, against scope and against time. Changing one usually moves the others.</p>`],
+["Project management plan vs product management plan",`<p><b>Project management plan:</b> how to deliver <i>this project</i> (temporary). <b>Product management plan / roadmap:</b> how the <i>product</i> will evolve over its whole life, across many projects or releases. Project deliverables include management documents (plans, reports) and product deliverables (the racks, the app).</p>`],
+["Milestones vs task durations",`<p>A <b>milestone</b> is a significant point or event with <b>zero duration</b> ("design approved"). A <b>task (activity)</b> has a <b>duration</b> and consumes work. Milestone charts show key dates for executives; Gantt charts show activities with durations. <b>Duration</b> is calendar time to complete; <b>effort</b> is the labor hours required.</p>`],
+["Resources: number and type",`<ul><li><b>Types:</b> team (human) resources and physical resources (equipment, materials, facilities).</li>
+<li>Estimate the <b>number</b> from the work packages: effort ÷ availability. Use a <b>resource breakdown structure</b> (RBS) to list categories.</li>
+<li>A <b>resource histogram</b> shows how many people are needed over time; peaks show overallocation.</li>
+<li><b>Resource leveling</b> adjusts dates to fix overallocation (can extend the end date). <b>Resource smoothing</b> adjusts only within float (end date unchanged).</li>
+<li>A <b>RACI chart</b> assigns who does what. A <b>team charter</b> sets team values, ground rules and agreements.</li></ul>`],
+["Using the risk register",`<p>For each risk: description, cause, probability, impact, score, <b>owner</b>, <b>response strategy</b>, trigger, and status. Use it to decide what to do when something changes: when a trigger fires, the owner carries out the planned response. Review it regularly, close risks that pass, and add new ones.</p>`],
+["Using the stakeholder register",`<p>Lists each stakeholder's role, contact, requirements, expectations, influence, interest, and engagement level (unaware, resistant, neutral, supportive, leading). Use it to plan communications, spot who needs closer engagement, and catch who you forgot. A new stakeholder can appear at any time; add them and analyze them right away.</p>`],
+["Closure and transitions",`<ul><li>Confirm all work is done and <b>formally accepted</b> by the customer or sponsor.</li>
+<li><b>Transition</b> the deliverable to operations or the customer, with documentation and training.</li>
+<li>Close contracts and pay final invoices.</li>
+<li>Finalize the <b>lessons learned</b> and archive records as organizational process assets.</li>
+<li>Release team members and resources; recognize their work.</li>
+<li>Write the final report. Projects also close early when cancelled; you still do closure.</li></ul>`]],
+terms:[["Performance measurement baseline","The integrated scope, schedule and cost baselines used for earned value."],["Rolling wave planning","Plan near-term work in detail and later work at a high level."],["Progressive elaboration","Adding detail to the plan as more becomes known."],["Kickoff meeting","Meeting at the start of execution to align the team and stakeholders on the plan."]],
+traps:["A milestone never has a duration.","Resource smoothing doesn't change the critical path; leveling can.","Closing still happens on cancelled projects."],
+see:["scope","wbs","risk","stakeholders","lessons"]},
+
+{id:"d1t3",d:"F",n:"1.3",title:"Project roles and responsibilities",
+goal:"Compare the PM, sponsor and team; know the PM's many roles; separate leadership from management; understand emotional intelligence.",
+sections:[
+["Who does what",`<table><tr><th>Role</th><th>Responsibilities</th></tr>
+<tr><td><b>Sponsor</b></td><td>Provides funding and resources, issues the charter, champions the project, defines success at a high level, removes organizational obstacles, makes or escalates decisions above the PM's authority.</td></tr>
+<tr><td><b>Project manager</b></td><td>Leads the team to achieve objectives. Plans, coordinates, communicates, manages risk and change, balances constraints. Accountable for the project's management.</td></tr>
+<tr><td><b>Project team</b></td><td>Does the work, provides estimates and expertise, reports progress, raises issues.</td></tr>
+<tr><td><b>Functional manager</b></td><td>Owns a department and its people; assigns staff to projects in a matrix.</td></tr>
+<tr><td><b>Customer / user</b></td><td>Will use or pay for the result; accepts deliverables.</td></tr>
+<tr><td><b>PMO</b></td><td>Sets standards, templates, governance; may provide PMs.</td></tr></table>
+<p>The sponsor decides <i>whether and why</i>; the PM manages <i>how</i>; the team does <i>the work</i>.</p>`],
+["The PM's many hats",`<ul><li><b>Initiator:</b> starts things moving and gets the right people involved.</li>
+<li><b>Negotiator:</b> secures resources, resolves competing demands, works out trade-offs.</li>
+<li><b>Listener:</b> actively listens to understand needs and concerns.</li>
+<li><b>Coach:</b> develops team members' skills and confidence.</li>
+<li><b>Working member:</b> on small projects, may do some of the work too.</li>
+<li><b>Facilitator:</b> runs meetings and workshops so the group reaches decisions.</li></ul>`],
+["Leadership vs management",`<table><tr><th>Management</th><th>Leadership</th></tr>
+<tr><td>Directs using positional power</td><td>Guides and influences</td></tr>
+<tr><td>Maintains, administers</td><td>Develops, innovates</td></tr>
+<tr><td>Focuses on systems and structure</td><td>Focuses on people and relationships</td></tr>
+<tr><td>Relies on control</td><td>Inspires trust</td></tr>
+<tr><td>Short-range, "how and when"</td><td>Long-range, "what and why"</td></tr></table>
+<p>Good PMs do both. <b>Leadership styles:</b> servant (support the team, remove obstacles; common in agile), transformational (inspire change), transactional (rewards for results), laissez-faire (hands off), charismatic, situational (adapt to the team's maturity).</p>
+<p><b>Power types:</b> formal/legitimate (position), reward, coercive/penalty, expert (knowledge), referent (respect and likeability). Expert and referent power work best long term.</p>`],
+["Emotional intelligence (EQ)",`<p>EQ is the ability to recognize and manage your own emotions and understand others'. Four parts:</p>
+<ul><li><b>Self-awareness:</b> knowing your emotions and their effect.</li>
+<li><b>Self-management (self-regulation):</b> controlling impulses and staying calm.</li>
+<li><b>Social awareness:</b> empathy, reading others and the room.</li>
+<li><b>Relationship management:</b> influencing, building trust, managing conflict.</li></ul>
+<p>High EQ helps the PM handle conflict, motivate the team and work with difficult stakeholders.</p>`],
+["Teams: development, motivation and conflict",`<p><b>Tuckman's stages:</b> Forming → Storming → Norming → Performing → Adjourning. Adding or removing members can send a team back to storming.</p>
+<p><b>Motivation:</b> Maslow (needs hierarchy), Herzberg (hygiene factors like pay prevent dissatisfaction; motivators like recognition and growth create satisfaction), McGregor (Theory X assumes people avoid work; Theory Y assumes people are self-motivated).</p>
+<p><b>Conflict techniques:</b> collaborate/problem-solve (win-win, best), compromise/reconcile (each gives something), smooth/accommodate (emphasize agreement), force/direct (one side wins), withdraw/avoid (postpone). Address conflict early, privately, and directly with the people involved.</p>`]],
+terms:[["Servant leadership","Leading by serving the team: removing obstacles, shielding it from distractions, enabling it to perform."],["Colocation","Putting the team in one place to improve communication."],["Team charter","Team-agreed values, ground rules, decision process and communication norms."]],
+traps:["The sponsor, not the PM, funds the project and signs the charter.","Escalate to the sponsor only after trying to resolve at the PM's level.","Collaboration is almost always the best conflict answer."],
+see:["raci","charter","stakeholders","scenarios"]},
+
+{id:"d1t4",d:"F",n:"1.4",title:"Following planned strategies and frameworks",
+goal:"Respond to situations by following the agreed plans (communication, risk, change), and understand initiation and benefits planning.",
+sections:[
+["Respond using the plan",`<p>Most "what should the PM do?" questions reward following the agreed plan instead of improvising:</p>
+<ul><li><b>Communication:</b> check the communications management plan for who needs what. If a stakeholder isn't getting the information they need, update the plan.</li>
+<li><b>Risk:</b> when a trigger occurs, the <b>risk owner</b> implements the planned response. If an unplanned risk occurs, use a <b>workaround</b> and then add it to the register. Use <b>contingency reserve</b> for known risks; <b>management reserve</b> (held by sponsor) for unknown-unknowns.</li>
+<li><b>Change:</b> analyze impact → change request → change control board decides → update baselines and plans → communicate.</li>
+<li><b>Issues:</b> log, assign an owner, track to resolution, escalate per the escalation path if needed.</li>
+<li><b>Stakeholders:</b> follow the stakeholder engagement plan; adjust as attitudes shift.</li></ul>
+<p>After a planned response, watch for <b>residual risk</b> (what remains) and <b>secondary risk</b> (new risk caused by the response). A <b>fallback plan</b> is used if the primary response fails.</p>`],
+["Project initiation",`<ol><li><b>Needs assessment / business case:</b> why do this? Options, costs, benefits.</li>
+<li><b>Benefits management plan:</b> what benefits, when, how measured, who owns them.</li>
+<li><b>Project charter:</b> sponsor authorizes the project and names the PM.</li>
+<li><b>Identify stakeholders</b> and start the stakeholder register.</li>
+<li><b>Assumption log:</b> record high-level assumptions and constraints.</li></ol>`],
+["Benefits planning",`<p>The <b>benefits management plan</b> describes the target benefits, the <b>timeframe</b> for realizing them (often after the project ends), <b>metrics</b>, the <b>benefits owner</b>, assumptions and risks. Projects deliver outputs; <b>benefits</b> are what the organization gains from using them. Financial measures used to choose projects include <b>NPV</b> (higher is better), <b>IRR</b> (higher is better), <b>payback period</b> (shorter is better), <b>ROI</b>, and <b>benefit-cost ratio</b> (above 1 is good).</p>`]],
+terms:[["Trigger","A sign that a risk is about to occur or has occurred."],["Workaround","An unplanned response to a risk or issue that wasn't anticipated."],["Escalation path","The agreed route for raising problems beyond the PM's authority."],["Opportunity cost","The value of the option you give up when choosing another."]],
+traps:["Don't skip the plan to act on your own idea.","Contingency reserve is the PM's to use; management reserve needs sponsor approval.","Benefits often arrive after the project closes."],
+see:["risk","comms","change","business-case","issues"]},
+
+{id:"d1t5",d:"F",n:"1.5",title:"Problem-solving tools and techniques",
+goal:"Judge whether a meeting is effective and know when to use focus groups, stand-ups, brainstorming and analysis tools.",
+sections:[
+["Effective meetings",`<ul><li>Clear <b>purpose and agenda</b> sent in advance.</li><li>Only the <b>right attendees</b>.</li><li>Start and end on time (<b>timebox</b>).</li><li>A <b>facilitator</b> keeps it on track; detailed side topics go to a <b>parking lot</b>.</li><li>Record <b>decisions and action items</b> with owners and dates; send <b>minutes</b>.</li></ul>
+<p>A meeting is ineffective if it has no agenda, runs over, has the wrong people, ends without decisions, or repeats information that could have been an email.</p>`],
+["Group techniques",`<table><tr><th>Technique</th><th>Use it to</th></tr>
+<tr><td>Brainstorming</td><td>Generate many ideas quickly without judging them</td></tr>
+<tr><td>Nominal group technique</td><td>Brainstorm, then vote and rank ideas so everyone gets a voice</td></tr>
+<tr><td>Brainwriting</td><td>Generate ideas individually in writing before sharing</td></tr>
+<tr><td>Focus group</td><td>Get the attitudes and expectations of prequalified stakeholders or SMEs, led by a moderator</td></tr>
+<tr><td>Stand-up (daily scrum)</td><td>Short daily sync: progress, plan, impediments. Not for problem-solving</td></tr>
+<tr><td>Delphi technique</td><td>Reach expert consensus anonymously over several rounds</td></tr>
+<tr><td>Retrospective / lessons learned</td><td>Look back and improve how the team works</td></tr>
+<tr><td>Affinity diagram</td><td>Group many ideas into themes</td></tr>
+<tr><td>Mind mapping</td><td>Visually connect ideas around a central topic</td></tr></table>`],
+["Analysis tools",`<ul><li><b>Root cause analysis:</b> find the underlying cause, not the symptom. <b>5 Whys</b> asks "why" repeatedly.</li>
+<li><b>Fishbone (Ishikawa / cause-and-effect) diagram:</b> sorts possible causes into categories.</li>
+<li><b>Pareto chart:</b> bars sorted by frequency; the 80/20 rule says a few causes create most problems.</li>
+<li><b>Control chart:</b> shows whether a process is stable over time.</li>
+<li><b>Flowchart / process map:</b> shows the steps of a process to find bottlenecks.</li>
+<li><b>SWOT:</b> strengths, weaknesses, opportunities, threats.</li>
+<li><b>Decision-making:</b> unanimity, majority (more than 50%), plurality (largest group), autocratic (one person decides), multicriteria decision analysis (weighted scoring).</li></ul>
+<p>A typical problem-solving sequence: define the problem → find the root cause → generate options → choose → implement → check the result.</p>`]],
+terms:[["Parking lot","A list for off-topic items to handle later."],["Timebox","A fixed amount of time for an activity."],["Facilitation","Guiding a group to a decision without dictating it."]],
+traps:["The daily stand-up is for coordination, not problem-solving.","Fix root causes, not symptoms.","Focus groups use a moderator and prequalified participants; surveys reach many people quickly."],
+see:["scenarios","lessons","sprint"]},
+
+/* ================= DOMAIN 2 ================= */
+{id:"d2t1",d:"P",n:"2.1",title:"When to use a predictive approach",
+goal:"Decide when predictive fits, including organizational structure, and know the activities in each process group and how project components relate.",
+sections:[
+["When predictive fits",`<ul><li>Requirements are <b>clear, stable</b> and agreed up front.</li><li>Technology and methods are <b>well understood</b>.</li><li>Changes late are <b>expensive or impossible</b> (construction, hardware, physical installs).</li><li><b>Regulation or contracts</b> demand detailed plans and documentation.</li><li>The customer wants a fixed scope, date and price.</li></ul>
+<p>Predictive struggles when requirements are uncertain or likely to change, because changes require formal control and rework.</p>`],
+["Organizational structures",`<table><tr><th>Structure</th><th>PM authority</th><th>Notes</th></tr>
+<tr><td>Functional (hierarchical)</td><td>Little or none</td><td>Staff report to functional managers; PM is often a coordinator</td></tr>
+<tr><td>Weak matrix</td><td>Low</td><td>PM acts as expediter or coordinator</td></tr>
+<tr><td>Balanced matrix</td><td>Low to moderate</td><td>Power shared with functional managers</td></tr>
+<tr><td>Strong matrix</td><td>Moderate to high</td><td>Full-time PM, more control over resources</td></tr>
+<tr><td>Projectized</td><td>High to almost total</td><td>Team reports to the PM; team has no "home" after the project</td></tr>
+<tr><td>Virtual</td><td>Varies</td><td>Team spread across locations; relies on communication technology</td></tr></table>
+<p>In a matrix, team members have <b>two bosses</b>, which creates resource conflicts the PM must negotiate. Hierarchical, document-driven organizations are often comfortable with predictive approaches; <b>virtual</b> teams need especially clear communication plans. <b>Colocation</b> helps any approach.</p>`],
+["Activities in each process group",`<table><tr><th>Process group</th><th>Typical activities</th></tr>
+<tr><td>Initiating</td><td>Develop the charter, identify stakeholders</td></tr>
+<tr><td>Planning</td><td>Collect requirements, define scope, create WBS, define and sequence activities, estimate durations and costs, develop schedule and budget, plan quality, resources, communications, risk, procurement and stakeholder engagement</td></tr>
+<tr><td>Executing</td><td>Direct and manage work, manage quality, acquire/develop/manage the team, manage communications, implement risk responses, conduct procurements, manage stakeholder engagement</td></tr>
+<tr><td>Monitoring &amp; Controlling</td><td>Monitor work, perform integrated change control, validate and control scope, control schedule and costs, control quality, monitor risks, communications, procurements and stakeholder engagement</td></tr>
+<tr><td>Closing</td><td>Close the project or phase</td></tr></table>
+<p><b>Validate scope</b> = customer formally accepts deliverables. <b>Control quality</b> = checking deliverables are correct (comes before validate scope).</p>`],
+["Project components",`<p>Project → <b>phases</b> (ending in <b>phase gates</b>) → <b>deliverables</b> → <b>work packages</b> (WBS) → <b>activities</b> (schedule) → <b>milestones</b> mark key points. Also distinguish <b>project documents</b> (registers, logs) from the <b>project management plan</b> (the approved approach) and the <b>deliverables</b> (what's handed over).</p>`]],
+terms:[["Expediter","Weak-matrix PM role with no decision power; passes information."],["Validate scope","Formal acceptance of completed deliverables by the customer."],["Control quality","Inspecting deliverables to make sure they meet requirements."]],
+traps:["Projectized gives the PM the most authority; functional the least.","Control quality happens before validate scope.","Process groups repeat in every phase."],
+see:["scope","wbs","schedule","change"]},
+
+{id:"d2t2",d:"P",n:"2.2",title:"The project schedule, WBS and supporting plans",
+goal:"Apply the critical path method, calculate schedule variance, explain the WBS and work packages, and apply quality and integration management plans.",
+sections:[
+["Building a schedule",`<ol><li>Decompose work packages into <b>activities</b>.</li><li><b>Sequence</b> them with dependencies.</li><li><b>Estimate durations</b> (analogous, parametric, three-point, bottom-up).</li><li>Build the schedule network and find the <b>critical path</b>.</li></ol>
+<p><b>Dependency types:</b> Finish-to-Start (most common), Start-to-Start, Finish-to-Finish, Start-to-Finish (rare). <b>Mandatory</b> (hard logic, physically required), <b>discretionary</b> (preferred), <b>external</b> (outside the project), <b>internal</b>. <b>Lead</b> = start early (overlap); <b>lag</b> = waiting time (e.g. concrete curing).</p>`],
+["Critical path method",`<ul><li><b>Forward pass:</b> ES and EF from start to finish. EF = ES + duration.</li>
+<li><b>Backward pass:</b> LF and LS from finish back. LS = LF − duration.</li>
+<li><b>Total float</b> = LS − ES (or LF − EF). How long an activity can slip without delaying the project.</li>
+<li><b>Free float:</b> how long it can slip without delaying the next activity.</li>
+<li>Critical path = longest path, total float of zero (normally). There can be more than one. A delay on it delays the project.</li>
+<li><b>Near-critical path:</b> a path with very little float.</li></ul>
+<p><b>Compression:</b> <b>crashing</b> adds resources to critical activities (more cost); <b>fast tracking</b> overlaps activities planned in sequence (more risk, possible rework). Only compressing critical-path activities shortens the project.</p>`],
+["Schedule variance",`<p><b>SV = EV − PV</b>. Negative = behind schedule. <b>SPI = EV ÷ PV</b>. Below 1 = behind. Example: EV $40K, PV $50K → SV = −$10K, SPI = 0.8.</p>`],
+["WBS and work packages",`<ul><li>The <b>WBS</b> is a hierarchical, <b>deliverable-oriented</b> decomposition of the total scope.</li>
+<li><b>100% rule:</b> children add up to all of the parent's work.</li>
+<li><b>Work package:</b> lowest WBS level, where cost and duration are estimated and work is assigned. A common guideline is 8–80 hours of effort.</li>
+<li><b>WBS dictionary:</b> details each element: description, owner, acceptance criteria, cost, schedule.</li>
+<li><b>Control account:</b> a management point above work packages for tracking scope, cost and schedule.</li>
+<li>Scope statement + WBS + WBS dictionary = <b>scope baseline</b>.</li></ul>`],
+["Quality management plan",`<ul><li><b>Quality</b> = meeting requirements; <b>grade</b> = category of features. Low grade can be fine; low quality never is.</li>
+<li><b>Prevention over inspection:</b> build quality in.</li>
+<li><b>Cost of quality:</b> conformance (prevention + appraisal) vs nonconformance (internal failure + external failure). External failures, found by the customer, cost the most.</li>
+<li><b>Manage quality</b> (quality assurance): are we following the right processes? <b>Control quality</b>: are the deliverables correct?</li>
+<li><b>Tools:</b> checklists, control charts (upper and lower control limits; 7 points in a row on one side of the mean signals a problem), Pareto, histograms, scatter diagrams, audits.</li>
+<li><b>Plan-Do-Check-Act</b> (Deming cycle) for continuous improvement.</li></ul>`],
+["Integration management plan",`<p>Integration is the PM's core job: making all parts of the plan work together. The PM, not the team, is the integrator. It includes developing the charter and plan, directing work, managing knowledge, monitoring, <b>integrated change control</b> (every change evaluated against scope, schedule, cost, quality, risk and resources), and closing. <b>Configuration management</b> controls versions and specifications of deliverables.</p>`]],
+terms:[["Analogous estimating","Uses a similar past project; fast, less accurate (top-down)."],["Parametric estimating","Uses a unit rate × quantity, e.g. 2 hours per rack × 24 racks."],["Bottom-up estimating","Estimates each work package and adds up; most accurate, slowest."],["Schedule baseline","The approved schedule used to measure performance."]],
+traps:["Fast tracking adds risk; crashing adds cost.","A WBS lists deliverables, not activities.","Quality is planned in, not inspected in."],
+see:["schedule","wbs","estimating","evm"]},
+
+{id:"d2t3",d:"P",n:"2.3",title:"Controls and artifacts for predictive projects",
+goal:"Identify the documents used to control predictive projects and calculate cost and schedule variances.",
+sections:[
+["Key predictive artifacts",`<table><tr><th>Artifact</th><th>Used to</th></tr>
+<tr><td>Project charter</td><td>Authorize the project</td></tr>
+<tr><td>Project management plan and baselines</td><td>Define how work is done and what progress is measured against</td></tr>
+<tr><td>Scope statement, WBS, WBS dictionary</td><td>Define the scope</td></tr>
+<tr><td>Gantt chart, milestone chart, network diagram</td><td>Show the schedule</td></tr>
+<tr><td>Risk register, issue log, assumption log</td><td>Track uncertainty and problems</td></tr>
+<tr><td>Change requests, change log</td><td>Control changes</td></tr>
+<tr><td>Status and variance reports, EVM reports</td><td>Report performance</td></tr>
+<tr><td>Quality reports, test results</td><td>Show deliverable quality</td></tr>
+<tr><td>Lessons learned register</td><td>Capture knowledge</td></tr>
+<tr><td>Contracts, procurement statements of work</td><td>Manage vendors</td></tr></table>`],
+["Earned value formulas",`<table><tr><th>Measure</th><th>Formula</th><th>Reading</th></tr>
+<tr><td>Cost variance</td><td>CV = EV − AC</td><td>Negative = over budget</td></tr>
+<tr><td>Schedule variance</td><td>SV = EV − PV</td><td>Negative = behind schedule</td></tr>
+<tr><td>Cost performance index</td><td>CPI = EV ÷ AC</td><td>Below 1 = over budget</td></tr>
+<tr><td>Schedule performance index</td><td>SPI = EV ÷ PV</td><td>Below 1 = behind</td></tr>
+<tr><td>Estimate at completion</td><td>EAC = BAC ÷ CPI</td><td>Forecast total cost if current efficiency continues</td></tr>
+<tr><td>Estimate to complete</td><td>ETC = EAC − AC</td><td>Money still needed</td></tr>
+<tr><td>Variance at completion</td><td>VAC = BAC − EAC</td><td>Negative = expected overrun</td></tr>
+<tr><td>To-complete performance index</td><td>TCPI = (BAC − EV) ÷ (BAC − AC)</td><td>Efficiency needed to finish on budget</td></tr></table>
+<p>Other EAC forms: <b>AC + (BAC − EV)</b> when the variance was a one-time event; <b>AC + bottom-up ETC</b> when the original estimate is no longer valid.</p>
+<p><b>Worked example:</b> BAC $100K. At week 6, PV $60K, EV $50K, AC $55K. CV = −$5K, SV = −$10K, CPI ≈ 0.91, SPI ≈ 0.83, EAC ≈ $110K.</p>`],
+["Contracts",`<ul><li><b>Fixed price (FP / lump sum):</b> seller carries the most risk. Best when scope is well defined.</li>
+<li><b>Cost-reimbursable (CR):</b> buyer pays costs plus a fee; buyer carries the most risk. Used when scope is uncertain.</li>
+<li><b>Time and materials (T&amp;M):</b> hourly or unit rates; good for small or staff-augmentation work.</li></ul>`]],
+terms:[["Variance analysis","Comparing actual results to the baseline and explaining the difference."],["Forecast","An estimate of future performance based on current data."],["RAG status","Red / amber / green indicator of health."]],
+traps:["EV is always first in the variance and index formulas.","CPI and SPI below 1 are bad; TCPI above 1 is bad.","A fixed-price contract puts cost risk on the seller."],
+see:["evm","change","issues","risk"]},
+
+/* ================= DOMAIN 3 ================= */
+{id:"d3t1",d:"A",n:"3.1",title:"When to use an adaptive approach",
+goal:"Compare adaptive and predictive, judge fit for the organization, and know which OPAs and EEFs help agile work.",
+sections:[
+["The Agile Manifesto",`<p>Four values. We value the items on the left <i>more</i> than those on the right:</p>
+<ul><li><b>Individuals and interactions</b> over processes and tools</li><li><b>Working software</b> over comprehensive documentation</li><li><b>Customer collaboration</b> over contract negotiation</li><li><b>Responding to change</b> over following a plan</li></ul>
+<p>Twelve principles include: satisfy the customer through early and continuous delivery, welcome changing requirements, deliver frequently, business and developers work together daily, build around motivated individuals, face-to-face conversation, working product is the measure of progress, sustainable pace, technical excellence, simplicity (maximize work not done), self-organizing teams, and regular reflection to improve.</p>`],
+["Pros and cons",`<table><tr><th></th><th>Adaptive</th><th>Predictive</th></tr>
+<tr><td>Pros</td><td>Fast feedback, early value, handles change, lower risk of building the wrong thing, high customer involvement</td><td>Clear plan, budget and date up front; good for stable scope and regulated work; easier to contract</td></tr>
+<tr><td>Cons</td><td>Harder to fix a total cost or date; needs active customer; documentation can be thin; harder to scale</td><td>Late feedback; changes are costly; value arrives at the end; risk of delivering what was asked, not what's needed</td></tr></table>
+<p>Use adaptive when requirements are <b>uncertain</b>, the technology is <b>new</b>, and fast feedback is possible. Use <b>hybrid</b> when parts of the work are stable and parts are not.</p>`],
+["Organizational fit",`<ul><li>Agile works best with small (often 3–9 people), <b>cross-functional</b>, <b>dedicated</b>, <b>colocated</b> teams.</li>
+<li><b>Virtual</b> teams can be agile with good tools, overlapping hours and frequent video calls.</li>
+<li><b>Matrix</b> structures make it harder because people split time across projects.</li>
+<li><b>Hierarchical</b>, command-and-control cultures struggle; agile needs empowered, self-organizing teams and servant leadership.</li></ul>`],
+["OPAs and EEFs that help agile",`<p><b>Enterprise environmental factors (EEFs)</b> are conditions outside the team's control: culture, leadership support, organizational structure, regulations, market conditions, tooling and infrastructure. Helpful EEFs: executive support, a culture that accepts experimentation and failure, flexible funding, collaboration tools.</p>
+<p><b>Organizational process assets (OPAs)</b> are the organization's own processes, templates and knowledge: policies, templates, lessons learned, historical velocity. Helpful OPAs: lightweight governance, agile templates, an agile coaching group, past retrospectives.</p>`]],
+terms:[["Cross-functional team","Has all the skills needed to deliver a working increment."],["Self-organizing team","Decides how to do its work without being told by a manager."],["Hybrid","Combining predictive and adaptive elements."]],
+traps:["The manifesto doesn't say documentation is worthless; it values working product more.","EEFs are outside your control; OPAs are the organization's internal assets.","Agile is not 'no planning'; it's frequent planning."],
+see:["backlog","sprint","kanban"]},
+
+{id:"d3t2",d:"A",n:"3.2",title:"Planning iterations",
+goal:"Break work into iterations, weigh iteration pros and cons, turn a WBS into a backlog, find the inputs for scope, and track progress the adaptive way.",
+sections:[
+["Logical units of work",`<p><b>Theme</b> → <b>epic</b> (large body of work) → <b>feature</b> → <b>user story</b> (small, valuable, fits in one iteration) → <b>tasks</b> (technical steps). Work is planned in <b>iterations</b> (timeboxes of 1–4 weeks, called sprints in Scrum) and grouped into <b>releases</b> that ship to users.</p>
+<p>A <b>spike</b> is a timeboxed research story to reduce uncertainty. <b>Iteration 0</b> (sprint zero) sets up environment and initial backlog.</p>`],
+["Iteration planning",`<p>Inputs: the <b>ordered product backlog</b>, the team's <b>velocity</b> and <b>capacity</b> (availability this iteration), the <b>Definition of Done</b> and Definition of Ready, and the iteration goal. The team pulls the top items it can finish, breaks them into tasks, and commits to a goal. The Product Owner sets priority; the team decides how much fits.</p>`],
+["Pros and cons of iterations",`<p><b>Pros:</b> frequent feedback, early value, regular reprioritization, visible progress, predictable rhythm. <b>Cons:</b> overhead of frequent ceremonies; pressure to fit work into the timebox; hard for work that can't be split small; needs steady stakeholder availability.</p>`],
+["Translating a WBS to adaptive work",`<p>A predictive WBS deliverable maps to an <b>epic or feature</b>; its work packages map to <b>user stories</b>; the WBS dictionary's acceptance criteria become <b>story acceptance criteria</b>. Instead of planning it all at once, the stories are ordered in a backlog and pulled into iterations.</p>
+<p>Example: WBS 1.4.3 "Network cabling" → epic "Rack connectivity" → stories "As a network tech, I want each rack's uplinks labeled…" etc.</p>`],
+["Inputs for scope",`<p>In adaptive projects, scope comes from the <b>product vision</b>, <b>product roadmap</b>, <b>product backlog</b>, <b>user stories</b> with acceptance criteria, stakeholder feedback from <b>reviews/demos</b>, and the <b>Definition of Done</b>. Scope is expected to evolve; time and cost per iteration are fixed instead.</p>`],
+["Adaptive vs predictive tracking",`<p>Predictive tracking compares progress to <b>baselines</b> (EVM, Gantt, variance reports). Adaptive tracking measures <b>delivered value</b>: burndown and burnup charts, velocity, cumulative flow diagrams, and working increments shown at reviews. Adaptive tracking matters because the plan is expected to change, so measuring against an old baseline says little; what counts is working product and value delivered.</p>`]],
+terms:[["Velocity","Average story points a team completes per iteration."],["Capacity","How much the team can work this iteration, given availability."],["Release","A set of increments delivered to users."]],
+traps:["The team, not the PO, decides how much work fits in the sprint.","Velocity is for planning, not comparing teams.","Adaptive projects fix time and cost per iteration; scope flexes."],
+see:["backlog","burndown","sprint"]},
+
+{id:"d3t3",d:"A",n:"3.3",title:"Controls and artifacts for adaptive projects",
+goal:"Identify the artifacts adaptive teams use to plan, track and control work.",
+sections:[
+["Common adaptive artifacts",`<table><tr><th>Artifact</th><th>What it is</th></tr>
+<tr><td>Product vision</td><td>A short statement of the product's purpose and target users</td></tr>
+<tr><td>Product roadmap</td><td>High-level view of releases and themes over time</td></tr>
+<tr><td>Product backlog</td><td>Ordered list of everything the product might need</td></tr>
+<tr><td>Sprint / iteration backlog</td><td>Items selected for this iteration plus the plan to deliver them</td></tr>
+<tr><td>Increment</td><td>The working, done product produced each iteration</td></tr>
+<tr><td>User stories and acceptance criteria</td><td>Requirements from the user's view, with test conditions</td></tr>
+<tr><td>Definition of Done / Definition of Ready</td><td>Checklists for finished work and for work ready to start</td></tr>
+<tr><td>Task board / Kanban board</td><td>Visual columns showing work status</td></tr>
+<tr><td>Burndown / burnup charts</td><td>Work remaining or completed over time</td></tr>
+<tr><td>Velocity chart</td><td>Points completed each iteration</td></tr>
+<tr><td>Cumulative flow diagram</td><td>Shows work in each state over time; widening bands reveal bottlenecks</td></tr>
+<tr><td>Impediment log</td><td>Obstacles blocking the team</td></tr>
+<tr><td>Release plan</td><td>Which features go in which release</td></tr></table>`],
+["Information radiators",`<p>Big, visible displays (boards, charts) placed where everyone can see them. They make status transparent without status meetings. Agile control relies on <b>transparency, inspection and adaptation</b> rather than formal variance reports.</p>`],
+["Controlling change in agile",`<p>New requests go into the <b>product backlog</b>, and the Product Owner orders them. The current iteration's goal is protected; scope changes wait for the next planning session unless the PO cancels the sprint. This is how agile "controls" scope without a change control board.</p>`]],
+terms:[["Information radiator","A highly visible display of project information."],["Cumulative flow diagram","Stacked area chart of work states over time."],["Impediment","Anything slowing or blocking the team."]],
+traps:["Mid-sprint changes go to the backlog, not into the sprint.","The increment must meet the Definition of Done.","A burnup shows scope changes more clearly than a burndown."],
+see:["backlog","sprint","burndown","kanban"]},
+
+{id:"d3t4",d:"A",n:"3.4",title:"Components of adaptive methodologies",
+goal:"Distinguish Scrum, XP, Kanban, SAFe, Lean and other methods.",
+sections:[
+["Scrum",`<p><b>Roles (accountabilities):</b> Product Owner (maximizes value, owns and orders backlog), Scrum Master (servant leader, coaches Scrum, removes impediments), Developers (build the increment).</p>
+<p><b>Events:</b> the Sprint (≤1 month), Sprint Planning (≤8 hrs for a month-long sprint), Daily Scrum (15 min), Sprint Review (≤4 hrs, inspect the increment with stakeholders), Sprint Retrospective (≤3 hrs, improve the process).</p>
+<p><b>Artifacts:</b> Product Backlog (commitment: product goal), Sprint Backlog (commitment: sprint goal), Increment (commitment: Definition of Done).</p>`],
+["Extreme Programming (XP)",`<p>Engineering-focused agile. Practices: <b>pair programming</b>, <b>test-driven development</b> (write the test first), <b>continuous integration</b>, <b>refactoring</b>, <b>small releases</b>, <b>simple design</b>, <b>collective code ownership</b>, <b>coding standards</b>, <b>sustainable pace</b> (40-hour week), <b>on-site customer</b>, <b>planning game</b>, and <b>system metaphor</b>. Values: communication, simplicity, feedback, courage, respect.</p>`],
+["Kanban",`<p>A flow-based method with no fixed iterations or prescribed roles. Core practices: <b>visualize</b> the work, <b>limit work in progress</b>, <b>manage flow</b>, make <b>policies explicit</b>, implement <b>feedback loops</b>, improve collaboratively. Work is <b>pulled</b> when capacity frees up. Key metrics: <b>lead time</b> (request to delivery), <b>cycle time</b> (work start to done), throughput.</p>`],
+["Lean",`<p>From Toyota. Maximize value and eliminate <b>waste</b> (in software: partially done work, extra features, relearning, handoffs, delays, task switching, defects). Principles include deliver fast, build quality in, defer commitment, respect people, optimize the whole. <b>Value stream mapping</b> finds waste in a process.</p>`],
+["Scaling: SAFe and others",`<p><b>SAFe (Scaled Agile Framework):</b> coordinates many agile teams. Teams form an <b>Agile Release Train (ART)</b> that plans together in <b>PI (Program Increment) Planning</b>, usually every 8–12 weeks. Roles include Release Train Engineer and Product Management.</p>
+<p><b>LeSS</b> (Large-Scale Scrum): several teams, one Product Owner, one product backlog. <b>Scrum of Scrums:</b> representatives from each team meet to coordinate.</p>`],
+["Others you might see",`<ul><li><b>DSDM:</b> fixes time and cost, flexes scope; origin of MoSCoW prioritization.</li><li><b>Crystal:</b> a family of methods scaled by team size and criticality.</li><li><b>FDD (Feature-Driven Development):</b> builds feature by feature using a feature list.</li><li><b>Scrumban:</b> Scrum events with Kanban flow and WIP limits.</li></ul>`]],
+terms:[["Timebox","Fixed maximum duration for an event."],["Pull system","Work starts only when there is capacity for it."],["Agile Release Train","A team of agile teams in SAFe that plans and delivers together."]],
+traps:["Kanban has no required sprints or roles.","The Scrum Master doesn't assign tasks.","Pair programming and TDD are XP, not Scrum."],
+see:["sprint","kanban","burndown"]},
+
+{id:"d3t5",d:"A",n:"3.5",title:"Task management in adaptive projects",
+goal:"Interpret success criteria for adaptive work and prioritize tasks.",
+sections:[
+["Success criteria",`<ul><li><b>Acceptance criteria:</b> conditions a specific story must meet to be accepted by the PO.</li>
+<li><b>Definition of Done:</b> quality checklist every item must meet (tested, reviewed, documented).</li>
+<li><b>Definition of Ready:</b> what a story needs before it can enter an iteration (clear, estimated, small enough).</li>
+<li>Overall success is measured by <b>value delivered</b>, working product, and customer satisfaction, not by matching a plan.</li></ul>`],
+["Prioritization techniques",`<table><tr><th>Technique</th><th>How it works</th></tr>
+<tr><td>MoSCoW</td><td>Must, Should, Could, Won't have (this time)</td></tr>
+<tr><td>Kano model</td><td>Basic needs (expected), performance (more is better), delighters (unexpected wow)</td></tr>
+<tr><td>100-point method</td><td>Stakeholders split 100 points across items</td></tr>
+<tr><td>Dot voting</td><td>Each person places a few dots on favorite items</td></tr>
+<tr><td>Value vs effort</td><td>Do high-value, low-effort items first</td></tr>
+<tr><td>Cost of delay / WSJF</td><td>Weighted shortest job first: cost of delay ÷ job size (used in SAFe)</td></tr>
+<tr><td>Risk-based</td><td>Tackle high-risk items early to learn fast</td></tr></table>
+<p>The <b>Product Owner</b> makes the final call on backlog order, balancing value, risk, dependencies and stakeholder input.</p>`],
+["Estimating",`<ul><li><b>Story points:</b> relative size (effort, complexity, uncertainty), often using a Fibonacci-like scale (1, 2, 3, 5, 8, 13).</li><li><b>Planning poker:</b> everyone reveals estimates at once, discusses differences, re-votes.</li><li><b>T-shirt sizing:</b> XS–XL for rough sizing.</li><li><b>Affinity estimating:</b> group items of similar size quickly.</li><li><b>Ideal days:</b> time with no interruptions.</li></ul>`],
+["Executing the work",`<p>The team self-organizes: members <b>pull</b> tasks, update the board, and raise impediments at the daily stand-up. <b>Swarming</b> means several people work on one item to finish it faster. WIP limits keep focus on finishing. The Scrum Master removes impediments; the PO clarifies requirements.</p>`]],
+terms:[["Backlog refinement","Ongoing work to clarify, split and estimate backlog items."],["Swarming","Team members focusing together on one item."],["MVP","Minimum viable product: the smallest version that delivers value and feedback."]],
+traps:["Acceptance criteria are per story; the DoD applies to all.","The PO orders the backlog; the team estimates it.","Points measure relative size, not hours."],
+see:["backlog","kanban","sprint","req-types"]},
+
+/* ================= DOMAIN 4 ================= */
+{id:"d4t1",d:"B",n:"4.1",title:"Business analysis roles and responsibilities",
+goal:"Distinguish stakeholder roles, explain why roles must be identified, and separate internal from external stakeholders.",
+sections:[
+["What a business analyst does",`<p>The <b>BA</b> identifies business needs, elicits and analyzes requirements, recommends solutions, and makes sure the solution delivers value. The PM manages the <i>project</i>; the BA focuses on the <i>product</i> and its requirements. They work closely together, and on small projects one person may do both.</p>`],
+["Stakeholder roles",`<table><tr><th>Role</th><th>Focus</th></tr>
+<tr><td><b>Sponsor</b></td><td>Funds and champions the initiative; final approver</td></tr>
+<tr><td><b>Process owner</b></td><td>Accountable for a business process end to end: its design, performance and changes</td></tr>
+<tr><td><b>Process manager</b></td><td>Runs the process day to day and manages the people doing it</td></tr>
+<tr><td><b>Product manager</b></td><td>Owns product strategy, market fit and the product over its life cycle</td></tr>
+<tr><td><b>Product owner</b></td><td>In agile, maximizes product value and orders the backlog</td></tr>
+<tr><td><b>Subject matter expert (SME)</b></td><td>Deep knowledge of an area; source of requirements</td></tr>
+<tr><td><b>End user</b></td><td>Uses the solution directly</td></tr>
+<tr><td><b>Customer</b></td><td>Pays for or receives the solution</td></tr>
+<tr><td><b>Implementation SME / developer</b></td><td>Builds the solution</td></tr>
+<tr><td><b>Tester</b></td><td>Verifies the solution works</td></tr>
+<tr><td><b>Regulator</b></td><td>External body that sets rules the solution must follow</td></tr></table>`],
+["Why identify stakeholders and roles",`<p>Missing a stakeholder means <b>missing requirements</b>, late surprises, rework and resistance. Knowing roles clarifies <b>who provides requirements, who decides, who approves</b>, and who must be informed. Tools: stakeholder register, RACI, power/interest grid, <b>salience model</b> (power, legitimacy, urgency), and an <b>onion diagram</b> (layers from the solution outward to external stakeholders).</p>`],
+["Internal vs external",`<p><b>Internal:</b> inside the performing organization (sponsor, employees, functional managers, process owners, the team). <b>External:</b> outside it (customers, end users at another company, vendors and suppliers, regulators, the public, partners). External stakeholders often have contract or regulatory influence and need more formal communication.</p>`]],
+terms:[["Business analysis","Work that enables change by defining needs and recommending solutions that deliver value."],["Salience model","Classifies stakeholders by power, legitimacy and urgency."],["SME","Subject matter expert."]],
+traps:["Process owner is accountable for the process; process manager runs it.","Product owner (agile backlog) is not the same as product manager (product strategy).","Regulators are external stakeholders."],
+see:["stakeholders","raci","rtm"]},
+
+{id:"d4t2",d:"B",n:"4.2",title:"Stakeholder communication",
+goal:"Recommend the right channel or tool, and explain why BA communication between teams matters.",
+sections:[
+["Choosing the channel",`<table><tr><th>Need</th><th>Best fit</th></tr>
+<tr><td>Executives want status at a glance</td><td>Dashboard, short status report, brief presentation</td></tr>
+<tr><td>Complex or sensitive topic, need buy-in</td><td>Face-to-face meeting or video call (interactive)</td></tr>
+<tr><td>Formal approval or legal record</td><td>Formal written document with sign-off</td></tr>
+<tr><td>Many people need the same reference info</td><td>Pull: wiki, SharePoint, shared backlog</td></tr>
+<tr><td>Requirements must be worked out together</td><td>Facilitated workshop</td></tr>
+<tr><td>Quick update to a known group</td><td>Push: email or chat</td></tr>
+<tr><td>Show how the solution will look or behave</td><td>Demo, prototype, wireframe</td></tr></table>
+<p>Consider the audience, urgency, sensitivity, need for feedback, formality, and distance or time zones.</p>`],
+["Communication model and barriers",`<p>Sender <b>encodes</b> a message → <b>medium</b> → receiver <b>decodes</b> it → <b>feedback</b> confirms understanding. <b>Noise</b> (jargon, language, distraction, culture, distance) distorts the message. The sender must make the message clear; the receiver must confirm understanding. Most communication is nonverbal, so face-to-face carries the most meaning.</p>`],
+["Why BA communication matters",`<p>The BA connects business stakeholders, developers, testers and operations. Clear communication keeps everyone aligned on <b>features and requirements</b>, surfaces conflicts early, prevents rework, and builds trust. Poor communication is a leading cause of project failure. The BA tailors detail to the audience: executives get value and outcomes; developers get precise requirements and acceptance criteria.</p>`]],
+terms:[["Push communication","Sent to recipients (email, memos)."],["Pull communication","Recipients access it when needed (wiki, dashboards)."],["Interactive communication","Real-time exchange (meetings, calls)."]],
+traps:["Email is a poor choice for sensitive or complex topics.","Executives usually want concise outcomes, not technical detail.","Confirm understanding; sending isn't communicating."],
+see:["comms","stakeholders"]},
+
+{id:"d4t3",d:"B",n:"4.3",title:"Gathering requirements",
+goal:"Match elicitation techniques and documentation tools to situations, and explain the RTM and product backlog.",
+sections:[
+["Elicitation techniques",`<table><tr><th>Technique</th><th>Best when</th></tr>
+<tr><td>Interviews</td><td>You need depth from individual stakeholders or SMEs, or the topic is sensitive</td></tr>
+<tr><td>Workshops (JAD)</td><td>You need cross-functional agreement quickly and to resolve conflicts</td></tr>
+<tr><td>Focus groups</td><td>You want attitudes and reactions from a set of prequalified users</td></tr>
+<tr><td>Surveys / questionnaires</td><td>Many people, spread out, quick and statistical answers</td></tr>
+<tr><td>Observation (job shadowing)</td><td>Users can't easily describe what they do, or you need the real process</td></tr>
+<tr><td>Document analysis</td><td>Existing documentation, regulations or systems hold the requirements</td></tr>
+<tr><td>Prototyping</td><td>Users need to see something to react; UI requirements</td></tr>
+<tr><td>Brainstorming</td><td>Generating ideas and possible features</td></tr>
+<tr><td>Interface analysis</td><td>Finding how systems or users connect to the solution</td></tr>
+<tr><td>Benchmarking</td><td>Comparing to competitors or best practice</td></tr>
+<tr><td>Lessons learned review</td><td>Reusing knowledge from similar past projects</td></tr></table>`],
+["Documentation tools",`<ul><li><b>User story:</b> "As a [role], I want [goal], so that [benefit]." Short, value-focused, used in agile.</li>
+<li><b>Use case:</b> describes the step-by-step interaction between an actor and the system, including alternate and exception flows. More detailed than a story.</li>
+<li><b>Process model / flowchart:</b> current (as-is) and future (to-be) process steps.</li>
+<li><b>Context diagram:</b> the system's scope and its interactions with external entities.</li>
+<li><b>Data flow diagram / data model:</b> how data moves or is structured.</li>
+<li><b>Wireframe / mock-up:</b> screen layout.</li>
+<li><b>Decision table / decision tree:</b> complex business rules and conditions.</li>
+<li><b>Business rules catalog:</b> policies the solution must enforce.</li>
+<li><b>Requirements document (BRD/SRS):</b> formal predictive documentation.</li></ul>`],
+["Types of requirements",`<p><b>Business</b> (why the organization needs it), <b>stakeholder</b> (what a group needs), <b>solution</b>: <b>functional</b> (what it does) and <b>non-functional</b> (how well: performance, security, usability, reliability), and <b>transition</b> (temporary needs to move to the new state, like data migration and training). Good requirements are clear, testable, feasible, traceable and prioritized.</p>`],
+["RTM and product backlog",`<p>The <b>requirements traceability matrix</b> links each requirement back to its <b>source and business objective</b> and forward to <b>design, build, test cases</b> and status. It prevents gaps and gold plating and supports change impact analysis. In agile, the <b>product backlog</b> plays a similar role: each item traces to a goal or epic and to acceptance criteria and tests.</p>`]],
+terms:[["Elicitation","Drawing out information from stakeholders and other sources."],["JAD","Joint application design/development: a structured workshop with users and developers."],["As-is / to-be","Current state and future state models."]],
+traps:["Observation is best when users can't articulate their process.","Surveys reach many people but give little depth.","Use cases are more detailed than user stories."],
+see:["req-types","rtm","backlog"]},
+
+{id:"d4t4",d:"B",n:"4.4",title:"Product roadmaps",
+goal:"Explain how a product roadmap is used and decide which components go in which release.",
+sections:[
+["What a roadmap is",`<p>A <b>product roadmap</b> is a high-level, visual summary of the product's direction over time: <b>themes, goals, features and planned releases</b>. It connects strategy to delivery and helps align stakeholders. It is <b>not a detailed schedule</b> or a commitment to exact dates; it changes as the team learns.</p>
+<p>Uses: align stakeholders on direction, communicate priorities, plan releases and capacity, show dependencies, and support funding decisions.</p>`],
+["Roadmap vs other plans",`<table><tr><th>Artifact</th><th>Level</th></tr>
+<tr><td>Product vision</td><td>Why the product exists (years)</td></tr>
+<tr><td>Product roadmap</td><td>What themes and releases, roughly when (quarters)</td></tr>
+<tr><td>Release plan</td><td>Which features in a specific release (weeks to months)</td></tr>
+<tr><td>Iteration plan</td><td>What the team builds this sprint (days to weeks)</td></tr></table>`],
+["Deciding what goes in which release",`<ul><li><b>Value:</b> highest business value first.</li><li><b>Dependencies:</b> foundations before features that need them.</li><li><b>MVP / MMF:</b> the first release should be the minimum viable product (smallest thing that delivers value and learning); later releases add minimum marketable features.</li><li><b>Risk:</b> address risky items early.</li><li><b>Stakeholder and market dates:</b> regulations, events, contracts.</li><li><b>Capacity:</b> what the team can realistically deliver (velocity).</li></ul>
+<p>Example: Rack Readiness Tracker release 1 = mark steps done + dashboard (MVP); release 2 = test evidence and weekly email; release 3 = QR scanning and Teams alerts.</p>`]],
+terms:[["MVP","Minimum viable product."],["MMF","Minimum marketable feature: smallest feature that delivers value on its own."],["Theme","A group of related goals or features."]],
+traps:["A roadmap is not a Gantt chart.","Dependencies can force a lower-value item into an earlier release.","Roadmaps change as priorities change."],
+see:["backlog","rtm"]},
+
+{id:"d4t5",d:"B",n:"4.5",title:"How methodology shapes business analysis",
+goal:"Describe the business analyst's role in predictive, adaptive and hybrid approaches.",
+sections:[
+["Predictive",`<ul><li>Requirements elicited and documented <b>up front</b>, in detail.</li><li>Formal <b>requirements document</b> with stakeholder <b>sign-off</b>; becomes part of the scope baseline.</li><li>Changes go through <b>formal change control</b>, and the BA assesses impact using the RTM.</li><li>BA validates the solution at the end against the documented requirements.</li></ul>`],
+["Adaptive",`<ul><li>Requirements emerge <b>just in time</b>, through continuous collaboration.</li><li>The BA helps the Product Owner <b>write and refine user stories</b> and acceptance criteria during <b>backlog refinement</b>.</li><li>The BA may act as a <b>PO proxy</b> or be a member of the team.</li><li>Lighter documentation; conversations, models and examples matter more.</li><li>Feedback from each sprint review updates the backlog.</li></ul>`],
+["Hybrid",`<p>High-level requirements and constraints may be set up front (for budget and contracts), while detailed requirements are refined iteratively. The BA tailors the level of documentation to the risk, regulation and team needs.</p>`],
+["Constant across approaches",`<p>Whatever the approach, the BA: understands the business need, engages stakeholders, analyzes and prioritizes requirements, maintains traceability, and confirms the solution delivers value.</p>`]],
+terms:[["Backlog refinement","Ongoing clarifying, splitting and estimating of backlog items."],["PO proxy","Someone who acts for the Product Owner day to day."],["Requirements baseline","The approved set of requirements, changed only through change control."]],
+traps:["In agile, the BA doesn't write a full spec up front.","In predictive, changing approved requirements needs change control.","The BA's goal is the same in all approaches: deliver business value."],
+see:["backlog","rtm","req-types","change"]},
+
+{id:"d4t6",d:"B",n:"4.6",title:"Validating requirements through delivery",
+goal:"Define acceptance criteria and decide whether a product is ready for delivery using the RTM or product backlog.",
+sections:[
+["Acceptance criteria",`<p>Specific, testable conditions a deliverable or story must meet to be accepted. Written with stakeholders before the work starts. A common format is <b>Given / When / Then</b>:</p>
+<p class="mono">Given a tech is signed in, when they tap "Mark complete", then the step shows complete with name and time.</p>
+<p>When the situation changes (new regulation, feedback from a demo), acceptance criteria are updated through the backlog or change control.</p>`],
+["Verification vs validation",`<table><tr><th>Verification</th><th>Validation</th></tr>
+<tr><td>"Did we build it right?"</td><td>"Did we build the right thing?"</td></tr>
+<tr><td>Meets specifications</td><td>Meets the stakeholder's real need</td></tr>
+<tr><td>Usually internal (QA, testing, reviews)</td><td>Usually with users or customer (UAT, demos)</td></tr></table>`],
+["Ready for delivery?",`<p>Use the <b>RTM</b> or <b>product backlog</b> to check:</p>
+<ul><li>Every in-scope requirement traces to a deliverable and a passed test.</li><li>Acceptance criteria are met and the customer has signed off (predictive) or the PO has accepted the stories (agile).</li><li>Items meet the Definition of Done.</li><li>Open defects are within agreed thresholds.</li><li><b>Transition requirements</b> (training, data migration, support handoff) are complete.</li></ul>
+<p>If gaps remain, the decision is to fix them, defer them with stakeholder agreement, or delay release, not to ship and hope.</p>`],
+["After delivery",`<p><b>Solution evaluation</b> checks whether the solution actually delivers the expected business value once in use, using metrics from the business case and benefits plan.</p>`]],
+terms:[["UAT","User acceptance testing by actual users."],["Sign-off","Formal approval that requirements or deliverables are accepted."],["Go/no-go decision","Decision on whether to release based on readiness criteria."]],
+traps:["Verification is internal; validation involves the customer.","An unmet requirement in the RTM means not ready.","Acceptance criteria are defined before building, not after."],
+see:["rtm","backlog","scope"]}
+];
+
+// ---------- Mock exam bank: [task, question, correct, wrong, wrong, wrong, explanation] ----------
+const EXAM_Q=[
+/* ---------- 1.1 (14) ---------- */
+["1.1","A company sets up a team to build and launch a new customer portal by June. After launch, the help desk will support it. Which part of this work is a project?","Building and launching the portal","Supporting the portal after launch","Both building and supporting the portal","Neither, because the portal is software"],
+["1.1", "Which of the following is the best example of a program?", "Several related build-outs managed together for a regional capacity expansion", "One very large project with a budget over $10 million and many phases", "All of an organization's projects and operations aligned to its strategy", "The ongoing maintenance and break-fix of existing servers"],
+["1.1", "A portfolio is best described as:", "Projects, programs and operations grouped to meet strategic objectives", "A group of related projects managed together for combined benefits", "A large project divided into phases with phase gates", "The full set of plans and documents a PM keeps for a project"],
+["1.1","A project's requirements are well understood, the technology is proven, and the contract fixes scope, cost and date. Which approach fits best?","Predictive","Adaptive","Kanban only","Iterative with no baselines"],
+["1.1","A team is building a product whose requirements are expected to change often based on user feedback. Which approach is most suitable?","Adaptive","Predictive","Waterfall with a fixed scope baseline","A program approach"],
+["1.1","During planning, the team believes the vendor will deliver equipment within 30 days, but nobody has confirmed it. This is:","An assumption","A constraint","An issue","A risk response"],
+["1.1","The site allows electrical work only during Sunday maintenance windows. For the project this is:","A constraint","An assumption","An issue","A risk"],
+["1.1","A key supplier has just announced it is going out of business, and parts on order will not arrive. This is now:","An issue","A risk","An assumption","A constraint"],
+["1.1", "A vendor offers a project manager expensive event tickets while the PM is evaluating that vendor's bid. According to the PMI Code of Ethics, the PM should:", "Decline it and disclose the offer", "Accept it, since it won't change the evaluation", "Accept it and give the vendor a slightly higher score", "Ask the other bidders to offer gifts of equal value"],
+["1.1", "Your sponsor asks you to report the project as 'green' to executives even though it is two weeks behind. What should you do?", "Report the true status along with a recovery plan", "Report green as the sponsor asked, then fix it quietly", "Report amber so the delay looks less serious", "Leave the status off this report and explain next month"],
+["1.1", "Which statement best describes how a project can be a vehicle for change?", "It moves the organization from a current state to a future state", "It keeps existing operations running in the same way as before", "It replaces the need for ongoing operations once it finishes", "It only changes technology, never how people actually work"],
+["1.1", "While reviewing a draft scope statement, you see the requirement 'The dashboard must be fast.' What is the best action?", "Work with stakeholders to define a measurable target", "Approve it as written, since speed is clearly important", "Remove it, because non-functional requirements are optional", "Let the developers decide later what fast should mean"],
+["1.1", "Which list correctly names the five process groups?", "Initiating, Planning, Executing, Monitoring and Controlling, Closing", "Initiating, Designing, Building, Testing, Deploying and Supporting", "Planning, Doing, Checking, Acting, Reviewing, Closing", "Scope, Schedule, Cost, Quality, Resources and Risk"],
+["1.1","A team adds extra report features the customer never requested, hoping to impress them. This is called:","Gold plating","Scope creep","Progressive elaboration","Fast tracking"],
+/* ---------- 1.2 (14) ---------- */
+["1.2","Which three baselines make up the performance measurement baseline?","Scope, schedule and cost","Scope, quality and risk","Schedule, resource and communications","Cost, procurement and stakeholder"],
+["1.2", "What is the main purpose of a risk management plan?", "To describe how risk management will be performed", "To list every identified risk with its owner and score", "To hold and track the project's contingency reserve", "To record the issues that have already occurred"],
+["1.2", "Which is the key difference between a milestone and an activity?", "A milestone has zero duration", "A milestone always costs more than an activity", "Activities appear only on milestone charts", "Milestones are assigned to individual team members"],
+["1.2", "A project management plan differs from a product roadmap because the project management plan:", "Describes how this temporary project will be run and closed", "Describes how the product will evolve across its whole life", "Lists the features planned for future product releases", "Is owned and maintained by the product manager"],
+["1.2","Installing 40 racks takes about 3 hours each, and each technician is available 30 hours this week. How many technicians are needed to finish this week?","4","3","6","10"],
+["1.2","A resource histogram shows the team needs 9 network techs in week 5 but only 6 are available. Moving some activities within their float fixes it without changing the end date. This is:","Resource smoothing","Resource leveling","Crashing","Fast tracking"],
+["1.2","A risk's trigger condition has just occurred. Using the risk register, who should implement the planned response?","The assigned risk owner","The sponsor","The whole team together","The change control board"],
+["1.2", "A new department head joins halfway through the project and will be affected by the deliverables. What should the PM do first?", "Add them to the stakeholder register and analyze them", "Wait until the next phase gate before involving them", "Send them the full project plan and ask for their approval", "Escalate to the sponsor to decide whether they matter"],
+["1.2", "Which activity is part of closing a project?", "Obtaining formal acceptance and handing over deliverables", "Creating the work breakdown structure and WBS dictionary", "Developing and signing the project charter", "Running the kickoff meeting with the whole team"],
+["1.2", "A project is cancelled by the sponsor halfway through. What should the PM do?", "Perform closure activities, including lessons learned", "Stop all activity immediately and reassign everyone", "Continue the work quietly until the deliverables are done", "Hand all files to the sponsor and let them close it out"],
+["1.2","Which plan describes how the project will acquire, manage and release team members and equipment?","Resource management plan","Communications management plan","Stakeholder engagement plan","Quality management plan"],
+["1.2","Planning near-term work in detail while keeping later work at a high level is called:","Rolling wave planning","Fast tracking","Resource leveling","Gold plating"],
+["1.2", "Your stakeholder register shows the operations manager has high power but is currently resistant. Which is the best next step?", "Engage them directly to understand their concerns", "Remove them from communications to avoid conflict", "Ask the sponsor to replace them with someone supportive", "Ignore them since they are not on the project team"],
+["1.2", "Why is a quality management plan important?", "It defines the quality standards and how they'll be met", "It lists every defect found during testing and its fix", "It sets the project budget for testing activities", "It assigns inspection tasks to individual team members"],
+/* ---------- 1.3 (11) ---------- */
+["1.3","Who usually issues the project charter and provides funding?","The project sponsor","The project manager","The project team","The PMO administrator"],
+["1.3","A team member says a needed decision is beyond the project manager's authority. Who should the PM go to?","The sponsor","The newest team member","The customer's end users","The quality auditor"],
+["1.3", "Which is primarily the responsibility of the project team rather than the sponsor?", "Providing estimates and doing the project work", "Approving the business case and funding", "Providing funding and resources", "Championing the project to senior executives"],
+["1.3","A PM spends time teaching a junior analyst how to estimate tasks and giving regular feedback. Which PM role is this?","Coach","Negotiator","Initiator","Working member"],
+["1.3","The PM leads a workshop and guides the group to its own decision without dictating it. This is the role of:","Facilitator","Negotiator","Working member","Sponsor"],
+["1.3", "Which statement best contrasts leadership with management?", "Leaders inspire and influence; managers direct and administer", "Leadership is only needed on agile projects, not predictive ones", "Management focuses on vision; leadership focuses on control", "They are two names for the same set of skills"],
+["1.3","A PM notices she is getting frustrated in a tense meeting, pauses, and responds calmly. Which emotional intelligence skill is she using?","Self-management","Social awareness","Relationship management","Expert power"],
+["1.3","A PM senses that a usually talkative team member is quiet and withdrawn, and checks in privately. This shows:","Social awareness (empathy)","Coercive power","Laissez-faire leadership","Self-management"],
+["1.3","Team members respect a PM because of her deep technical knowledge. This is:","Expert power","Referent power","Coercive power","Legitimate power"],
+["1.3", "Two team members disagree about a design. The PM brings them together to examine both views and reach a solution they both support. This technique is:", "Collaborating", "Smoothing over the disagreement", "Forcing a decision", "Withdrawing until it cools down"],
+["1.3","A new member joins a high-performing team and arguments about how to work start again. According to Tuckman, the team has likely returned to:","Storming","Performing","Adjourning","Norming"],
+/* ---------- 1.4 (8) ---------- */
+["1.4", "A stakeholder complains she isn't getting the project updates she needs. What should the PM do first?", "Review the communications plan and adjust it", "Send her every project document going forward", "Tell her to attend all of the team's meetings", "Escalate her complaint to the project sponsor"],
+["1.4","An identified risk occurs and the planned response doesn't work. What should the team use next?","The fallback plan","The management reserve without approval","A new business case","The project charter"],
+["1.4","An unidentified problem suddenly occurs. The team responds with an unplanned fix. This is a:","Workaround","Contingency plan","Fallback plan","Mitigation strategy"],
+["1.4","After implementing a risk response, a new risk appears that was caused by the response itself. This is a:","Secondary risk","Residual risk","Trigger","Known unknown"],
+["1.4", "The customer asks for an additional feature during execution. What should the PM do first?", "Analyze the change's impact on the project", "Add the feature, since the customer is paying for it", "Reject it, because the scope is already baselined", "Ask the team to work overtime so it fits in"],
+["1.4", "Which document identifies the benefits a project is expected to deliver, when they'll be realized and how they'll be measured?", "Benefits management plan", "Project charter", "Business case appendix", "Stakeholder register"],
+["1.4","Project A has an NPV of $120,000 and Project B has an NPV of $95,000. All else equal, which should be selected?","Project A","Project B","Either, NPV doesn't matter","The one with the longer payback"],
+["1.4","Which reserve can the project manager normally use without sponsor approval to handle identified risks?","Contingency reserve","Management reserve","Capital reserve","Operating budget"],
+/* ---------- 1.5 (7) ---------- */
+["1.5", "Which is the strongest sign that a meeting was effective?", "It ended on time with decisions and owned action items", "Everyone who was invited attended the whole meeting", "It ran long so that every topic got detailed discussion", "It went smoothly even though there was no agenda"],
+["1.5", "During the daily stand-up, two developers start a 20-minute technical debate. What should happen?", "Park it and let them continue after the stand-up", "Let the debate continue, since it affects the sprint", "End the stand-up early and reschedule it for tomorrow", "Have the Scrum Master decide the technical solution"],
+["1.5","The team needs many ideas quickly to solve a problem and wants to avoid judging them early. Which technique fits best?","Brainstorming","Delphi technique","Control chart","Earned value analysis"],
+["1.5","You want insight into the attitudes and expectations of a group of prequalified users about a proposed product, guided by a moderator. Use a:","Focus group","Survey","Document analysis","Pareto chart"],
+["1.5","A team wants expert consensus while avoiding the influence of dominant personalities, using anonymous rounds. Which technique fits?","Delphi technique","Brainstorming","Focus group","Daily stand-up"],
+["1.5","Repeated server install defects are sorted by cause, and the bar chart shows two causes create 80% of defects. This is a:","Pareto chart","Fishbone diagram","Control chart","Burndown chart"],
+["1.5","To find the underlying cause of a recurring failure, the team keeps asking 'why' until they reach the source. This is:","5 Whys root cause analysis","Nominal group technique","Brainwriting","Planning poker"],
+/* ---------- 2.1 (7) ---------- */
+["2.1","In which organizational structure does the project manager have the most authority?","Projectized","Functional","Weak matrix","Balanced matrix"],
+["2.1","In a weak matrix, the project manager's role is most like a:","Coordinator or expediter","Full-time manager with budget authority","Sponsor","Functional manager"],
+["2.1","Team members report to both a functional manager and a project manager. This is a:","Matrix organization","Projectized organization","Functional organization","Virtual organization"],
+["2.1","Which project is most suitable for a predictive approach?","Building a new electrical substation to a fixed engineering design","Developing a mobile app for an uncertain new market","Researching a new AI model with unknown results","Creating marketing content based on weekly customer feedback"],
+["2.1","Which activity belongs to the Monitoring and Controlling process group?","Performing integrated change control","Developing the project charter","Acquiring the team","Collecting requirements"],
+["2.1","The customer formally accepts completed deliverables. This happens in:","Validate Scope","Control Quality","Define Scope","Create WBS"],
+["2.1","What is the correct order from largest to smallest?","Project, phase, deliverable, work package, activity","Activity, work package, deliverable, phase, project","Phase, project, activity, deliverable, work package","Project, activity, work package, deliverable, phase"],
+/* ---------- 2.2 (12) ---------- */
+["2.2","Path A-B-D takes 14 days, A-C-D takes 17 days, and A-E-D takes 12 days. What is the critical path?","A-C-D","A-B-D","A-E-D","All three paths"],
+["2.2","An activity has an early start of day 4 and a late start of day 9. What is its total float?","5 days","4 days","9 days","13 days"],
+["2.2","An activity on the critical path is delayed by 3 days. Assuming no other changes, what happens to the project?","The project finish is delayed by 3 days","Nothing, because it has float","The project finishes 3 days early","Only that activity's cost changes"],
+["2.2","To shorten the schedule, the PM adds two more technicians to critical path activities, increasing cost. This is:","Crashing","Fast tracking","Resource smoothing","Rolling wave planning"],
+["2.2","To shorten the schedule, the PM starts cabling before rack placement is fully complete. This adds risk of rework and is called:","Fast tracking","Crashing","Resource leveling","Decomposition"],
+["2.2","EV is $70,000 and PV is $80,000. What is the schedule variance?","−$10,000","$10,000","0.875","$150,000"],
+["2.2", "Which statement about the WBS is correct?", "It is a deliverable-oriented breakdown of all project scope", "It is a list of project activities in the order they occur", "It shows who reports to whom on the project team", "It is a breakdown of the cost estimates by department"],
+["2.2","The lowest level of the WBS, where cost and duration are estimated and work is assigned, is the:","Work package","Activity list","Control account","Milestone"],
+["2.2","The rule that the WBS must include 100% of the work, and nothing extra, is the:","100% rule","80/20 rule","Rule of seven","8/80 rule"],
+["2.2", "A control chart shows seven consecutive measurements above the mean, all within the control limits. What does this indicate?", "The process may have a problem worth investigating", "The process is stable, so no action is needed", "Quality is clearly improving over time", "The control limits are too narrow and should be widened"],
+["2.2", "Which cost of quality is typically the most expensive?", "External failure costs", "Prevention costs such as training", "Appraisal costs such as inspections", "Internal failure costs such as rework"],
+["2.2","Who is primarily responsible for integration management on a project?","The project manager","The sponsor","The team members","The quality manager"],
+/* ---------- 2.3 (7) ---------- */
+["2.3","EV is $45,000 and AC is $50,000. What is the CPI, and what does it mean?","0.90; the project is over budget","1.11; the project is under budget","0.90; the project is ahead of schedule","−$5,000; the project is behind schedule"],
+["2.3","BAC is $200,000 and CPI is 0.8. If current performance continues, what is the EAC?","$250,000","$160,000","$200,000","$240,000"],
+["2.3","CPI is 1.10 and SPI is 0.85. The project is:","Under budget and behind schedule","Over budget and behind schedule","Under budget and ahead of schedule","Over budget and ahead of schedule"],
+["2.3","Which document records every change request and its status?","Change log","Issue log","Risk register","Lessons learned register"],
+["2.3", "Which artifact is mainly used in predictive projects to compare actual performance to plan?", "Baselines with variance and EVM reports", "A burndown chart updated each day", "A Kanban board with WIP limits", "A product vision statement and roadmap"],
+["2.3","Which contract type places the most cost risk on the seller?","Fixed price","Cost plus fixed fee","Cost plus incentive fee","Time and materials"],
+["2.3","BAC is $100,000, EV is $40,000 and AC is $50,000. What is the TCPI to finish on budget?","1.20","0.80","1.25","0.83"],
+/* ---------- 3.1 (6) ---------- */
+["3.1","Which is one of the four Agile Manifesto values?","Responding to change over following a plan","Comprehensive documentation over working software","Contract negotiation over customer collaboration","Processes and tools over individuals and interactions"],
+["3.1", "Which is a common disadvantage of adaptive approaches?", "Fixed total scope, cost and dates are harder to commit to", "Customer feedback usually arrives too late to be useful", "Changes made late in the project are very expensive", "Business value is delivered only at the very end"],
+["3.1","Which team setup best supports an agile approach?","A small, dedicated, cross-functional, colocated team","Specialists who each work on several projects part time","A large team with a strict chain of command","Separate teams for design, build and test with handoffs"],
+["3.1", "Which is an enterprise environmental factor that supports adopting agile?", "Leadership support for experimentation", "The organization's library of agile templates", "Lessons learned from past retrospectives", "Historical velocity data from previous teams"],
+["3.1", "Which is an organizational process asset that helps an agile team?", "Lessons learned from earlier agile projects", "Government regulations that apply to the industry", "Current market conditions and competition", "The company's overall culture and leadership style"],
+["3.1","A project has a stable hardware installation and an uncertain software component. Which approach makes most sense?","Hybrid","Purely predictive","Purely adaptive","No formal approach"],
+/* ---------- 3.2 (6) ---------- */
+["3.2","Which is the correct order from largest to smallest?","Epic, feature, user story, task","Task, user story, feature, epic","User story, epic, task, feature","Feature, task, epic, user story"],
+["3.2","Who decides how much work the team can commit to in a sprint?","The developers","The Product Owner","The sponsor","The Scrum Master"],
+["3.2", "Which is a key input to iteration planning?", "The ordered product backlog and team capacity", "The signed project charter and its appendices", "The final acceptance report from the last release", "The procurement contracts for outside vendors"],
+["3.2","The team needs a few days to research an unfamiliar technology before estimating. This timeboxed research is a:","Spike","Sprint review","Epic","Release"],
+["3.2", "How would a WBS deliverable typically translate into adaptive work?", "As an epic or feature broken into user stories", "As a single large task assigned to one person", "As an agenda item for the sprint retrospective", "As a formal change request to the backlog owner"],
+["3.2", "Why is adaptive tracking (burnups, velocity, demos) preferred over baseline variance in agile projects?", "Scope is expected to change, so value delivered matters most", "Agile projects don't have a budget to measure against", "Earned value analysis is not permitted on agile projects", "Sponsors on agile projects don't need status updates"],
+/* ---------- 3.3 (5) ---------- */
+["3.3","Which artifact shows the items selected for the current sprint and the plan to deliver them?","Sprint backlog","Product roadmap","Product backlog","Release burnup"],
+["3.3", "A large display of the team's board and charts placed where everyone can see it is called a(n):", "Information radiator", "Issue log", "Milestone chart", "Status report"],
+["3.3","In a cumulative flow diagram, the band for 'In Test' keeps getting wider. This suggests:","A bottleneck in testing","The team is finishing work faster","Scope has been removed","Velocity is increasing"],
+["3.3", "Halfway through a sprint, a stakeholder requests a new feature. What should normally happen?", "It's added to the product backlog for the PO to order", "It's added to the current sprint right away", "The sprint is extended to make room for it", "The Scrum Master rejects it until the release ends"],
+["3.3","Which chart makes changes to total scope easiest to see?","Burnup chart","Burndown chart","Pie chart","Fishbone diagram"],
+/* ---------- 3.4 (7) ---------- */
+["3.4","Who is accountable for ordering the product backlog in Scrum?","Product Owner","Scrum Master","Developers","Sponsor"],
+["3.4","What is the maximum length of a Daily Scrum?","15 minutes","30 minutes","1 hour","There is no limit"],
+["3.4", "Pair programming, test-driven development and continuous integration are key practices of:", "Extreme Programming (XP)", "Kanban method", "SAFe PI planning", "Scrum framework"],
+["3.4","Which method has no prescribed iterations or roles and focuses on visualizing work and limiting WIP?","Kanban","Scrum","XP","SAFe"],
+["3.4","In SAFe, a team of agile teams that plans and delivers together is called a(n):","Agile Release Train","Scrum of Scrums","Center of Excellence","Feature team"],
+["3.4", "What is the main purpose of the sprint retrospective?", "To inspect how the team works and plan improvements", "To demonstrate the increment to stakeholders", "To estimate and order the product backlog", "To assign tasks to developers for the next sprint"],
+["3.4","Which method originated MoSCoW prioritization and fixes time and cost while flexing scope?","DSDM","XP","Crystal","Kanban"],
+/* ---------- 3.5 (6) ---------- */
+["3.5", "How do acceptance criteria differ from the Definition of Done?", "Acceptance criteria are per story; the DoD applies to all", "They are two names for exactly the same checklist", "The DoD is written by the customer for each story", "Acceptance criteria are used only for fixing defects"],
+["3.5","In the Kano model, features customers don't expect but are delighted by are called:","Delighters (exciters)","Basic needs","Performance features","Must-haves"],
+["3.5","Stakeholders each get 100 points to spread across backlog items to show priority. This is the:","100-point method","Planning poker","Affinity estimating","Dot voting"],
+["3.5", "In planning poker, two developers give very different estimates. What should happen next?", "Discuss their reasoning, then re-estimate", "The Scrum Master takes the average of both", "The team uses the higher estimate to be safe", "The Product Owner chooses the final estimate"],
+["3.5", "Story points mainly measure:", "Relative size of the work", "Exact hours each task will take", "Business value to the customer", "Number of defects expected in testing"],
+["3.5","A story is stuck and the sprint goal is at risk. Several developers stop new work to help finish it. This is:","Swarming","Gold plating","Crashing","Fast tracking"],
+/* ---------- 4.1 (7) ---------- */
+["4.1","Who is accountable for the design and performance of a business process from end to end?","Process owner","Process manager","Product owner","Tester"],
+["4.1","Who manages the day-to-day running of a business process and the people performing it?","Process manager","Process owner","Product manager","Sponsor"],
+["4.1","Who owns the long-term strategy and market fit of a product across its life cycle?","Product manager","Product owner","Process manager","Business analyst"],
+["4.1","Which is an external stakeholder?","A government regulator","The project sponsor","A functional manager","A team member"],
+["4.1", "Why is it important to identify stakeholders and their roles early?", "So no requirements or approvers are missed", "To reduce the number of project meetings", "Because the charter must list every stakeholder by name", "So the PM knows which people to avoid contacting"],
+["4.1", "Which best describes the business analyst's main focus compared with the project manager?", "The BA focuses on requirements; the PM on the project", "The BA manages the budget; the PM writes requirements", "The BA approves the charter; the PM funds the project", "There is no real difference between the two roles"],
+["4.1","A model that classifies stakeholders by power, legitimacy and urgency is the:","Salience model","Power/interest grid","Kano model","Fishbone diagram"],
+/* ---------- 4.2 (6) ---------- */
+["4.2", "Executives want a quick view of project health each week. What is the best channel?", "A concise dashboard or one-page report", "A detailed requirements specification", "A daily two-hour status meeting", "Raw test logs and defect records"],
+["4.2", "You need to resolve conflicting requirements between three departments. What is the best approach?", "A facilitated workshop with all three departments", "Separate emails to each department's manager", "A survey sent to everyone in the departments", "Waiting until testing to see which version works"],
+["4.2","A wiki page where stakeholders can look up requirements whenever they want is an example of:","Pull communication","Push communication","Interactive communication","Informal communication"],
+["4.2", "Developers built a feature differently than stakeholders expected because the requirement was vague. What does this show?", "Why clear BA communication across teams matters", "That written requirements are not really needed", "That testers should be the ones writing requirements", "That the sponsor should approve each line of code"],
+["4.2","In the communication model, what confirms that the receiver understood the message?","Feedback","Encoding","Noise","The medium"],
+["4.2", "You need to share sensitive news about a requirement being dropped with a key stakeholder. What is the best channel?", "A face-to-face or video conversation", "A group email to the whole project team", "A posting on the project's shared wiki page", "A short note added to the product backlog"],
+/* ---------- 4.3 (9) ---------- */
+["4.3", "Users struggle to explain how they currently process orders. Which technique is best?", "Observation", "Survey", "Benchmarking", "Document analysis"],
+["4.3","You need requirements input from 600 technicians at 12 sites quickly. Which technique fits?","Survey / questionnaire","One-on-one interviews","Job shadowing","Prototyping"],
+["4.3","Stakeholders can't describe what they want on a new screen until they see something. Which technique helps most?","Prototyping","Document analysis","Interviews only","Interface analysis"],
+["4.3","Which tool describes step-by-step interactions between an actor and a system, including alternate and exception flows?","Use case","User story","Context diagram","Burndown chart"],
+["4.3","'As a technician, I want to scan a rack's QR code so that I open the right record.' This is a:","User story","Use case","Business rule","Acceptance test"],
+["4.3","Which diagram shows a system's scope and its interactions with external people and systems?","Context diagram","Fishbone diagram","Gantt chart","Control chart"],
+["4.3","Complex pricing rules with many conditions and outcomes are best documented with a:","Decision table","Wireframe","Burnup chart","Stakeholder register"],
+["4.3", "What is the main purpose of a requirements traceability matrix?", "To link requirements to their sources, deliverables and tests", "To list each team member's tasks and due dates", "To track project costs against the budget baseline", "To record decisions and minutes from project meetings"],
+["4.3", "Requirements may be found in existing regulations, manuals and system documentation. Which technique fits?", "Document analysis", "Focus groups", "Brainstorming sessions", "Job shadowing"],
+/* ---------- 4.4 (5) ---------- */
+["4.4", "What is the primary purpose of a product roadmap?", "To show the product's direction and planned releases", "To list each team member's detailed daily tasks", "To record defects found in each release", "To replace the project charter on agile projects"],
+["4.4", "Which statement about product roadmaps is correct?", "They are high level and change as priorities change", "They are fixed commitments to exact delivery dates", "They replace the need for a product backlog", "They are used only on predictive projects"],
+["4.4", "Feature B depends on Feature A, but Feature B has higher business value. How should releases be planned?", "Deliver A before or with B, since B needs it", "Deliver B first, since it has more business value", "Drop Feature A to save time for Feature B", "Deliver them in whatever order the team prefers"],
+["4.4","The first release should contain the smallest set of features that delivers value and generates learning. This is the:","Minimum viable product","Gold-plated release","Final release","Product vision"],
+["4.4", "Which is the best order from highest level to most detailed?", "Vision, roadmap, release plan, iteration plan", "Iteration plan, release plan, roadmap, vision", "Roadmap, vision, iteration plan, release plan", "Release plan, vision, iteration plan, roadmap"],
+/* ---------- 4.5 (5) ---------- */
+["4.5", "In a predictive project, how are requirements typically handled?", "Documented in detail up front and changed via change control", "Discovered sprint by sprint with little documentation", "Written by developers after the product is built", "Left for the customer to define after delivery"],
+["4.5", "In an adaptive project, the business analyst most often:", "Helps refine user stories and acceptance criteria", "Writes a complete specification before any work begins", "Runs the change control board for the project", "Approves the sprint budget with the sponsor"],
+["4.5", "An approved requirement in a predictive project needs to change. What does the BA do first?", "Assess the impact using the traceability matrix", "Update the requirement directly in the document", "Tell the developers to ignore the old version", "Wait until the project ends to make the change"],
+["4.5", "In a hybrid project, what is a typical BA approach?", "Set high-level requirements early, refine details later", "Avoid writing any requirements documentation at all", "Document every detail before starting any of the work", "Let each team decide its own requirements independently"],
+["4.5", "Regardless of approach, what is a constant goal of business analysis?", "Making sure the solution delivers business value", "Producing the most complete requirements document possible", "Keeping contact with stakeholders to a minimum", "Managing the project budget and schedule baselines"],
+/* ---------- 4.6 (8) ---------- */
+["4.6", "Which is the best-written acceptance criterion?", "Given a signed-in tech, when they tap Complete, the step shows their name and time", "The feature should work well for every technician on every shift", "Users should find the new screen easy and pleasant to use", "The page must look modern and match the company's brand"],
+["4.6","'Did we build the right thing?' describes:","Validation","Verification","Configuration control","Quality assurance audit"],
+["4.6","'Did we build it right, according to specifications?' describes:","Verification","Validation","Benefits realization","Elicitation"],
+["4.6", "Your RTM shows one must-have requirement with no passing test. Is the product ready for delivery?", "No; it must be completed or formally deferred", "Yes, missing one requirement is normal", "Yes, as long as the sponsor doesn't object", "Yes, the test can be run after release"],
+["4.6", "Who performs user acceptance testing?", "Actual users or customer representatives", "The developers who built the feature", "The project sponsor working alone", "An external auditor hired for the release"],
+["4.6", "When should acceptance criteria be defined?", "Before the work starts, with stakeholders", "After the product has been released", "Only when a defect is found in testing", "During project closure, for the archive"],
+["4.6", "A demo reveals that a regulation changed and the acceptance criteria for a story are now wrong. What should happen?", "Update the acceptance criteria via the agreed process", "Keep the old criteria, since they were already agreed", "Ship the story anyway and fix it in a later release", "Remove the regulation from the list of requirements"],
+["4.6","Training users and migrating old data must be finished before go-live. These are:","Transition requirements","Business requirements","Non-functional requirements","Stakeholder requirements"]
+];
+// explanations, same order
+const EXAM_E=[
+// 1.1
+"Building and launching is temporary and creates something unique, so it's a project. Ongoing support afterward is operations.",
+"A program is a group of related projects managed together to get benefits not available from managing them individually.",
+"A portfolio groups projects, programs and operations to meet strategic objectives. Related projects managed together form a program.",
+"Clear, stable requirements and a fixed contract fit a predictive (plan-based) approach.",
+"Frequent change and feedback suit an adaptive approach that delivers in short iterations.",
+"Something believed true but not proven is an assumption. It should be validated and may become a risk.",
+"A fixed limit the project must work within is a constraint.",
+"It's happening now, so it's an issue. Before the announcement it would have been a risk.",
+"The Code of Ethics (fairness) requires disclosing and avoiding conflicts of interest. Gifts that could influence a decision should be declined.",
+"Honesty is a core value. Report accurately and pair bad news with a plan.",
+"Projects move organizations from a current state to a future state, delivering business value and change.",
+"'Fast' isn't measurable or testable. Good scope is clear and measurable, so define it with stakeholders.",
+"The five process groups are Initiating, Planning, Executing, Monitoring and Controlling, and Closing.",
+"Gold plating is adding extras the customer didn't ask for. Scope creep is uncontrolled growth of requested scope.",
+// 1.2
+"The scope, schedule and cost baselines together form the performance measurement baseline.",
+"The risk management plan describes how risk work will be done: methods, roles, budget, timing and scales. The register lists the risks.",
+"Milestones mark significant points and have zero duration. Activities take time.",
+"The project management plan covers the temporary project. A product roadmap covers the product's evolution over its life.",
+"40 racks × 3 hours = 120 hours. 120 ÷ 30 = 4 technicians.",
+"Adjusting within float without changing the end date is resource smoothing. Leveling may change the end date.",
+"Each risk has an owner responsible for carrying out the agreed response.",
+"New stakeholders should be identified, recorded and analyzed as soon as they appear.",
+"Closing includes formal acceptance, transition, closing contracts, lessons learned, archiving and releasing resources.",
+"Cancelled projects still go through closure so knowledge and records are kept and resources released.",
+"The resource management plan covers acquiring, managing and releasing team and physical resources.",
+"Rolling wave planning details near-term work and keeps future work high level, a form of progressive elaboration.",
+"High-power, resistant stakeholders need targeted engagement to move them toward supportive.",
+"The quality management plan defines standards and how quality will be managed and controlled.",
+// 1.3
+"The sponsor provides funding and issues the charter, giving the PM authority.",
+"Decisions beyond the PM's authority are escalated to the sponsor.",
+"The team does the work and provides estimates and expertise. The sponsor funds, approves and champions.",
+"Developing a team member's skills through teaching and feedback is coaching.",
+"Guiding a group to its own decision is facilitation.",
+"Leaders inspire and influence; managers direct and administer. PMs need both.",
+"Controlling your own reactions is self-management (self-regulation).",
+"Noticing and responding to others' emotions is social awareness, or empathy.",
+"Power based on knowledge and skill is expert power.",
+"Collaborating (problem solving) addresses the root cause and gains commitment, and is usually best.",
+"Team changes often send a team back to the storming stage.",
+// 1.4
+"Follow the communications plan and update it when a stakeholder's needs aren't being met.",
+"A fallback plan is used when the primary risk response fails.",
+"An unplanned response to an unexpected event is a workaround.",
+"A secondary risk arises directly from implementing a risk response. Residual risk is what remains after the response.",
+"Analyze impact first, then use the change control process. Don't just accept or reject.",
+"The benefits management plan defines target benefits, timing, metrics and owners.",
+"Higher NPV is better, so Project A.",
+"Contingency reserve covers identified risks and is within the PM's authority. Management reserve needs sponsor approval.",
+// 1.5
+"Effective meetings stay on time and produce decisions and owned action items.",
+"The stand-up is a short sync. Detailed problem-solving moves to a follow-up with only the people needed.",
+"Brainstorming generates many ideas quickly without early judgment.",
+"Focus groups bring together prequalified participants with a moderator to learn their attitudes and expectations.",
+"Delphi uses anonymous rounds to reach expert consensus and limit groupthink.",
+"A Pareto chart sorts causes by frequency to show the vital few (80/20).",
+"5 Whys repeatedly asks why to reach the root cause.",
+// 2.1
+"In a projectized organization the PM has the most authority over resources and budget.",
+"In a weak matrix the PM has little authority and acts as a coordinator or expediter.",
+"Reporting to both a functional and a project manager is the defining feature of a matrix.",
+"Fixed, well-understood designs are a good fit for predictive. The others involve high uncertainty.",
+"Integrated change control is part of Monitoring and Controlling.",
+"Validate Scope is the formal acceptance of completed deliverables by the customer or sponsor.",
+"Projects contain phases, phases produce deliverables, deliverables decompose into work packages, and work packages into activities.",
+// 2.2
+"The critical path is the longest path: A-C-D at 17 days.",
+"Total float = LS − ES = 9 − 4 = 5 days.",
+"Critical activities have no float, so a delay pushes the project end date by the same amount.",
+"Crashing adds resources to critical path activities to shorten duration, usually at extra cost.",
+"Fast tracking overlaps activities that were planned in sequence, which adds risk.",
+"SV = EV − PV = 70,000 − 80,000 = −$10,000, so the project is behind schedule.",
+"The WBS is a hierarchical, deliverable-oriented breakdown of all project scope.",
+"Work packages are the lowest WBS level, where work is estimated and assigned.",
+"The 100% rule says the WBS includes all the work, and only the work, of the project.",
+"The rule of seven: seven consecutive points on one side of the mean suggest a non-random problem worth investigating.",
+"Failures found by the customer cost the most in money, reputation and rework.",
+"The PM is the integrator who pulls all parts of the plan together.",
+// 2.3
+"CPI = EV ÷ AC = 45,000 ÷ 50,000 = 0.90. Below 1 means over budget.",
+"EAC = BAC ÷ CPI = 200,000 ÷ 0.8 = $250,000.",
+"CPI above 1 is under budget; SPI below 1 is behind schedule.",
+"The change log tracks all change requests and their decisions.",
+"Predictive projects measure performance against baselines using variance and earned value reports.",
+"In fixed-price contracts the seller absorbs cost overruns, so the seller carries the most cost risk.",
+"TCPI = (BAC − EV) ÷ (BAC − AC) = 60,000 ÷ 50,000 = 1.20. The team must be more efficient than before.",
+// 3.1
+"The manifesto values responding to change over following a plan. The other options reverse the real values.",
+"Adaptive projects expect change, so committing to a fixed total scope, cost and date early is harder.",
+"Agile works best with small, dedicated, cross-functional, colocated teams.",
+"Culture and leadership support are environmental factors outside the team's control. Templates and lessons learned are OPAs.",
+"OPAs are the organization's own processes, templates and knowledge, such as lessons learned.",
+"Hybrid lets stable work run predictively and uncertain work run adaptively.",
+// 3.2
+"Epics break into features, features into user stories, and stories into tasks.",
+"The Product Owner orders the backlog, but the developers decide how much they can take on.",
+"Iteration planning uses the ordered backlog, the team's capacity and velocity, and the Definition of Done.",
+"A spike is a timeboxed research story to reduce uncertainty.",
+"Deliverables map to epics or features; work packages map to user stories.",
+"When scope is expected to change, measuring delivered value and working product is more meaningful than variance from an old baseline.",
+// 3.3
+"The sprint backlog holds the sprint's selected items and the plan to deliver them.",
+"An information radiator is a big, visible display of project status.",
+"A widening band means work is piling up in that state, which signals a bottleneck.",
+"New requests go to the product backlog. The current sprint goal is protected.",
+"A burnup shows total scope as a separate line, so scope changes are visible.",
+// 3.4
+"The Product Owner is accountable for ordering the product backlog to maximize value.",
+"The Daily Scrum is timeboxed to 15 minutes.",
+"Pair programming, TDD and continuous integration are core XP practices.",
+"Kanban is flow-based, with no required iterations or roles.",
+"An Agile Release Train is a team of agile teams in SAFe that plans together in PI Planning.",
+"The retrospective is for the team to inspect its process and improve. The review demos the increment.",
+"DSDM fixes time and cost, flexes scope, and is the origin of MoSCoW.",
+// 3.5
+"Acceptance criteria belong to one story. The Definition of Done is a shared checklist for every item.",
+"Delighters are unexpected features that create satisfaction. Their absence doesn't disappoint anyone.",
+"The 100-point method has stakeholders distribute 100 points across items.",
+"Outliers explain their thinking so the team shares knowledge, then everyone re-estimates.",
+"Story points are a relative measure of size, complexity, effort and uncertainty, not hours.",
+"Swarming means the team focuses together on one item to finish it.",
+// 4.1
+"The process owner is accountable for the process end to end.",
+"The process manager handles the daily operation of the process.",
+"The product manager owns product strategy and the product's life cycle. The product owner manages the agile backlog.",
+"Regulators sit outside the performing organization, so they're external.",
+"Identifying stakeholders early prevents missed requirements and clarifies who provides input, decides and approves.",
+"The BA focuses on needs and requirements for the product; the PM focuses on delivering the project.",
+"The salience model uses power, legitimacy and urgency.",
+// 4.2
+"Executives want concise, at-a-glance status, so a dashboard or short report fits.",
+"Workshops bring stakeholders together to resolve conflicts and reach agreement quickly.",
+"Pull communication is information people access when they choose.",
+"Vague requirements cause rework. The BA's job is to communicate clearly across business and technical teams.",
+"Feedback from the receiver confirms understanding.",
+"Sensitive news is best delivered in real-time, two-way conversation.",
+// 4.3
+"Observation reveals how work is really done when people can't easily describe it.",
+"Surveys reach many people across locations quickly.",
+"Prototypes give stakeholders something to react to.",
+"Use cases describe actor-system interactions, including alternate and exception flows.",
+"The 'As a… I want… so that…' format is a user story.",
+"A context diagram shows the system boundary and its interactions with external entities.",
+"Decision tables lay out combinations of conditions and their outcomes clearly.",
+"The RTM links requirements to their sources and to the deliverables and tests that satisfy them.",
+"Document analysis extracts requirements from existing materials.",
+// 4.4
+"A roadmap communicates the product's direction, themes and planned releases over time.",
+"Roadmaps are high level and evolve. They're not fixed commitments.",
+"Dependencies can require lower-value foundations to be delivered first.",
+"The MVP is the smallest release that delivers value and learning.",
+"Vision is the broadest, then the roadmap, then a release plan, then an iteration plan.",
+// 4.5
+"Predictive projects document requirements up front, get sign-off and control changes formally.",
+"In agile, the BA helps refine stories and acceptance criteria just in time.",
+"The BA uses traceability to assess impact and supports a formal change request.",
+"Hybrid sets high-level requirements early and refines details iteratively.",
+"Business analysis always aims to deliver business value that meets stakeholder needs.",
+// 4.6
+"Good acceptance criteria are specific and testable. Given/When/Then makes that clear.",
+"Validation confirms the product meets the stakeholder's real need.",
+"Verification confirms the product meets its specifications.",
+"An unmet must-have in the RTM means not ready. Complete it or formally defer it with agreement.",
+"UAT is done by real users or customer representatives.",
+"Acceptance criteria are agreed before work starts so everyone knows what done means.",
+"When the situation changes, acceptance criteria are updated through the agreed process.",
+"Temporary needs to move to the new state, like training and data migration, are transition requirements."
+];
+
+
+// ---------- storage helpers (per-browser convenience only) ----------
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const DOM_NAMES={F:"Fundamentals & Core Concepts",P:"Predictive, Plan-Based",A:"Agile Frameworks",B:"Business Analysis"};
+const DOM_W={F:36,P:17,A:20,B:27};
+const DOM_OF={"1":"F","2":"P","3":"A","4":"B"};
+const LESSON_BY_TASK=Object.fromEntries(LESSONS.map(l=>[l.n,l]));
+
+// ---------- build lesson articles + exam article ----------
+(function buildLessons(){
+  const box=document.getElementById("articles");
+  const groupName={F:"Study guide · Domain 1: Fundamentals (36%)",P:"Study guide · Domain 2: Predictive (17%)",A:"Study guide · Domain 3: Agile (20%)",B:"Study guide · Domain 4: Business Analysis (27%)"};
+  const frag=document.createDocumentFragment();
+  LESSONS.forEach(l=>{
+    const a=document.createElement("article");
+    a.id=l.id; a.hidden=true; a.dataset.group=groupName[l.d]; a.dataset.sub="Task "+l.n; a.dataset.lesson=l.n;
+    const qn=EXAM_Q.filter(q=>q[0]===l.n).length;
+    a.innerHTML=`<h2>${esc(l.n)} · ${esc(l.title)}</h2>
+    <div class="meta"><div><span class="eyebrow">Exam domain</span><span>${DOM_NAMES[l.d]} (${DOM_W[l.d]}%)</span></div><div><span class="eyebrow">ECO task</span><span>Domain ${l.n.split(".")[0]}, Task ${l.n.split(".")[1]}</span></div><div><span class="eyebrow">In the mock exam</span><span>${qn} questions</span></div></div>
+    <div class="tip"><b>What the exam expects.</b> ${esc(l.goal)}</div>
+    <div class="lesson-body">${l.sections.map(([h,html])=>`<section class="lesson-sec"><h3>${esc(h)}</h3><div class="scroll">${html}</div></section>`).join("")}</div>
+    <div class="explain"><div class="terms" style="border:0;padding:0"><h4>Key terms</h4><dl>${l.terms.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join("")}</dl></div></div>
+    <div class="traps"><h4>Exam traps</h4><ul>${l.traps.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>
+    ${l.see.length?`<div class="see"><span class="eyebrow">See it in the kit</span>${l.see.map(id=>{const t=document.getElementById(id);return t?`<button class="linkbtn" data-open="${id}">${esc(t.querySelector("h2").textContent)}</button>`:""}).join("")}</div>`:""}
+    <label class="studied" for="st-${l.id}"><input type="checkbox" id="st-${l.id}" data-studied="${l.id}"> I've studied this task</label>`;
+    frag.appendChild(a);
+  });
+  box.insertBefore(frag,box.firstChild);
+  const ex=document.createElement("article");
+  ex.id="mock-exam"; ex.hidden=true; ex.dataset.group="Full mock exam"; ex.dataset.sub="150 questions · 3 hours · scored by domain"; ex.dataset.sim="1";
+  ex.innerHTML=`<h2>Full mock exam</h2><div id="exam"></div>`;
+  box.appendChild(ex);
+})();
+document.addEventListener("click",e=>{const b=e.target.closest("[data-open]");if(b){e.preventDefault();open(b.dataset.open)}});
+const studied=store.get("capm-studied",{});
+document.querySelectorAll("[data-studied]").forEach(c=>{c.checked=!!studied[c.dataset.studied];c.addEventListener("change",()=>{studied[c.dataset.studied]=c.checked;store.set("capm-studied",studied);renderHub()})});
+
+// ---------- exam engine ----------
+const EXAM_KEY="capm-mock-v1", HIST_KEY="capm-mock-history";
+const MODES={full:{label:"Full exam",n:{F:54,P:26,A:30,B:40},secs:3*3600,brk:true},quick:{label:"Quick 50",n:{F:18,P:9,A:10,B:13},secs:60*60,brk:false}};
+let ex=store.get(EXAM_KEY,null), exView="q", revFilter="wrong", lastTick=Date.now();
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function newExam(mode){
+  const m=MODES[mode],pick=[];
+  for(const d in m.n){pick.push(...shuffle(EXAM_Q.map((q,i)=>i).filter(i=>DOM_OF[EXAM_Q[i][0][0]]===d)).slice(0,m.n[d]))}
+  const order=shuffle(pick);
+  ex={mode,order,perm:order.map(()=>shuffle([0,1,2,3])),ans:{},flags:{},cur:0,remaining:m.secs,section:1,onBreak:false,breakLeft:600,started:Date.now(),done:false};
+  saveEx(); exView="q"; renderExam();
+}
+const saveEx=()=>store.set(EXAM_KEY,ex);
+const fmt=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+":":"")+String(m).padStart(h?2:1,"0")+":"+String(x).padStart(2,"0")};
+const half=()=>MODES[ex.mode].brk?Math.ceil(ex.order.length/2):Infinity;
+const locked=k=>ex.section===2&&k<half();
+
+function score(e){
+  const by={F:[0,0],P:[0,0],A:[0,0],B:[0,0]},task={};let c=0;
+  e.order.forEach((qi,k)=>{const q=EXAM_Q[qi],d=DOM_OF[q[0][0]],ok=e.ans[k]===0;by[d][1]++;if(ok){by[d][0]++;c++}(task[q[0]]??=[0,0])[1]++;if(ok)task[q[0]][0]++});
+  return {c,t:e.order.length,by,task};
+}
+const bandOf=p=>p>=80?["at","Above Target","ok"]:p>=65?["t","Target","info"]:p>=50?["bt","Below Target","warn"]:["ni","Needs Improvement","bad"];
+
+function toExamTop(){const e=document.getElementById("exam");if(e&&e.getBoundingClientRect().top<0)e.scrollIntoView({block:"start"})}
+function renderExam(){
+  const box=document.getElementById("exam"); if(!box)return;
+  if(!ex){
+    const hist=store.get(HIST_KEY,[]);
+    box.innerHTML=`<div class="explain"><span class="eyebrow">How it works</span>
+      <p class="lead">150 original questions in the same domain mix as the real CAPM, with a 3-hour limit.</p>
+      <ul style="margin:0;padding-left:1.2em;display:grid;gap:4px"><li>54 Fundamentals · 40 Business Analysis · 30 Agile · 26 Predictive, shuffled together.</li><li>Flag questions and jump around with the question map. Your answers save as you go.</li><li>After question 75 you can take an optional 10-minute break. Like the real exam, you can't go back to the first half after the break.</li><li>When you submit, you get your score by domain and task, a readiness verdict, and every explanation.</li><li>On the real exam, 15 of the 150 questions are unscored pretest items you can't identify. Here all 150 count.</li><li>The timer pauses if you leave this page. The real exam's clock doesn't.</li></ul></div>
+      <div class="row"><button class="btn" data-start="full">Start full exam (150)</button><button class="btn ghost" data-start="quick">Quick 50 (60 min)</button></div>
+      ${hist.length?`<h3>Your past attempts</h3><div class="scroll"><table class="attempts"><tr><th>Date</th><th>Type</th><th class="num">Score</th>${Object.keys(DOM_NAMES).map(d=>`<th class="num">${d}</th>`).join("")}</tr>${hist.slice().reverse().map(h=>`<tr><td>${new Date(h.date).toLocaleDateString()}</td><td>${MODES[h.mode].label}</td><td class="num">${h.pct}%</td>${Object.keys(DOM_NAMES).map(d=>`<td class="num">${h.dom[d]}%</td>`).join("")}</tr>`).join("")}</table></div><p class="note">F = Fundamentals, P = Predictive, A = Agile, B = Business Analysis. Attempts are saved in this browser only.</p>`:""}`;
+    box.querySelectorAll("[data-start]").forEach(b=>b.addEventListener("click",()=>newExam(b.dataset.start)));
+    return;
+  }
+  if(ex.done){renderResults(box);return}
+  if(ex.onBreak){
+    box.innerHTML=`<div class="sim"><h3>Break</h3><p>Section 1 is closed. Take up to 10 minutes. The exam clock is paused.</p><div class="stats"><div class="stat"><span class="v" id="brk">${fmt(ex.breakLeft)}</span><span class="k">Break time left</span></div><div class="stat"><span class="v">${fmt(ex.remaining)}</span><span class="k">Exam time left</span></div></div><div class="row"><button class="btn" id="endBreak">Start section 2</button></div></div>`;
+    $("endBreak").addEventListener("click",endBreak);return;
+  }
+  const n=ex.order.length,k=ex.cur,qi=ex.order[k],q=EXAM_Q[qi],answered=Object.keys(ex.ans).length;
+  if(exView==="map"){
+    box.innerHTML=`${barHTML(answered)}<div class="sim"><div class="row" style="justify-content:space-between"><h3>Question map</h3><button class="btn ghost" id="back2q">Back to question ${k+1}</button></div>
+      <div class="ex-legend"><span>Blue = answered</span><span>Orange dot = flagged</span><span>Faded = locked after break</span></div>
+      <div class="ex-nav">${ex.order.map((_,j)=>`<button data-go="${j}" class="${ex.ans[j]!==undefined?"ans":""} ${ex.flags[j]?"flag":""} ${j===k?"cur":""}" ${locked(j)?"disabled":""} aria-label="Question ${j+1}${ex.flags[j]?", flagged":""}${ex.ans[j]!==undefined?", answered":""}">${j+1}</button>`).join("")}</div>
+      <p class="note">${answered} of ${n} answered · ${Object.values(ex.flags).filter(Boolean).length} flagged</p>
+      <div class="row"><button class="btn" id="submitEx">Submit exam</button></div><div id="confirmBox"></div></div>`;
+    bindBar(); $("back2q").addEventListener("click",()=>{exView="q";renderExam()});
+    box.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{ex.cur=+b.dataset.go;exView="q";saveEx();renderExam();toExamTop()}));
+    $("submitEx").addEventListener("click",confirmSubmit);
+    return;
+  }
+  const atHalfEnd=MODES[ex.mode].brk&&ex.section===1&&k===half()-1;
+  box.innerHTML=`${barHTML(answered)}<div class="ex-q">
+    <div class="row" style="justify-content:space-between"><span class="eyebrow">Question ${k+1} of ${n}</span><button class="btn ghost flagbtn" id="flagQ" aria-pressed="${!!ex.flags[k]}">${ex.flags[k]?"Flagged":"Flag for review"}</button></div>
+    <p class="ex-stem">${esc(q[1])}</p>
+    <div class="ex-opts" role="group" aria-label="Answer choices">${ex.perm[k].map((r,i)=>`<button class="ex-opt" data-r="${r}" aria-pressed="${ex.ans[k]===r}"><span class="k">${"ABCD"[i]}</span><span>${esc(q[2+r])}</span></button>`).join("")}</div></div>
+    <div class="row" style="justify-content:space-between"><button class="btn ghost" id="prevQ" ${k===0||locked(k-1)?"disabled":""}>Previous</button>
+    <button class="btn" id="nextQ">${k===n-1?"Review &amp; submit":atHalfEnd?"Finish section 1":"Next"}</button></div><div id="confirmBox"></div>`;
+  bindBar();
+  box.querySelectorAll(".ex-opt").forEach(b=>b.addEventListener("click",()=>{ex.ans[k]=+b.dataset.r;saveEx();box.querySelectorAll(".ex-opt").forEach(x=>x.setAttribute("aria-pressed",x===b));const a=$("ansCount");if(a)a.textContent=Object.keys(ex.ans).length}));
+  $("flagQ").addEventListener("click",()=>{ex.flags[k]=!ex.flags[k];saveEx();renderExam()});
+  $("prevQ").addEventListener("click",()=>{ex.cur--;saveEx();renderExam();toExamTop()});
+  $("nextQ").addEventListener("click",()=>{
+    if(k===n-1){exView="map";renderExam();return}
+    if(atHalfEnd){confirmSection();return}
+    ex.cur++;saveEx();renderExam();toExamTop();
+  });
+}
+function barHTML(answered){
+  return `<div class="ex-bar"><span class="ex-timer ${ex.remaining<600?"low":""}" id="exTime" aria-label="Time left">${fmt(ex.remaining)}</span><span class="note"><b id="ansCount">${answered}</b>/${ex.order.length} answered</span><div class="row"><button class="btn ghost" id="mapBtn">Question map</button><button class="btn ghost" id="quitBtn">Quit</button></div></div>`;
+}
+function bindBar(){
+  $("mapBtn").addEventListener("click",()=>{exView=exView==="map"?"q":"map";renderExam()});
+  $("quitBtn").addEventListener("click",()=>{$("confirmBox").innerHTML=`<div class="fb bad stack"><p>Quit this attempt? Your answers will be discarded and it won't be scored.</p><div class="row"><button class="btn" id="quitYes">Quit attempt</button><button class="btn ghost" id="quitNo">Keep going</button></div></div>`;$("quitYes").addEventListener("click",()=>{ex=null;store.set(EXAM_KEY,null);renderExam();renderHub()});$("quitNo").addEventListener("click",()=>$("confirmBox").innerHTML="");$("confirmBox").scrollIntoView({block:"nearest"})});
+}
+function confirmSection(){
+  const firstHalf=[...Array(half()).keys()],un=firstHalf.filter(j=>ex.ans[j]===undefined).length,fl=firstHalf.filter(j=>ex.flags[j]).length;
+  $("confirmBox").innerHTML=`<div class="fb ${un||fl?"bad":"good"} stack"><p>You're finishing section 1. After this you can't return to questions 1–${half()}.${un?` ${un} unanswered.`:""}${fl?` ${fl} flagged.`:""}</p><div class="row"><button class="btn" id="secBreak">Take 10-minute break</button><button class="btn ghost" id="secSkip">Skip break</button><button class="btn ghost" id="secReview">Review section 1</button></div></div>`;
+  $("secBreak").addEventListener("click",()=>{ex.section=2;ex.onBreak=true;ex.cur=half();saveEx();renderExam()});
+  $("secSkip").addEventListener("click",()=>{ex.section=2;ex.cur=half();saveEx();renderExam()});
+  $("secReview").addEventListener("click",()=>{exView="map";renderExam()});
+  $("confirmBox").scrollIntoView({block:"nearest"});
+}
+function endBreak(){ex.onBreak=false;saveEx();renderExam()}
+function confirmSubmit(){
+  const un=ex.order.length-Object.keys(ex.ans).length;
+  $("confirmBox").innerHTML=`<div class="fb ${un?"bad":"good"} stack"><p>${un?`${un} question${un>1?"s are":" is"} unanswered and will be marked wrong. `:""}Submit and see your results?</p><div class="row"><button class="btn" id="subYes">Submit</button><button class="btn ghost" id="subNo">Keep working</button></div></div>`;
+  $("subYes").addEventListener("click",submitExam);$("subNo").addEventListener("click",()=>$("confirmBox").innerHTML="");
+}
+function submitExam(){
+  ex.done=true;ex.used=MODES[ex.mode].secs-ex.remaining;
+  const s=score(ex),dom={};for(const d in s.by)dom[d]=s.by[d][1]?Math.round(s.by[d][0]/s.by[d][1]*100):0;
+  const hist=store.get(HIST_KEY,[]);hist.push({date:Date.now(),mode:ex.mode,pct:Math.round(s.c/s.t*100),dom});store.set(HIST_KEY,hist.slice(-20));
+  saveEx();revFilter="wrong";renderExam();renderHub();window.scrollTo(0,0);
+}
+function renderResults(box){
+  const s=score(ex),pct=Math.round(s.c/s.t*100);
+  const doms=Object.keys(DOM_NAMES).map(d=>{const [c,t]=s.by[d];return {d,c,t,p:t?Math.round(c/t*100):0}});
+  const minD=Math.min(...doms.map(x=>x.p));
+  const v=pct>=75&&minD>=65?["go","Ready to schedule","You're at Target or above in every domain. Keep your edge with one more full attempt a few days before your exam date."]:pct>=65?["close","Close","You're near the line. Study the weakest tasks below, then take another full attempt."]:["no","Not yet","Work through the study guide for your weakest domains, then try again."];
+  const tasks=Object.entries(s.task).map(([n,[c,t]])=>({n,c,t,p:Math.round(c/t*100)})).sort((a,b)=>a.p-b.p||a.n.localeCompare(b.n));
+  const items=ex.order.map((qi,k)=>({qi,k,ok:ex.ans[k]===0,flag:!!ex.flags[k],skip:ex.ans[k]===undefined})).filter(x=>revFilter==="all"||(revFilter==="wrong"&&!x.ok)||(revFilter==="flag"&&x.flag));
+  box.innerHTML=`<div class="verdict ${v[0]}"><span class="eyebrow">${MODES[ex.mode].label} · ${s.c} of ${s.t} correct · time used ${fmt(ex.used||0)}</span><b>${pct}% · ${v[1]}</b><p>${v[2]}</p></div>
+  <div class="sim"><h3>Score by domain</h3>${doms.map(x=>{const b=bandOf(x.p);return `<div class="dom" style="display:grid;gap:6px;padding-block:8px;border-bottom:1px solid var(--line)"><div class="row" style="justify-content:space-between"><b>${DOM_NAMES[x.d]} <span class="note">(${DOM_W[x.d]}% of exam)</span></b><span class="pill ${b[2]}">${b[1]}</span></div><div class="meter"><i style="width:${x.p}%"></i></div><span class="note mono">${x.c} of ${x.t} correct · ${x.p}%</span></div>`}).join("")}
+  <p class="note">PMI doesn't publish a passing score. The bands use this kit's study gauge: 80%+ Above Target, 65–79% Target, 50–64% Below Target, under 50% Needs Improvement. "Ready" means 75%+ overall with no domain under 65%.</p></div>
+  <div class="sim"><h3>Score by ECO task (weakest first)</h3><div class="scroll"><table><tr><th>Task</th><th>Topic</th><th class="num">Score</th><th></th></tr>${tasks.map(x=>{const l=LESSON_BY_TASK[x.n],b=bandOf(x.p);return `<tr><td class="mono">${x.n}</td><td>${esc(l.title)}</td><td class="num"><span class="pill ${b[2]}">${x.c}/${x.t}</span></td><td><button class="linkbtn" data-open="${l.id}">Study</button></td></tr>`}).join("")}</table></div></div>
+  <div class="sim"><div class="row" style="justify-content:space-between"><h3>Review answers</h3><div class="row">${[["wrong","Missed"],["flag","Flagged"],["all","All"]].map(([f,l])=>`<button class="btn ${revFilter===f?"":"ghost"}" data-rf="${f}">${l}</button>`).join("")}</div></div>
+  ${items.length?items.map(x=>{const q=EXAM_Q[x.qi],l=LESSON_BY_TASK[q[0]];return `<div class="rev-item"><div class="row" style="justify-content:space-between"><span class="eyebrow">Q${x.k+1} · Task ${q[0]}${x.flag?" · flagged":""}</span><span class="pill ${x.ok?"ok":"bad"}">${x.ok?"Correct":x.skip?"Unanswered":"Missed"}</span></div><p style="font-weight:600">${esc(q[1])}</p>${!x.ok&&!x.skip?`<p class="ans-line">Your answer: ${esc(q[2+ex.ans[x.k]])}</p>`:""}<p class="ans-line"><b>Correct: ${esc(q[2])}</b></p><p class="explain-line note">${esc(EXAM_E[x.qi])}</p><div><button class="linkbtn" data-open="${l.id}">Lesson ${l.n}: ${esc(l.title)}</button></div></div>`}).join(""):`<p class="note">Nothing to show for this filter.</p>`}</div>
+  <div class="row"><button class="btn" id="newAttempt">Start a new attempt</button></div>`;
+  box.querySelectorAll("[data-rf]").forEach(b=>b.addEventListener("click",()=>{revFilter=b.dataset.rf;renderExam()}));
+  $("newAttempt").addEventListener("click",()=>{ex=null;store.set(EXAM_KEY,null);renderExam()});
+}
+// clock: counts only while the exam page is open and in front
+setInterval(()=>{
+  const now=Date.now(),dt=(now-lastTick)/1000;lastTick=now;
+  if(!ex||ex.done)return;
+  const page=document.getElementById("mock-exam");
+  if(!page||page.hidden||document.hidden)return;
+  if(ex.onBreak){ex.breakLeft-=dt;const b=$("brk");if(b)b.textContent=fmt(ex.breakLeft);if(ex.breakLeft<=0)endBreak();else if(Math.floor(ex.breakLeft)%5===0)saveEx();return}
+  ex.remaining-=dt;
+  const t=$("exTime");if(t){t.textContent=fmt(ex.remaining);t.classList.toggle("low",ex.remaining<600)}
+  if(Math.floor(ex.remaining)%5===0)saveEx();
+  if(ex.remaining<=0){ex.remaining=0;submitExam()}
+},1000);
+
+// ---------- hub on the contents page ----------
+function renderHub(){
+  const h=document.getElementById("hub");if(!h)return;
+  const done=LESSONS.filter(l=>studied[l.id]).length,next=LESSONS.find(l=>!studied[l.id])||LESSONS[0];
+  const hist=store.get(HIST_KEY,[]),last=hist[hist.length-1],inProg=ex&&!ex.done;
+  document.querySelectorAll("[data-tag]").forEach(t=>t.hidden=!studied[t.dataset.tag]);
+  h.innerHTML=`<div class="hub-card"><span class="eyebrow">Study guide</span><h3>${done} of ${LESSONS.length} tasks studied</h3><div class="meter"><i style="width:${done/LESSONS.length*100}%"></i></div><p class="note">One lesson for every task on PMI's exam outline.</p><div class="row"><button class="btn" data-open="${next.id}">${done?"Continue":"Start"}: ${next.n} ${esc(next.title)}</button></div></div>
+  <div class="hub-card"><span class="eyebrow">Full mock exam</span><h3>${inProg?`Attempt in progress · ${Object.keys(ex.ans).length}/${ex.order.length} answered`:last?`Last score: ${last.pct}%`:"150 questions · 3 hours"}</h3><p class="note">${inProg?`${fmt(ex.remaining)} left on the clock.`:"Weighted like the real exam, with results by domain and task."}</p><div class="row"><button class="btn" data-open="mock-exam">${inProg?"Resume exam":"Open mock exam"}</button></div></div>`;
+}
 
 // ---------- plain-English explainers ----------
 const EXPLAIN={
@@ -759,7 +1794,7 @@ const arts=[...document.querySelectorAll("#articles article")];
     const sims=groups[g].filter(a=>a.dataset.sim).length;
     sec.innerHTML=`<div class="group-head"><h2 style="font-size:1.1rem">${esc(g)}</h2><span class="eyebrow">${groups[g].length} item${groups[g].length>1?"s":""}${sims?` · ${sims} interactive`:""}</span></div><div class="items"></div>`;
     groups[g].forEach(a=>{const b=document.createElement("button");b.className="item";
-      b.innerHTML=`<span class="t">${esc(a.querySelector("h2").textContent)}</span><span class="s">${esc(a.dataset.sub)}</span>${a.dataset.sim?'<span class="sim-badge">Interactive</span>':""}`;
+      b.innerHTML=`<span class="t">${esc(a.querySelector("h2").textContent)}</span><span class="s">${esc(a.dataset.sub)}</span>${a.dataset.sim?'<span class="sim-badge">Interactive</span>':""}${a.dataset.lesson?`<span class="done-tag" data-tag="${a.id}" hidden>Studied</span>`:""}`;
       b.addEventListener("click",()=>open(a.id));sec.querySelector(".items").appendChild(b)});
     box.appendChild(sec);
   }
@@ -768,12 +1803,13 @@ let curIdx=-1;
 function open(id){
   const i=arts.findIndex(a=>a.id===id); if(i<0)return;
   curIdx=i; arts.forEach((a,j)=>a.hidden=j!==i);
+  if(id==="mock-exam")renderExam();
   $("contents").hidden=true; $("reader").hidden=false;
   $("prev").disabled=i===0; $("next").disabled=i===arts.length-1;
   if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
   window.scrollTo(0,0);
 }
-function home(){$("reader").hidden=true;$("contents").hidden=false;history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0)}
+function home(){renderHub();$("reader").hidden=true;$("contents").hidden=false;history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0)}
 $("back").addEventListener("click",home);
 $("prev").addEventListener("click",()=>curIdx>0&&open(arts[curIdx-1].id));
 $("next").addEventListener("click",()=>curIdx<arts.length-1&&open(arts[curIdx+1].id));
@@ -1039,6 +2075,8 @@ function scen(){
   }));
 }
 scen();
+
+renderExam();renderHub();
 </script>
 
 </body>
